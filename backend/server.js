@@ -1,5 +1,8 @@
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
+const compression = require('compression');
+const rateLimit = require('express-rate-limit');
 const dotenv = require('dotenv');
 const path = require('path');
 const multer = require('multer');
@@ -14,11 +17,26 @@ const { validateJob, createValidationMiddleware } = require('./validation');
 dotenv.config();
 
 const app = express();
+app.set('trust proxy', 1);
 const PORT = process.env.PORT || 3001;
 
 initializeDatabase();
 
-app.use(cors({ origin: true, credentials: true }));
+// Security & performance
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: 'cross-origin' }
+}));
+app.use(compression());
+const allowedOrigin = process.env.CORS_ORIGIN || '*';
+app.use(cors({
+  origin: allowedOrigin === '*' ? true : allowedOrigin,
+  credentials: true
+}));
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 300
+});
+app.use(limiter);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
@@ -38,7 +56,17 @@ app.use(express.static(fallbackDir));
 const swaggerSpec = swaggerJsdoc({
   definition: {
     openapi: '3.0.3',
-    info: { title: 'Resconate API', version: '1.0.0' }
+    info: { title: 'Resconate API', version: '1.0.0' },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT'
+        }
+      }
+    },
+    security: [{ bearerAuth: [] }]
   },
   apis: [__filename] // using inline JSDoc in this file
 });
@@ -133,6 +161,36 @@ app.get('/', (req, res) => {
   res.sendFile(file);
 });
 
+/**
+ * @openapi
+ * /api/projects:
+ *   get:
+ *     summary: Public demo projects
+ *     responses:
+ *       200: { description: OK }
+ */
+app.get('/api/projects', (req, res) => {
+  res.json([
+    { id: 1, name: 'Zocket AI', description: 'AI-powered marketing platform', image: 'https://placehold.co/600x400/111/333', category: 'Web App', color: 'blue', technologies: ['React','Node.js','TensorFlow'] },
+    { id: 2, name: 'HeavyOps', description: 'Fleet management solution', image: 'https://placehold.co/600x400/111/333', category: 'Mobile App', color: 'orange', technologies: ['React Native','Firebase','Google Maps API'] }
+  ]);
+});
+
+/**
+ * @openapi
+ * /api/testimonials:
+ *   get:
+ *     summary: Public testimonials
+ *     responses:
+ *       200: { description: OK }
+ */
+app.get('/api/testimonials', (req, res) => {
+  res.json([
+    { id: 1, text: 'Resconate moved us from idea to launch without breaking pace.', name: 'Adaeze N.', position: 'COO' },
+    { id: 2, text: 'Payroll and compliance now feel automated; proactive team.', name: 'Derrick A.', position: 'People Lead' }
+  ]);
+});
+
 // Fallback
 app.get('*', (req, res) => {
   const file = fs.existsSync(path.join(frontendDir, 'index.html'))
@@ -141,6 +199,14 @@ app.get('*', (req, res) => {
   res.sendFile(file);
 });
 
-app.listen(PORT, () => console.log(`API running on ${PORT}. Docs at /api-docs`));
+const server = app.listen(PORT, () => console.log(`API running on ${PORT}. Docs at /api-docs`));
+// Graceful shutdown
+const shutdown = () => {
+  server.close(() => {
+    pool.end().finally(() => process.exit(0));
+  });
+};
+process.on('SIGINT', shutdown);
+process.on('SIGTERM', shutdown);
 
 
