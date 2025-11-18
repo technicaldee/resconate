@@ -46,11 +46,12 @@ app.use(session({
   cookie: { secure: false, httpOnly: true, maxAge: 24 * 60 * 60 * 1000 }
 }));
 
-// Serve frontend (kept connected)
-const frontendDir = path.join(__dirname, '..', 'frontend');
-const fallbackDir = path.join(__dirname, '..'); // fallback to project root if files remain there
-app.use(express.static(frontendDir));
-app.use(express.static(fallbackDir));
+// Serve frontend build
+const frontendBuildDir = path.join(__dirname, '..', 'frontend', 'build');
+const frontendPublicDir = path.join(__dirname, '..', 'frontend', 'public');
+// Serve static files from build directory
+app.use(express.static(frontendBuildDir));
+app.use(express.static(frontendPublicDir));
 
 // Swagger setup
 const swaggerSpec = swaggerJsdoc({
@@ -191,12 +192,19 @@ app.get('/api/testimonials', (req, res) => {
   ]);
 });
 
-// Fallback
-app.get('*', (req, res) => {
-  const file = fs.existsSync(path.join(frontendDir, 'index.html'))
-    ? path.join(frontendDir, 'index.html')
-    : path.join(fallbackDir, 'index.html');
-  res.sendFile(file);
+// Fallback - serve React app for all non-API routes
+app.get('*', (req, res, next) => {
+  // Don't serve index.html for API routes
+  if (req.path.startsWith('/api') || req.path.startsWith('/api-docs')) {
+    return next();
+  }
+  // Serve React app index.html for client-side routing
+  const indexPath = path.join(frontendBuildDir, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    res.status(404).send('Frontend build not found. Please run "npm run build" in the frontend directory.');
+  }
 });
 
 const server = app.listen(PORT, () => console.log(`API running on ${PORT}. Docs at /api-docs`));
