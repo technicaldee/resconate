@@ -4192,20 +4192,13 @@ select.error {
   font-size: 0.875rem;
   font-weight: 500;
   margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, #6366F1, #EC4899);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #1f2937;
 }
 
 .hr-login-checkbox-label {
   margin-left: 0.5rem;
   font-size: 0.875rem;
-  background: linear-gradient(135deg, #6366F1, #EC4899);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  opacity: 0.8;
+  color: #1f2937;
 }
 
 .hr-login-forgot-link {
@@ -4232,10 +4225,11 @@ select.error {
   font-size: 0.9375rem;
   transition: all 0.2s ease;
   background-color: #ffffff;
+  color: #1f2937;
 }
 
 .hr-login-input--password {
-  padding-right: 2.5rem;
+  padding-right: 2.75rem;
 }
 
 .hr-login-input:focus {
@@ -4246,6 +4240,42 @@ select.error {
 
 .hr-login-input::placeholder {
   color: #9ca3af;
+}
+
+/* HR Login Password Toggle Button */
+.hr-login-password-toggle {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+  z-index: 1;
+}
+
+.hr-login-password-toggle:hover {
+  color: #1f2937;
+}
+
+.hr-login-password-toggle:focus {
+  outline: none;
+  color: #6366F1;
+}
+
+.hr-login-password-toggle i {
+  font-size: 1rem;
+  width: 1rem;
+  height: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* HR Login CTA Button */
