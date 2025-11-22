@@ -175,5 +175,7 @@ const EmployeeLogin = () => {
 
 export default EmployeeLogin;
 
+export const dynamic = 'force-dynamic';
+
 
 

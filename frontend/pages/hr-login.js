@@ -185,5 +185,7 @@ const HRLogin = () => {
 
 export default HRLogin;
 
+export const dynamic = 'force-dynamic';
+
 
 
