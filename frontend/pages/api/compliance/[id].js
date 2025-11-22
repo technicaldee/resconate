@@ -1,5 +1,5 @@
-const { pool } = require('../../../../lib/database');
-const { authenticateAdmin } = require('../../../../lib/auth');
+const { pool } = require('../../../lib/database');
+const { authenticateAdmin } = require('../../../lib/auth');
 
 async function handler(req, res) {
   const { id } = req.query;
