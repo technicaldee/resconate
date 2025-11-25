@@ -160,7 +160,7 @@ const EmployeeLogin = () => {
             <div className="mt-8 text-center">
               <p className="text-sm text-gray-600">
                 Need help? Contact{' '}
-                <a href="mailto:support@resconate.com" className="text-blue-600 hover:text-blue-800">IT Support</a>
+                <a href="mailto:resconate@gmail.com" className="text-blue-600 hover:text-blue-800">IT Support</a>
               </p>
               <p className="text-xs text-gray-500 mt-2">
                 © {new Date().getFullYear()} Resconate HR Platform. All rights reserved.
