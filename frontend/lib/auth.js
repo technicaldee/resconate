@@ -32,15 +32,31 @@ const authenticateAdmin = async (req, res, next) => {
 };
 
 const loginAdmin = async (req, res) => {
-  const { username, password } = req.body;
-  if (!username || !password) return res.status(400).json({ error: 'Username and password required' });
-  const result = await pool.query('SELECT id, username, email, password_hash, role FROM admins WHERE username=$1 OR email=$1', [username]);
-  if (result.rows.length === 0) return res.status(401).json({ error: 'Invalid credentials' });
-  const admin = result.rows[0];
-  const ok = await bcrypt.compare(password, admin.password_hash);
-  if (!ok) return res.status(401).json({ error: 'Invalid credentials' });
-  const token = jwt.sign({ adminId: admin.id, role: admin.role }, JWT_SECRET, { expiresIn: '24h' });
-  res.json({ success: true, token, admin: { id: admin.id, username: admin.username, email: admin.email, role: admin.role } });
+  try {
+    const { username, password } = req.body;
+    if (!username || !password) return res.status(400).json({ error: 'Username and password required' });
+    
+    if (!pool) {
+      console.error('Database pool is not initialized');
+      return res.status(500).json({ error: 'Database connection not available' });
+    }
+    
+    const result = await pool.query('SELECT id, username, email, password_hash, role FROM admins WHERE username=$1 OR email=$1', [username]);
+    if (result.rows.length === 0) return res.status(401).json({ error: 'Invalid credentials' });
+    const admin = result.rows[0];
+    const ok = await bcrypt.compare(password, admin.password_hash);
+    if (!ok) return res.status(401).json({ error: 'Invalid credentials' });
+    const token = jwt.sign({ adminId: admin.id, role: admin.role }, JWT_SECRET, { expiresIn: '24h' });
+    res.json({ success: true, token, admin: { id: admin.id, username: admin.username, email: admin.email, role: admin.role } });
+  } catch (error) {
+    console.error('Login admin error:', error);
+    if (!res.headersSent) {
+      return res.status(500).json({ 
+        error: 'Internal server error',
+        message: process.env.NODE_ENV === 'development' ? error.message : undefined
+      });
+    }
+  }
 };
 
 const getMe = async (req, res) => {

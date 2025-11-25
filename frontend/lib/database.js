@@ -713,7 +713,23 @@ const initializeDatabase = async () => {
 
 // Initialize on module load (only once)
 if (typeof window === 'undefined') {
-  initializeDatabase().catch(console.error);
+  initializeDatabase().catch((error) => {
+    console.error('Database initialization error:', error);
+    console.error('Database connection details:', {
+      hasDatabaseUrl: !!process.env.DATABASE_URL,
+      dbHost: process.env.DB_HOST || 'localhost',
+      dbName: process.env.DB_NAME || 'postgres',
+      dbUser: process.env.DB_USER || 'postgres',
+      dbPort: process.env.DB_PORT || 5432,
+    });
+  });
+  
+  // Test connection
+  pool.query('SELECT NOW()').then(() => {
+    console.log('Database connection successful');
+  }).catch((error) => {
+    console.error('Database connection test failed:', error.message);
+  });
 }
 
 module.exports = { pool, initializeDatabase };
