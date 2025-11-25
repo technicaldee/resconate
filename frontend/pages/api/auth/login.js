@@ -7,10 +7,12 @@ export default async function handler(req, res) {
     } catch (error) {
       console.error('Login API error:', error);
       if (!res.headersSent) {
-        return res.status(500).json({ 
-          error: 'Internal server error',
-          message: process.env.NODE_ENV === 'development' ? error.message : undefined
-        });
+      // Always log full error details to console (visible in Docker logs)
+      console.error('Full error stack:', error.stack);
+      return res.status(500).json({ 
+        error: 'Internal server error',
+        message: process.env.NODE_ENV === 'development' ? error.message : undefined
+      });
       }
     }
   } else {

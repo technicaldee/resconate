@@ -25,25 +25,27 @@ WORKDIR /app
 # Copy package files
 COPY frontend/package*.json ./
 
-# Install all dependencies (dev mode needs dev dependencies)
-RUN npm install
+# Install only production dependencies
+RUN npm install --only=production
 
-# Copy frontend source files (needed for dev mode)
-COPY frontend/ ./
-
-# Copy built application from builder stage (for optimization)
+# Copy built application from builder stage
 COPY --from=frontend-builder /app/.next ./.next
+COPY --from=frontend-builder /app/public ./public
+COPY --from=frontend-builder /app/next.config.js ./next.config.js
+COPY --from=frontend-builder /app/package.json ./package.json
 
 # Expose port 3000 (Next.js default)
 EXPOSE 3000
 
 # Set environment variables
-ENV NODE_ENV=development
+ENV NODE_ENV=production
 ENV PORT=3000
+# Enable detailed error logging in production
+ENV NODE_OPTIONS="--enable-source-maps"
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD node -e "require('http').get('http://localhost:3000', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })" || exit 1
 
-# Start the Next.js server in dev mode for better error logging
-CMD ["npm", "run", "dev"]
+# Start the Next.js server in production mode
+CMD ["npm", "start"]

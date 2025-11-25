@@ -49,7 +49,14 @@ const loginAdmin = async (req, res) => {
     const token = jwt.sign({ adminId: admin.id, role: admin.role }, JWT_SECRET, { expiresIn: '24h' });
     res.json({ success: true, token, admin: { id: admin.id, username: admin.username, email: admin.email, role: admin.role } });
   } catch (error) {
+    // Always log full error details to console (visible in Docker logs)
     console.error('Login admin error:', error);
+    console.error('Error stack:', error.stack);
+    console.error('Error details:', {
+      message: error.message,
+      code: error.code,
+      name: error.name
+    });
     if (!res.headersSent) {
       return res.status(500).json({ 
         error: 'Internal server error',
