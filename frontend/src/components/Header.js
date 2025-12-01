@@ -76,6 +76,7 @@ const Header = () => {
               <li><a href="#agency-services" className="header__nav-link" onClick={(e) => handleAnchorClick(e, 'agency-services')}>Value</a></li>
               <li><a href="#hr-platform" className="header__nav-link" onClick={(e) => handleAnchorClick(e, 'hr-platform')}>Solutions</a></li>
               <li><a href="#proof" className="header__nav-link" onClick={(e) => handleAnchorClick(e, 'proof')}>Proof</a></li>
+              <li><Link href="/team" className="header__nav-link">Team</Link></li>
               <li><a href="#contact" className="header__nav-link" onClick={(e) => handleAnchorClick(e, 'contact')}>Contact</a></li>
             </ul>
           </nav>
@@ -107,6 +108,7 @@ const Header = () => {
                 <li><a href="#agency-services" className="mobile-menu__nav-link" onClick={(e) => { handleAnchorClick(e, 'agency-services'); closeMobileMenu(); }}>Value</a></li>
                 <li><a href="#hr-platform" className="mobile-menu__nav-link" onClick={(e) => { handleAnchorClick(e, 'hr-platform'); closeMobileMenu(); }}>Solutions</a></li>
                 <li><a href="#proof" className="mobile-menu__nav-link" onClick={(e) => { handleAnchorClick(e, 'proof'); closeMobileMenu(); }}>Proof</a></li>
+                <li><Link href="/team" className="mobile-menu__nav-link" onClick={closeMobileMenu}>Team</Link></li>
                 <li><a href="#contact" className="mobile-menu__nav-link" onClick={(e) => { handleAnchorClick(e, 'contact'); closeMobileMenu(); }}>Contact</a></li>
               </ul>
             </nav>
