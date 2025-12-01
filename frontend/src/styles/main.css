@@ -968,6 +968,32 @@ a:hover {
   transform: translateY(-2px);
 }
 
+/* Partnership Cards */
+.partnership-card {
+  text-align: center;
+  padding: var(--space-8);
+  border-radius: var(--radius-xl);
+  background: var(--surface-secondary);
+  border: 1px solid var(--border-primary);
+  transition: all var(--transition-normal);
+}
+
+.partnership-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+  border-color: var(--primary-500);
+}
+
+.partnership-logo {
+  margin-bottom: var(--space-6);
+}
+
+.partnership-logo img {
+  max-height: 120px;
+  width: auto;
+  object-fit: contain;
+}
+
 /* Form Styles */
 .form-group {
   margin-bottom: var(--space-4);
