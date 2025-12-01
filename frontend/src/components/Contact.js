@@ -10,7 +10,7 @@ const Contact = () => {
           <p className="section-lead">Share the momentum you need and we'll circle back within one business day.</p>
           <div className="cta-actions">
             <a href="mailto:resconate@gmail.com" className="btn btn-primary">Email Us</a>
-            <a href="https://wa.me/2349072415907" className="btn btn-secondary" target="_blank" rel="noopener noreferrer">Start WhatsApp Chat</a>
+            <a href="https://wa.me/2348066023759" className="btn btn-secondary" target="_blank" rel="noopener noreferrer">Start WhatsApp Chat</a>
           </div>
         </div>
         <div className="contact-card" data-animate="fade-up" style={{ '--animate-delay': '0.1s' }}>
@@ -36,8 +36,11 @@ const Contact = () => {
             </div>
           </div>
           <div className="contact-socials">
-            <a href="https://www.linkedin.com/in/inimfon-udoh-b5b569222/" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.linkedin.com/in/res-conate-ab643137b/" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
               <i className="fab fa-linkedin-in"></i>
+            </a>
+            <a href="https://x.com/ResconateHR" aria-label="X (Twitter)" target="_blank" rel="noopener noreferrer">
+              <i className="fab fa-x-twitter"></i>
             </a>
             <a href="https://www.instagram.com/resconate" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
               <i className="fab fa-instagram"></i>
