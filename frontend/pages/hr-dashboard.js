@@ -2500,18 +2500,17 @@ const HRDashboard = () => {
       <GlobalNav />
       <nav className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex justify-between items-center h-12">
             <div className="flex items-center">
-              <img src="/resconate-logo.png" alt="Resconate" className="h-8 w-auto" />
-              <h1 className="ml-3 text-base font-semibold text-gray-900">HR Dashboard</h1>
+              <img src="/resconate-logo.png" alt="Resconate" className="h-6 w-auto" />
             </div>
             <div className="flex items-center space-x-4">
-              <div className="text-sm text-gray-800">
+              <div className="text-xs text-gray-800">
                 <span>Welcome, HR Admin</span>
               </div>
               <button
                 onClick={handleLogout}
-                className="bg-red-600 text-white px-4 py-2 text-sm font-medium rounded-lg hover:bg-red-700 transition-colors"
+                className="bg-red-600 text-white px-3 py-1.5 text-xs font-medium rounded-lg hover:bg-red-700 transition-colors"
               >
                 <i className="fas fa-sign-out-alt mr-2"></i>Logout
               </button>
@@ -2520,51 +2519,51 @@ const HRDashboard = () => {
         </div>
       </nav>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="mb-6">
-          <h2 className="text-base font-semibold text-gray-900 mb-3">Dashboard Overview</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-            <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="mb-4">
+          <h2 className="text-xs font-medium text-gray-700 mb-2">Dashboard Overview</h2>
+          <div className="flex flex-row gap-2 overflow-x-auto">
+            <div className="bg-white p-3 rounded-lg shadow-sm border border-gray-200 flex-shrink-0" style={{ minWidth: '180px', maxWidth: '200px' }}>
               <div className="flex items-center">
-                <div className="p-2 rounded-full bg-blue-100 text-blue-600">
-                  <i className="fas fa-users text-base"></i>
+                <div className="p-1.5 rounded-full bg-blue-100 text-blue-600">
+                  <i className="fas fa-users text-sm"></i>
                 </div>
-                <div className="ml-3">
+                <div className="ml-2">
                   <p className="text-xs font-medium text-gray-800">Total Employees</p>
-                  <p className="text-lg font-bold text-gray-900">{analytics.totalEmployees}</p>
+                  <p className="text-sm font-bold text-gray-900">{analytics.totalEmployees}</p>
                 </div>
               </div>
             </div>
-            <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+            <div className="bg-white p-3 rounded-lg shadow-sm border border-gray-200 flex-shrink-0" style={{ minWidth: '180px', maxWidth: '200px' }}>
               <div className="flex items-center">
-                <div className="p-2 rounded-full bg-green-100 text-green-600">
-                  <i className="fas fa-briefcase text-base"></i>
+                <div className="p-1.5 rounded-full bg-green-100 text-green-600">
+                  <i className="fas fa-briefcase text-sm"></i>
                 </div>
-                <div className="ml-3">
+                <div className="ml-2">
                   <p className="text-xs font-medium text-gray-800">Active Jobs</p>
-                  <p className="text-lg font-bold text-gray-900">{analytics.activeJobs}</p>
+                  <p className="text-sm font-bold text-gray-900">{analytics.activeJobs}</p>
                 </div>
               </div>
             </div>
-            <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+            <div className="bg-white p-3 rounded-lg shadow-sm border border-gray-200 flex-shrink-0" style={{ minWidth: '180px', maxWidth: '200px' }}>
               <div className="flex items-center">
-                <div className="p-2 rounded-full bg-yellow-100 text-yellow-600">
-                  <i className="fas fa-calendar-alt text-base"></i>
+                <div className="p-1.5 rounded-full bg-yellow-100 text-yellow-600">
+                  <i className="fas fa-calendar-alt text-sm"></i>
                 </div>
-                <div className="ml-3">
+                <div className="ml-2">
                   <p className="text-xs font-medium text-gray-800">Pending Interviews</p>
-                  <p className="text-lg font-bold text-gray-900">{analytics.pendingInterviews}</p>
+                  <p className="text-sm font-bold text-gray-900">{analytics.pendingInterviews}</p>
                 </div>
               </div>
             </div>
-            <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+            <div className="bg-white p-3 rounded-lg shadow-sm border border-gray-200 flex-shrink-0" style={{ minWidth: '180px', maxWidth: '200px' }}>
               <div className="flex items-center">
-                <div className="p-2 rounded-full bg-purple-100 text-purple-600">
-                  <i className="fas fa-chart-line text-base"></i>
+                <div className="p-1.5 rounded-full bg-purple-100 text-purple-600">
+                  <i className="fas fa-chart-line text-sm"></i>
                 </div>
-                <div className="ml-3">
+                <div className="ml-2">
                   <p className="text-xs font-medium text-gray-800">Compliance Score</p>
-                  <p className="text-lg font-bold text-gray-900">{analytics.complianceScore}%</p>
+                  <p className="text-sm font-bold text-gray-900">{analytics.complianceScore}%</p>
                 </div>
               </div>
             </div>

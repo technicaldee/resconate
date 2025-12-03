@@ -3986,12 +3986,15 @@ select.error {
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.15);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #ffffff;
+  color: #ffffff !important;
+  font-size: 1.1rem;
   transition: transform var(--transition-fast), background var(--transition-fast);
+  opacity: 1;
+  visibility: visible;
 }
 
 .contact-socials a:hover {

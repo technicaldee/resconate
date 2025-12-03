@@ -65,8 +65,9 @@ const HRForgot = () => {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     required
-                    className="w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200"
+                    className="w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200 text-gray-900"
                     placeholder="Enter your username"
+                    style={{ color: '#111827' }}
                   />
                   <i className="fas fa-user absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                 </div>
