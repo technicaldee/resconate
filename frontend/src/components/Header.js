@@ -84,9 +84,9 @@ const Header = () => {
             <Link href="/hr-login" className="btn btn-primary header__cta hidden md:inline-flex" data-analytics="header-cta-hr-login">
               Launch HR Portal
             </Link>
-            <a href="#contact" className="btn btn-secondary header__cta hidden md:inline-flex" onClick={(e) => handleAnchorClick(e, 'contact')} data-analytics="header-cta-contact">
-              Book a Discovery Call
-            </a>
+            <Link href="/contact" className="btn btn-secondary header__cta hidden md:inline-flex" data-analytics="header-cta-contact">
+              Book a Delivery Call
+            </Link>
           </div>
         </div>
       </header>

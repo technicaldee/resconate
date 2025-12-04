@@ -48,14 +48,14 @@ const Team = () => {
     },
     {
       id: 2,
-      name: 'Mike',
-      role: 'Technical Lead',
-      image: '/mike.jpg',
-      bio: 'Expert in building scalable systems and leading technical initiatives that power Resconate\'s platform.',
+      name: 'Inimfon Udoh',
+      role: 'CTO / Project Manager',
+      image: '/innie.jpg',
+      bio: 'Full-stack developer and technical leader building robust solutions that power Resconate\'s digital infrastructure. Manages complex technical projects and ensures seamless delivery.',
       social: {
-        linkedin: '',
+        linkedin: 'https://www.linkedin.com/in/inimfon-udoh-b5b569222/',
         twitter: '',
-        email: 'mike@resconate.com'
+        email: 'inimfon@resconate.com'
       }
     },
     {
@@ -104,18 +104,6 @@ const Team = () => {
         linkedin: '',
         twitter: '',
         email: 'sherah@resconate.com'
-      }
-    },
-    {
-      id: 7,
-      name: 'Innie',
-      role: 'Developer',
-      image: '/innie.jpg',
-      bio: 'Full-stack developer building robust solutions that power Resconate\'s digital infrastructure.',
-      social: {
-        linkedin: '',
-        twitter: '',
-        email: 'innie@resconate.com'
       }
     }
   ];
@@ -202,7 +190,7 @@ const Team = () => {
         </section>
 
         {/* Partnerships Section */}
-        <section id="partnerships" className="section-shell py-20 px-4 md:px-8" style={{ background: 'rgba(17, 24, 39, 0.5)' }}>
+        <section id="partnerships" className="section-shell py-20 px-4 md:px-8" style={{ background: 'linear-gradient(180deg, rgba(17, 24, 39, 0.6) 0%, rgba(9, 9, 11, 0.8) 100%)' }}>
           <div className="container mx-auto max-w-7xl">
             <div className="text-center mb-16" data-animate="fade-up">
               <span className="section-eyebrow">Partnerships</span>
@@ -211,15 +199,15 @@ const Team = () => {
                 We collaborate with innovative organizations to create greater impact across Africa.
               </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
               {partnerships.map((partner, index) => (
                 <div 
                   key={partner.id} 
-                  className="partnership-card"
+                  className="partnership-card-enhanced"
                   data-animate="fade-up"
                   style={{ '--animate-delay': `${index * 0.1}s` }}
                 >
-                  <div className="partnership-logo">
+                  <div className="partnership-logo-enhanced">
                     <img 
                       src={partner.logo} 
                       alt={partner.name}
@@ -229,24 +217,25 @@ const Team = () => {
                         if (fallback) fallback.style.display = 'block';
                       }}
                     />
-                    <div style={{ display: 'none', fontSize: '2rem', fontWeight: 'bold', color: 'var(--text-primary)' }}>
+                    <div className="partnership-logo-fallback" style={{ display: 'none', fontSize: '2rem', fontWeight: 'bold', color: 'var(--text-primary)' }}>
                       {partner.name}
                     </div>
                   </div>
-                  <h3 className="team-card__name">{partner.name}</h3>
-                  <p className="team-card__bio" style={{ textAlign: 'left', marginBottom: 'var(--space-6)' }}>{partner.description}</p>
-                  {partner.link && (
-                    <a 
-                      href={partner.link} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="btn btn-primary"
-                      style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}
-                    >
-                      Learn More
-                      <i className="fas fa-external-link-alt"></i>
-                    </a>
-                  )}
+                  <div className="partnership-content">
+                    <h3 className="partnership-name">{partner.name}</h3>
+                    <p className="partnership-description">{partner.description}</p>
+                    {partner.link && (
+                      <a 
+                        href={partner.link} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="partnership-link"
+                      >
+                        Learn More
+                        <i className="fas fa-external-link-alt"></i>
+                      </a>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>

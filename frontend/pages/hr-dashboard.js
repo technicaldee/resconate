@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import GlobalNav from '../src/components/GlobalNav';
 import { apiFetch, clearTokens } from '../utils/api';
 
 const HRDashboard = () => {
@@ -2497,7 +2496,6 @@ const HRDashboard = () => {
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      <GlobalNav />
       <nav className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-12">
@@ -2521,7 +2519,7 @@ const HRDashboard = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="mb-4">
-          <h2 className="text-xs font-medium text-gray-700 mb-2">Dashboard Overview</h2>
+          <h3 className="text-xs font-medium text-gray-700 mb-2">Dashboard Overview</h3>
           <div className="flex flex-row gap-2 overflow-x-auto">
             <div className="bg-white p-3 rounded-lg shadow-sm border border-gray-200 flex-shrink-0" style={{ minWidth: '180px', maxWidth: '200px' }}>
               <div className="flex items-center">

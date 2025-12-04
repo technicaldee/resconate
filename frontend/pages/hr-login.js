@@ -148,14 +148,16 @@ const HRLogin = () => {
                 disabled={loading}
                 className="hr-login-cta-btn"
               >
-                {loading ? (
-                  <>
-                    Signing In...
-                    <i className="fas fa-spinner fa-spin ml-2"></i>
-                  </>
-                ) : (
-                  'Sign In'
-                )}
+                <span>
+                  {loading ? (
+                    <>
+                      Signing In...
+                      <i className="fas fa-spinner fa-spin ml-2"></i>
+                    </>
+                  ) : (
+                    'Sign In'
+                  )}
+                </span>
               </button>
             </form>
 
