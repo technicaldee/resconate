@@ -682,6 +682,334 @@ const createTables = async () => {
       );
     `);
 
+    // Audit logs table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS audit_logs (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER,
+        user_type VARCHAR(20),
+        action VARCHAR(100) NOT NULL,
+        resource_type VARCHAR(50),
+        resource_id INTEGER,
+        details JSONB,
+        ip_address VARCHAR(45),
+        user_agent TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // Referrals table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS referrals (
+        id SERIAL PRIMARY KEY,
+        referrer_id INTEGER REFERENCES employees(id),
+        referred_email VARCHAR(100) NOT NULL,
+        referred_name VARCHAR(200),
+        referral_code VARCHAR(50) UNIQUE NOT NULL,
+        status VARCHAR(50) DEFAULT 'pending',
+        reward_type VARCHAR(50),
+        reward_amount VARCHAR(100),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // System settings table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS system_settings (
+        id SERIAL PRIMARY KEY,
+        setting_key VARCHAR(100) UNIQUE NOT NULL,
+        setting_value TEXT,
+        setting_type VARCHAR(50) DEFAULT 'string',
+        description TEXT,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // Bank accounts table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS bank_accounts (
+        id SERIAL PRIMARY KEY,
+        employee_id INTEGER REFERENCES employees(id),
+        bank_name VARCHAR(100) NOT NULL,
+        bank_code VARCHAR(10),
+        account_number VARCHAR(20) NOT NULL,
+        account_name VARCHAR(200),
+        is_verified BOOLEAN DEFAULT FALSE,
+        verification_date TIMESTAMP,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // Payment transactions table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS payment_transactions (
+        id SERIAL PRIMARY KEY,
+        employee_id INTEGER REFERENCES employees(id),
+        bank_account_id INTEGER REFERENCES bank_accounts(id),
+        amount DECIMAL(12,2) NOT NULL,
+        transaction_type VARCHAR(50) DEFAULT 'payroll',
+        status VARCHAR(50) DEFAULT 'pending',
+        reference VARCHAR(100) UNIQUE,
+        payment_provider VARCHAR(50),
+        provider_reference VARCHAR(100),
+        failure_reason TEXT,
+        processed_at TIMESTAMP,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // Subscriptions table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS subscriptions (
+        id SERIAL PRIMARY KEY,
+        company_name VARCHAR(200),
+        plan_type VARCHAR(50) DEFAULT 'premium',
+        amount DECIMAL(12,2),
+        billing_cycle VARCHAR(20) DEFAULT 'monthly',
+        status VARCHAR(50) DEFAULT 'active',
+        payment_method VARCHAR(50),
+        payment_provider VARCHAR(50),
+        next_billing_date DATE,
+        auto_renewal BOOLEAN DEFAULT TRUE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // Invoices table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS invoices (
+        id SERIAL PRIMARY KEY,
+        subscription_id INTEGER REFERENCES subscriptions(id),
+        invoice_number VARCHAR(50) UNIQUE NOT NULL,
+        amount DECIMAL(12,2) NOT NULL,
+        status VARCHAR(50) DEFAULT 'pending',
+        due_date DATE,
+        paid_date DATE,
+        payment_reference VARCHAR(100),
+        pdf_url TEXT,
+        receipt_pdf_url TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // Payment reminders table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS payment_reminders (
+        id SERIAL PRIMARY KEY,
+        subscription_id INTEGER REFERENCES subscriptions(id),
+        invoice_id INTEGER REFERENCES invoices(id),
+        reminder_type VARCHAR(20) NOT NULL,
+        days_before_due INTEGER,
+        sent_at TIMESTAMP,
+        status VARCHAR(50) DEFAULT 'pending',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // Demo bookings table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS demo_bookings (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(200) NOT NULL,
+        email VARCHAR(100) NOT NULL,
+        phone VARCHAR(20),
+        company_name VARCHAR(200),
+        preferred_date DATE,
+        preferred_time TIME,
+        status VARCHAR(50) DEFAULT 'pending',
+        notes TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // Trial accounts table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS trial_accounts (
+        id SERIAL PRIMARY KEY,
+        email VARCHAR(100) UNIQUE NOT NULL,
+        company_name VARCHAR(200),
+        name VARCHAR(200),
+        phone VARCHAR(20),
+        trial_start_date DATE NOT NULL,
+        trial_end_date DATE NOT NULL,
+        status VARCHAR(50) DEFAULT 'active',
+        converted_to_paid BOOLEAN DEFAULT FALSE,
+        converted_at TIMESTAMP,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // Compliance calendar table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS compliance_calendar (
+        id SERIAL PRIMARY KEY,
+        compliance_type VARCHAR(100) NOT NULL,
+        deadline_date DATE NOT NULL,
+        description TEXT,
+        reminder_days INTEGER[] DEFAULT ARRAY[7, 3, 1],
+        is_recurring BOOLEAN DEFAULT TRUE,
+        recurrence_period VARCHAR(50),
+        status VARCHAR(50) DEFAULT 'upcoming',
+        completed_at TIMESTAMP,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // Bulk payment batches table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS bulk_payment_batches (
+        id SERIAL PRIMARY KEY,
+        batch_reference VARCHAR(100) UNIQUE NOT NULL,
+        total_amount DECIMAL(12,2),
+        total_transactions INTEGER,
+        successful_transactions INTEGER DEFAULT 0,
+        failed_transactions INTEGER DEFAULT 0,
+        status VARCHAR(50) DEFAULT 'pending',
+        uploaded_by INTEGER REFERENCES admins(id),
+        file_name VARCHAR(255),
+        reconciliation_status VARCHAR(50) DEFAULT 'pending',
+        reconciled_at TIMESTAMP,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // Documents table
+    await client.query(`
+        CREATE TABLE IF NOT EXISTS documents (
+        id SERIAL PRIMARY KEY,
+        employee_id INTEGER REFERENCES employees(id),
+        document_type VARCHAR(100) NOT NULL,
+        file_name VARCHAR(255) NOT NULL,
+        file_path TEXT NOT NULL,
+        file_size INTEGER,
+        mime_type VARCHAR(100),
+        uploaded_by INTEGER REFERENCES admins(id),
+        description TEXT,
+        storage_type VARCHAR(50) DEFAULT 'local',
+        version INTEGER DEFAULT 1,
+        previous_version_id INTEGER REFERENCES documents(id),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // Email logs table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS email_logs (
+        id SERIAL PRIMARY KEY,
+        recipient_email VARCHAR(100) NOT NULL,
+        recipient_name VARCHAR(200),
+        subject VARCHAR(255) NOT NULL,
+        email_type VARCHAR(50),
+        status VARCHAR(50) DEFAULT 'pending',
+        sent_at TIMESTAMP,
+        error_message TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // Compliance calculations history
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS compliance_calculations (
+        id SERIAL PRIMARY KEY,
+        salary DECIMAL(12,2) NOT NULL,
+        state VARCHAR(50),
+        calculator_type VARCHAR(50),
+        calculation_result JSONB,
+        created_by INTEGER REFERENCES admins(id),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // RBAC System - Admin Dashboards
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS admin_dashboards (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        slug VARCHAR(255) UNIQUE NOT NULL,
+        description TEXT,
+        icon VARCHAR(100),
+        layout_config JSONB DEFAULT '{}',
+        is_active BOOLEAN DEFAULT TRUE,
+        created_by INTEGER REFERENCES admins(id),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // Dashboard Features/Modules
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS dashboard_features (
+        id SERIAL PRIMARY KEY,
+        dashboard_id INTEGER REFERENCES admin_dashboards(id) ON DELETE CASCADE,
+        feature_key VARCHAR(100) NOT NULL,
+        feature_name VARCHAR(255) NOT NULL,
+        feature_description TEXT,
+        component_path VARCHAR(255),
+        icon VARCHAR(100),
+        order_index INTEGER DEFAULT 0,
+        is_active BOOLEAN DEFAULT TRUE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(dashboard_id, feature_key)
+      );
+    `);
+
+    // Admin Dashboard Access (which admins can access which dashboards)
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS admin_dashboard_access (
+        id SERIAL PRIMARY KEY,
+        admin_id INTEGER REFERENCES admins(id) ON DELETE CASCADE,
+        dashboard_id INTEGER REFERENCES admin_dashboards(id) ON DELETE CASCADE,
+        granted_by INTEGER REFERENCES admins(id),
+        granted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(admin_id, dashboard_id)
+      );
+    `);
+
+    // Admin Feature Permissions (granular permissions within dashboards)
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS admin_feature_permissions (
+        id SERIAL PRIMARY KEY,
+        admin_id INTEGER REFERENCES admins(id) ON DELETE CASCADE,
+        dashboard_id INTEGER REFERENCES admin_dashboards(id) ON DELETE CASCADE,
+        feature_id INTEGER REFERENCES dashboard_features(id) ON DELETE CASCADE,
+        can_view BOOLEAN DEFAULT TRUE,
+        can_create BOOLEAN DEFAULT FALSE,
+        can_edit BOOLEAN DEFAULT FALSE,
+        can_delete BOOLEAN DEFAULT FALSE,
+        can_export BOOLEAN DEFAULT FALSE,
+        custom_permissions JSONB DEFAULT '{}',
+        granted_by INTEGER REFERENCES admins(id),
+        granted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(admin_id, dashboard_id, feature_id)
+      );
+    `);
+
+    // Update admins table to add is_superadmin
+    await client.query(`
+      DO $$ 
+      BEGIN
+        IF NOT EXISTS (
+          SELECT 1 FROM information_schema.columns 
+          WHERE table_name = 'admins' AND column_name = 'is_superadmin'
+        ) THEN
+          ALTER TABLE admins ADD COLUMN is_superadmin BOOLEAN DEFAULT FALSE;
+        END IF;
+      END $$;
+    `);
+
+    // Create indexes for performance
+    await client.query(`
+      CREATE INDEX IF NOT EXISTS idx_admin_dashboard_access_admin ON admin_dashboard_access(admin_id);
+      CREATE INDEX IF NOT EXISTS idx_admin_dashboard_access_dashboard ON admin_dashboard_access(dashboard_id);
+      CREATE INDEX IF NOT EXISTS idx_admin_feature_permissions_admin ON admin_feature_permissions(admin_id);
+      CREATE INDEX IF NOT EXISTS idx_admin_feature_permissions_dashboard ON admin_feature_permissions(dashboard_id);
+      CREATE INDEX IF NOT EXISTS idx_dashboard_features_dashboard ON dashboard_features(dashboard_id);
+      CREATE INDEX IF NOT EXISTS idx_admins_superadmin ON admins(is_superadmin);
+    `);
+
     // Run migrations
     await runMigrations(client);
 
@@ -699,8 +1027,8 @@ const createDefaultAdmin = async () => {
     if (existing.rows.length === 0) {
       const hash = await bcrypt.hash('admin123', 10);
       await client.query(
-        'INSERT INTO admins (username, email, password_hash, role) VALUES ($1,$2,$3,$4)',
-        ['admin', 'admin@resconate.local', hash, 'super_admin']
+        'INSERT INTO admins (username, email, password_hash, role, is_superadmin) VALUES ($1,$2,$3,$4,$5)',
+        ['admin', 'admin@resconate.local', hash, 'super_admin', true]
       );
       console.log('Seeded default admin (admin/admin123)');
     }

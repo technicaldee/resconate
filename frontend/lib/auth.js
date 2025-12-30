@@ -12,7 +12,7 @@ const authenticateAdmin = async (req, res, next) => {
       return res.status(401).json({ error: 'No token provided' });
     }
     const decoded = jwt.verify(token, JWT_SECRET);
-    const result = await pool.query('SELECT id, username, email, role FROM admins WHERE id=$1', [decoded.adminId]);
+    const result = await pool.query('SELECT id, username, email, role, is_superadmin FROM admins WHERE id=$1', [decoded.adminId]);
     if (result.rows.length === 0) {
       return res.status(401).json({ error: 'Invalid token' });
     }
@@ -41,13 +41,13 @@ const loginAdmin = async (req, res) => {
       return res.status(500).json({ error: 'Database connection not available' });
     }
     
-    const result = await pool.query('SELECT id, username, email, password_hash, role FROM admins WHERE username=$1 OR email=$1', [username]);
+    const result = await pool.query('SELECT id, username, email, password_hash, role, is_superadmin FROM admins WHERE username=$1 OR email=$1', [username]);
     if (result.rows.length === 0) return res.status(401).json({ error: 'Invalid credentials' });
     const admin = result.rows[0];
     const ok = await bcrypt.compare(password, admin.password_hash);
     if (!ok) return res.status(401).json({ error: 'Invalid credentials' });
-    const token = jwt.sign({ adminId: admin.id, role: admin.role }, JWT_SECRET, { expiresIn: '24h' });
-    res.json({ success: true, token, admin: { id: admin.id, username: admin.username, email: admin.email, role: admin.role } });
+    const token = jwt.sign({ adminId: admin.id, role: admin.role, isSuperAdmin: admin.is_superadmin }, JWT_SECRET, { expiresIn: '24h' });
+    res.json({ success: true, token, admin: { id: admin.id, username: admin.username, email: admin.email, role: admin.role, is_superadmin: admin.is_superadmin } });
   } catch (error) {
     // Always log full error details to console (visible in Docker logs)
     console.error('Login admin error:', error);
@@ -71,7 +71,7 @@ const getMe = async (req, res) => {
     const token = req.headers.authorization?.split(' ')[1];
     if (!token) return res.status(401).json({ error: 'No token provided' });
     const decoded = jwt.verify(token, JWT_SECRET);
-    const result = await pool.query('SELECT id, username, email, role FROM admins WHERE id=$1', [decoded.adminId]);
+    const result = await pool.query('SELECT id, username, email, role, is_superadmin FROM admins WHERE id=$1', [decoded.adminId]);
     if (result.rows.length === 0) return res.status(401).json({ error: 'Invalid token' });
     res.json({ success: true, admin: result.rows[0] });
   } catch (e) {

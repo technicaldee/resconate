@@ -86,6 +86,25 @@ const PaymentIntegration = () => {
             </button>
           ))}
         </div>
+        
+        {/* Payment Method Details */}
+        {paymentMethod === 'ussd' && (
+          <div className="mt-4 p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg">
+            <div className="text-blue-400 font-semibold mb-2">USSD Payment Instructions</div>
+            <div className="text-gray-300 text-sm">
+              Select your bank and follow the USSD code provided. Dial the code on your phone to complete payment.
+            </div>
+          </div>
+        )}
+        
+        {paymentMethod === 'bank' && (
+          <div className="mt-4 p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg">
+            <div className="text-blue-400 font-semibold mb-2">Bank Transfer Instructions</div>
+            <div className="text-gray-300 text-sm">
+              You'll receive bank account details to transfer funds. Payments are verified automatically.
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Subscription Status */}

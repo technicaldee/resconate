@@ -22,9 +22,42 @@ const BankingIntegration = () => {
     alert('Bulk payment upload feature - CSV file upload would be implemented here');
   };
 
-  const handleAccountVerification = (bankId) => {
+  const handleAccountVerification = async (bankId) => {
     setSelectedBank(bankId);
-    alert(`Account verification for ${nigerianBanks.find(b => b.id === bankId)?.name} - API integration would verify account here`);
+    // Account verification would be handled via API
+    // The form below allows input of account number for verification
+  };
+
+  const handleVerifyAccount = async (accountNumber, accountName) => {
+    if (!accountNumber || accountNumber.length < 10) {
+      alert('Please enter a valid 10-digit account number');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/bank-accounts/verify', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({
+          accountNumber,
+          bankCode: nigerianBanks.find(b => b.id === selectedBank)?.code,
+          accountName
+        })
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        alert(`Account verified: ${data.accountName}`);
+        setSelectedBank(null);
+      } else {
+        alert(`Verification failed: ${data.error}`);
+      }
+    } catch (error) {
+      alert('Error verifying account. Please try again.');
+    }
   };
 
   return (
@@ -200,7 +233,14 @@ const BankingIntegration = () => {
                 className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-green-500"
               />
             </div>
-            <button className="btn-ng-primary w-full">
+            <button 
+              className="btn-ng-primary w-full"
+              onClick={() => {
+                const accountNumber = document.querySelector('input[placeholder="Enter 10-digit account number"]')?.value;
+                const accountName = document.querySelector('input[placeholder="Account holder name"]')?.value;
+                handleVerifyAccount(accountNumber, accountName);
+              }}
+            >
               <i className="fas fa-check-circle mr-2"></i>
               Verify Account
             </button>

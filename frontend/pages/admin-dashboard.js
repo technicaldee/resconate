@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import GlobalNav from '../src/components/GlobalNav';
+import Header from '../src/components/Header';
+import Footer from '../src/components/Footer';
+import ScrollToTop from '../src/components/ScrollToTop';
 import { apiUrl, apiFetch, setToken, clearTokens } from '../utils/api';
 
 const AdminDashboard = () => {
@@ -9,10 +11,22 @@ const AdminDashboard = () => {
   const [loginForm, setLoginForm] = useState({ username: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [analytics, setAnalytics] = useState({ totalEmployees: 0, activeJobs: 0, totalCandidates: 0 });
+  const [analytics, setAnalytics] = useState({ 
+    totalEmployees: 0, 
+    activeJobs: 0, 
+    totalCandidates: 0,
+    pendingInterviews: 0,
+    complianceScore: 0
+  });
   const [employees, setEmployees] = useState([]);
   const [jobs, setJobs] = useState([]);
   const [candidates, setCandidates] = useState([]);
+  const [auditLogs, setAuditLogs] = useState([]);
+  const [settings, setSettings] = useState([]);
+  const [onboardingTasks, setOnboardingTasks] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [adminInfo, setAdminInfo] = useState(null);
+  const [customDashboards, setCustomDashboards] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -21,17 +35,78 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      if (activeTab === 'overview') {
-        loadOverview();
-      } else if (activeTab === 'users') {
-        loadEmployees();
-      } else if (activeTab === 'jobs') {
-        loadJobs();
-      } else if (activeTab === 'candidates') {
-        loadCandidates();
-      }
+      loadAdminInfo();
+      loadTabData();
     }
   }, [isAuthenticated, activeTab]);
+
+  const loadAdminInfo = async () => {
+    try {
+      const response = await apiFetch('/api/auth/me');
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setAdminInfo(data.admin);
+          if (data.admin.is_superadmin) {
+            // Load custom dashboards for super admin
+            loadCustomDashboards();
+          } else {
+            // Load accessible dashboards for regular admin
+            loadCustomDashboards();
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error loading admin info:', error);
+    }
+  };
+
+  const loadCustomDashboards = async () => {
+    try {
+      const response = await apiFetch('/api/admin/dashboards');
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setCustomDashboards(data.data);
+        }
+      }
+    } catch (error) {
+      console.error('Error loading custom dashboards:', error);
+    }
+  };
+
+  const loadTabData = async () => {
+    setLoading(true);
+    try {
+      switch (activeTab) {
+        case 'overview':
+          await loadOverview();
+          break;
+        case 'users':
+          await loadEmployees();
+          break;
+        case 'onboarding':
+          await loadOnboarding();
+          break;
+        case 'jobs':
+          await loadJobs();
+          break;
+        case 'candidates':
+          await loadCandidates();
+          break;
+        case 'audit':
+          await loadAuditLogs();
+          break;
+        case 'settings':
+          await loadSettings();
+          break;
+      }
+    } catch (error) {
+      console.error('Error loading data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const checkAuth = async () => {
     try {
@@ -123,6 +198,72 @@ const AdminDashboard = () => {
     }
   };
 
+  const loadAuditLogs = async () => {
+    try {
+      const response = await apiFetch('/api/admin/audit?limit=50');
+      if (response.ok) {
+        const data = await response.json();
+        setAuditLogs(data.data || []);
+      }
+    } catch (error) {
+      console.error('Failed to load audit logs:', error);
+    }
+  };
+
+  const loadSettings = async () => {
+    try {
+      const response = await apiFetch('/api/admin/settings');
+      if (response.ok) {
+        const data = await response.json();
+        setSettings(data.data || []);
+      }
+    } catch (error) {
+      console.error('Failed to load settings:', error);
+    }
+  };
+
+  const loadOnboarding = async () => {
+    // Mock onboarding tasks - in production, this would come from API
+    setOnboardingTasks([
+      { id: 1, employee: 'John Doe', task: 'Complete profile', status: 'pending', dueDate: '2025-01-05' },
+      { id: 2, employee: 'Jane Smith', task: 'Submit documents', status: 'completed', dueDate: '2025-01-03' },
+      { id: 3, employee: 'Mike Johnson', task: 'Bank account setup', status: 'in_progress', dueDate: '2025-01-07' }
+    ]);
+  };
+
+  const handleExport = async (type) => {
+    try {
+      const token = localStorage.getItem('admin_token') || localStorage.getItem('token');
+      const response = await fetch(apiUrl(`/api/export/${type}`), {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${type}_${new Date().toISOString().split('T')[0]}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      }
+    } catch (error) {
+      console.error('Export error:', error);
+      alert('Failed to export data');
+    }
+  };
+
+  const filteredEmployees = employees.filter(emp =>
+    searchQuery === '' ||
+    emp.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    emp.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    emp.employee_id?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -158,76 +299,134 @@ const AdminDashboard = () => {
 
   const renderOverview = () => (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
-          <div className="flex items-center">
-            <div className="p-2 rounded-full bg-blue-100 text-blue-600">
-              <i className="fas fa-users text-base"></i>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-5 border border-blue-200">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs font-medium text-primary-500 uppercase">Total Employees</p>
+              <p className="text-2xl font-bold text-primary-700 mt-1">{analytics.totalEmployees}</p>
             </div>
-            <div className="ml-3">
-              <p className="text-xs font-medium text-blue-600">Total Employees</p>
-              <p className="text-xl font-bold text-blue-900">{analytics.totalEmployees}</p>
-            </div>
-          </div>
-        </div>
-        <div className="bg-green-50 rounded-lg p-4 border border-green-200">
-          <div className="flex items-center">
-            <div className="p-2 rounded-full bg-green-100 text-green-600">
-              <i className="fas fa-briefcase text-base"></i>
-            </div>
-            <div className="ml-3">
-              <p className="text-xs font-medium text-green-600">Active Jobs</p>
-              <p className="text-xl font-bold text-green-900">{analytics.activeJobs}</p>
+            <div className="p-3 rounded-full bg-primary-100">
+              <i className="fas fa-users text-primary-500 text-xl"></i>
             </div>
           </div>
         </div>
-        <div className="bg-purple-50 rounded-lg p-4 border border-purple-200">
-          <div className="flex items-center">
-            <div className="p-2 rounded-full bg-purple-100 text-purple-600">
-              <i className="fas fa-user-tie text-base"></i>
+        <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-5 border border-green-200">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs font-medium text-green-600 uppercase">Active Jobs</p>
+              <p className="text-2xl font-bold text-green-900 mt-1">{analytics.activeJobs}</p>
             </div>
-            <div className="ml-3">
-              <p className="text-xs font-medium text-purple-600">Candidates</p>
-              <p className="text-xl font-bold text-purple-900">{candidates.length}</p>
+            <div className="p-3 rounded-full bg-green-200">
+              <i className="fas fa-briefcase text-green-600 text-xl"></i>
+            </div>
+          </div>
+        </div>
+        <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-5 border border-purple-200">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs font-medium text-purple-600 uppercase">Candidates</p>
+              <p className="text-2xl font-bold text-purple-900 mt-1">{candidates.length}</p>
+            </div>
+            <div className="p-3 rounded-full bg-purple-200">
+              <i className="fas fa-user-tie text-purple-600 text-xl"></i>
+            </div>
+          </div>
+        </div>
+        <div className="bg-gradient-to-br from-amber-50 to-amber-100 rounded-lg p-5 border border-amber-200">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs font-medium text-amber-600 uppercase">Compliance Score</p>
+              <p className="text-2xl font-bold text-amber-900 mt-1">{analytics.complianceScore}%</p>
+            </div>
+            <div className="p-3 rounded-full bg-amber-200">
+              <i className="fas fa-shield-alt text-amber-600 text-xl"></i>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Quick Actions */}
+      <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <h3 className="text-sm font-semibold text-gray-900 mb-4">Quick Actions</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <button
+            onClick={() => handleExport('employees')}
+            className="flex items-center gap-2 px-4 py-2 bg-primary-50 hover:bg-primary-100 text-primary-700 rounded-lg transition-colors"
+          >
+            <i className="fas fa-download"></i>
+            <span className="text-sm font-medium">Export Employees</span>
+          </button>
+          <button
+            onClick={() => router.push('/hr-dashboard')}
+            className="flex items-center gap-2 px-4 py-2 bg-green-50 hover:bg-green-100 text-green-700 rounded-lg transition-colors"
+          >
+            <i className="fas fa-tachometer-alt"></i>
+            <span className="text-sm font-medium">HR Dashboard</span>
+          </button>
+          <button
+            onClick={() => router.push('/analytics')}
+            className="flex items-center gap-2 px-4 py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 rounded-lg transition-colors"
+          >
+            <i className="fas fa-chart-bar"></i>
+            <span className="text-sm font-medium">Analytics</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('settings')}
+            className="flex items-center gap-2 px-4 py-2 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-lg transition-colors"
+          >
+            <i className="fas fa-cog"></i>
+            <span className="text-sm font-medium">Settings</span>
+          </button>
+        </div>
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div>
-          <h3 className="text-sm font-semibold text-gray-900 mb-3">Recent Employees</h3>
-          <div className="bg-gray-50 rounded-lg border border-gray-200 divide-y divide-gray-200">
+        <div className="bg-white rounded-lg border border-gray-200 p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-sm font-semibold text-gray-900">Recent Employees</h3>
+            <button
+              onClick={() => setActiveTab('users')}
+              className="text-xs text-primary-500 hover:text-primary-600"
+            >
+              View All
+            </button>
+          </div>
+          <div className="space-y-3">
             {employees.slice(0, 5).map((emp) => (
-              <div key={emp.id} className="p-3">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">{emp.name}</p>
-                    <p className="text-xs text-gray-500">{emp.department || 'N/A'}</p>
-                  </div>
-                  <span className={`px-2 py-1 text-xs rounded ${
-                    emp.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
-                  }`}>
-                    {emp.status}
-                  </span>
+              <div key={emp.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div>
+                  <p className="text-sm font-medium text-gray-900">{emp.name}</p>
+                  <p className="text-xs text-gray-500">{emp.department || 'N/A'} • {emp.email}</p>
                 </div>
+                <span className={`px-2 py-1 text-xs rounded ${
+                  emp.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                }`}>
+                  {emp.status}
+                </span>
               </div>
             ))}
           </div>
         </div>
-        <div>
-          <h3 className="text-sm font-semibold text-gray-900 mb-3">Active Job Postings</h3>
-          <div className="bg-gray-50 rounded-lg border border-gray-200 divide-y divide-gray-200">
+        <div className="bg-white rounded-lg border border-gray-200 p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-sm font-semibold text-gray-900">Active Job Postings</h3>
+            <button
+              onClick={() => setActiveTab('jobs')}
+              className="text-xs text-primary-500 hover:text-primary-600"
+            >
+              View All
+            </button>
+          </div>
+          <div className="space-y-3">
             {jobs.filter(j => j.status === 'active').slice(0, 5).map((job) => (
-              <div key={job.id} className="p-3">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">{job.title}</p>
-                    <p className="text-xs text-gray-500">{job.department} • {job.location}</p>
-                  </div>
-                  <span className="px-2 py-1 text-xs bg-green-100 text-green-800 rounded">
-                    Active
-                  </span>
+              <div key={job.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div>
+                  <p className="text-sm font-medium text-gray-900">{job.title}</p>
+                  <p className="text-xs text-gray-500">{job.department} • {job.location}</p>
                 </div>
+                <span className="px-2 py-1 text-xs bg-green-100 text-green-800 rounded">
+                  Active
+                </span>
               </div>
             ))}
           </div>
@@ -238,26 +437,46 @@ const AdminDashboard = () => {
 
   const renderUsers = () => (
     <div className="space-y-4">
-      <h3 className="text-sm font-semibold text-gray-900">All Employees</h3>
-      <div className="overflow-x-auto">
+      <div className="flex items-center justify-between">
+        <h3 className="text-sm font-semibold text-gray-900">Employee Management</h3>
+        <div className="flex items-center gap-3">
+          <input
+            type="text"
+            placeholder="Search employees..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            onClick={() => handleExport('employees')}
+            className="px-4 py-2 bg-primary-500 text-white text-sm font-medium rounded-lg hover:bg-primary-600"
+          >
+            <i className="fas fa-download mr-2"></i>
+            Export CSV
+          </button>
+        </div>
+      </div>
+      <div className="overflow-x-auto bg-white rounded-lg border border-gray-200">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
-              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
-              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Department</th>
-              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Department</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Position</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {employees.map((emp) => (
+            {filteredEmployees.map((emp) => (
               <tr key={emp.id} className="hover:bg-gray-50">
-                <td className="px-4 py-2 text-sm text-gray-900">{emp.employee_id}</td>
-                <td className="px-4 py-2 text-sm text-gray-900">{emp.name}</td>
-                <td className="px-4 py-2 text-sm text-gray-600">{emp.email}</td>
-                <td className="px-4 py-2 text-sm text-gray-600">{emp.department || 'N/A'}</td>
-                <td className="px-4 py-2">
+                <td className="px-4 py-3 text-sm text-gray-900">{emp.employee_id}</td>
+                <td className="px-4 py-3 text-sm font-medium text-gray-900">{emp.name}</td>
+                <td className="px-4 py-3 text-sm text-gray-600">{emp.email}</td>
+                <td className="px-4 py-3 text-sm text-gray-600">{emp.department || 'N/A'}</td>
+                <td className="px-4 py-3 text-sm text-gray-600">{emp.position || 'N/A'}</td>
+                <td className="px-4 py-3">
                   <span className={`px-2 py-1 text-xs rounded ${
                     emp.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
                   }`}>
@@ -268,6 +487,97 @@ const AdminDashboard = () => {
             ))}
           </tbody>
         </table>
+      </div>
+    </div>
+  );
+
+  const renderOnboarding = () => (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h3 className="text-sm font-semibold text-gray-900">Onboarding Tasks</h3>
+        <button className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700">
+          <i className="fas fa-plus mr-2"></i>
+          New Task
+        </button>
+      </div>
+      <div className="space-y-3">
+        {onboardingTasks.map((task) => (
+          <div key={task.id} className="bg-white rounded-lg border border-gray-200 p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <p className="text-sm font-medium text-gray-900">{task.employee}</p>
+                <p className="text-xs text-gray-600 mt-1">{task.task}</p>
+                <p className="text-xs text-gray-500 mt-1">Due: {formatDate(task.dueDate)}</p>
+              </div>
+              <span className={`px-3 py-1 text-xs rounded ${
+                task.status === 'completed' ? 'bg-green-100 text-green-800' :
+                task.status === 'in_progress' ? 'bg-blue-100 text-blue-800' :
+                'bg-amber-100 text-amber-800'
+              }`}>
+                {task.status.replace('_', ' ')}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const renderAudit = () => (
+    <div className="space-y-4">
+      <h3 className="text-sm font-semibold text-gray-900">Audit Logs</h3>
+      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">User</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Resource</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {auditLogs.slice(0, 50).map((log) => (
+              <tr key={log.id} className="hover:bg-gray-50">
+                <td className="px-4 py-3 text-sm text-gray-600">{formatDate(log.created_at)}</td>
+                <td className="px-4 py-3 text-sm text-gray-900">{log.user_type}</td>
+                <td className="px-4 py-3 text-sm text-gray-900">{log.action}</td>
+                <td className="px-4 py-3 text-sm text-gray-600">
+                  {log.resource_type} {log.resource_id ? `#${log.resource_id}` : ''}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+
+  const renderSettings = () => (
+    <div className="space-y-6">
+      <h3 className="text-sm font-semibold text-gray-900">System Settings</h3>
+      <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="space-y-4">
+          {settings.map((setting) => (
+            <div key={setting.id} className="flex items-center justify-between py-3 border-b border-gray-200">
+              <div>
+                <p className="text-sm font-medium text-gray-900">{setting.setting_key}</p>
+                <p className="text-xs text-gray-500">{setting.description || ''}</p>
+              </div>
+              <input
+                type="text"
+                defaultValue={setting.setting_value}
+                className="px-3 py-1 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+              />
+            </div>
+          ))}
+          {settings.length === 0 && (
+            <p className="text-sm text-gray-500 text-center py-8">No settings configured</p>
+          )}
+        </div>
+        <button className="mt-4 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700">
+          Save Settings
+        </button>
       </div>
     </div>
   );
@@ -326,12 +636,12 @@ const AdminDashboard = () => {
 
   if (!isAuthenticated) {
     return (
-      <div className="bg-gray-50 min-h-screen">
-        <GlobalNav />
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+      <div className="App">
+        <Header />
+        <main className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
           <div className="bg-white rounded-lg shadow-xl p-8 w-full max-w-md">
             <div className="text-center mb-6">
-              <i className="fas fa-shield-alt text-4xl text-blue-600 mb-4"></i>
+              <i className="fas fa-shield-alt text-4xl text-primary-500 mb-4"></i>
               <h2 className="text-xl font-bold text-gray-900">Admin Login</h2>
               <p className="text-sm text-gray-600">Access the HR Platform Admin Dashboard</p>
             </div>
@@ -362,7 +672,7 @@ const AdminDashboard = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-blue-600 text-white py-2 px-4 text-sm font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+                className="w-full bg-primary-500 text-white py-2 px-4 text-sm font-medium rounded-lg hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:opacity-50"
               >
                 {loading ? 'Logging in...' : 'Login'}
               </button>
@@ -378,19 +688,21 @@ const AdminDashboard = () => {
               <p>Default credentials: <strong>admin</strong> / <strong>admin123</strong></p>
             </div>
           </div>
-        </div>
+        </main>
+        <Footer />
       </div>
     );
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen">
-      <GlobalNav />
-      <header className="bg-white shadow-sm border-b">
+    <div className="App">
+      <Header />
+      <main className="min-h-screen bg-gray-50">
+        <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center">
-              <i className="fas fa-users-cog text-xl text-blue-600 mr-3"></i>
+              <i className="fas fa-users-cog text-xl text-primary-500 mr-3"></i>
               <h1 className="text-lg font-semibold text-gray-900">HR Admin Dashboard</h1>
             </div>
             <div className="flex items-center space-x-4">
@@ -412,33 +724,76 @@ const AdminDashboard = () => {
 
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="flex space-x-6">
-            {['overview', 'users', 'jobs', 'candidates'].map((tab) => (
+          <nav className="flex space-x-6 overflow-x-auto">
+            {['overview', 'users', 'onboarding', 'jobs', 'candidates', 'audit', 'settings'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`py-3 px-1 border-b-2 font-medium text-sm transition-colors ${
+                className={`py-3 px-1 border-b-2 font-medium text-sm transition-colors whitespace-nowrap ${
                   activeTab === tab
-                    ? 'border-blue-500 text-blue-600'
+                    ? 'border-primary-500 text-primary-500'
                     : 'border-transparent text-gray-500 hover:text-gray-700'
                 }`}
               >
-                <i className={`fas fa-${tab === 'overview' ? 'chart-line' : tab === 'users' ? 'users' : tab === 'jobs' ? 'briefcase' : 'user-tie'} mr-2`}></i>
+                <i className={`fas fa-${tab === 'overview' ? 'chart-line' : tab === 'users' ? 'users' : tab === 'onboarding' ? 'user-plus' : tab === 'jobs' ? 'briefcase' : tab === 'candidates' ? 'user-tie' : tab === 'audit' ? 'history' : 'cog'} mr-2`}></i>
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
               </button>
             ))}
+            {customDashboards.length > 0 && (
+              <>
+                <div className="border-l border-gray-300 mx-2"></div>
+                {customDashboards.map((dashboard) => (
+                  <button
+                    key={dashboard.id}
+                    onClick={() => router.push(`/admin-dashboard/${dashboard.slug}`)}
+                    className="py-3 px-1 border-b-2 border-transparent font-medium text-sm transition-colors whitespace-nowrap text-gray-500 hover:text-gray-700 flex items-center"
+                  >
+                    <i className={`${dashboard.icon || 'fas fa-tachometer-alt'} mr-2`}></i>
+                    {dashboard.name}
+                  </button>
+                ))}
+              </>
+            )}
+            {adminInfo?.is_superadmin && (
+              <>
+                <div className="border-l border-gray-300 mx-2"></div>
+                <button
+                  onClick={() => router.push('/admin-rbac')}
+                  className="py-3 px-1 border-b-2 border-transparent font-medium text-sm transition-colors whitespace-nowrap text-purple-600 hover:text-purple-700 flex items-center"
+                >
+                  <i className="fas fa-shield-alt mr-2"></i>
+                  RBAC Management
+                </button>
+              </>
+            )}
           </nav>
         </div>
       </div>
 
-      <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          {activeTab === 'overview' && renderOverview()}
-          {activeTab === 'users' && renderUsers()}
-          {activeTab === 'jobs' && renderJobs()}
-          {activeTab === 'candidates' && renderCandidates()}
+        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            {loading && (
+              <div className="text-center py-12">
+                <i className="fas fa-spinner fa-spin text-4xl text-primary-500 mb-4"></i>
+                <p className="text-gray-600">Loading...</p>
+              </div>
+            )}
+            {!loading && (
+              <>
+                {activeTab === 'overview' && renderOverview()}
+                {activeTab === 'users' && renderUsers()}
+                {activeTab === 'onboarding' && renderOnboarding()}
+                {activeTab === 'jobs' && renderJobs()}
+                {activeTab === 'candidates' && renderCandidates()}
+                {activeTab === 'audit' && renderAudit()}
+                {activeTab === 'settings' && renderSettings()}
+              </>
+            )}
+          </div>
         </div>
       </main>
+      <Footer />
+      <ScrollToTop />
     </div>
   );
 };

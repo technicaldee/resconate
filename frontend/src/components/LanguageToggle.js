@@ -1,27 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const LanguageToggle = () => {
   const [language, setLanguage] = useState('en');
   const [showDropdown, setShowDropdown] = useState(false);
 
+  useEffect(() => {
+    // Load saved language preference
+    const savedLanguage = localStorage.getItem('language') || 'en';
+    setLanguage(savedLanguage);
+    
+    // Update document language and direction
+    document.documentElement.lang = savedLanguage;
+    if (savedLanguage === 'ar') {
+      document.documentElement.dir = 'rtl';
+    } else {
+      document.documentElement.dir = 'ltr';
+    }
+  }, []);
+
   const languages = [
     { code: 'en', name: 'English', flag: '🇬🇧' },
-    { code: 'ib', name: 'Ibibio', flag: '🇳🇬' }
+    { code: 'fr', name: 'Français', flag: '🇫🇷' },
+    { code: 'ib', name: 'Ibibio', flag: '🇳🇬' },
+    { code: 'ar', name: 'العربية', flag: '🇸🇦' }
   ];
 
-  const translations = {
-    en: {
-      welcome: 'Welcome to Resconate',
-      dashboard: 'Dashboard',
-      employees: 'Employees',
-      payroll: 'Payroll'
-    },
-    ib: {
-      welcome: 'Nnoo na Resconate',
-      dashboard: 'Dashboard',
-      employees: 'Ndito',
-      payroll: 'Ego ndito'
+  const handleLanguageChange = (langCode) => {
+    setLanguage(langCode);
+    setShowDropdown(false);
+    localStorage.setItem('language', langCode);
+    
+    // Update document
+    document.documentElement.lang = langCode;
+    if (langCode === 'ar') {
+      document.documentElement.dir = 'rtl';
+    } else {
+      document.documentElement.dir = 'ltr';
     }
+    
+    // Trigger language change event for i18n service
+    window.dispatchEvent(new CustomEvent('languageChange', { detail: langCode }));
   };
 
   return (
@@ -44,10 +62,7 @@ const LanguageToggle = () => {
           {languages.map((lang) => (
             <button
               key={lang.code}
-              onClick={() => {
-                setLanguage(lang.code);
-                setShowDropdown(false);
-              }}
+              onClick={() => handleLanguageChange(lang.code)}
               className={`w-full flex items-center space-x-3 px-4 py-3 hover:bg-gray-700 transition-colors ${
                 language === lang.code ? 'bg-green-500/20' : ''
               }`}

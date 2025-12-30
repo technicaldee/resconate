@@ -1,32 +1,61 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // Enable more verbose error logging
-  onDemandEntries: {
-    maxInactiveAge: 25 * 1000,
-    pagesBufferLength: 2,
+  swcMinify: true,
+  
+  // Performance optimizations
+  compress: true,
+  poweredByHeader: false,
+  
+  // Image optimization
+  images: {
+    domains: ['res.cloudinary.com', 's3.amazonaws.com'],
+    formats: ['image/avif', 'image/webp'],
   },
-  // Show detailed error messages
-  generateBuildId: async () => {
-    return 'build-' + Date.now()
+  
+  // Code splitting
+  // experimental: {
+  //   optimizeCss: true, // Disabled - requires critters package
+  // },
+  
+  // Security headers
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on'
+          },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=63072000; includeSubDomains; preload'
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'SAMEORIGIN'
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff'
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block'
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'origin-when-cross-origin'
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=()'
+          }
+        ],
+      },
+    ];
   },
-  env: {
-    DATABASE_URL: process.env.DATABASE_URL,
-    JWT_SECRET: process.env.JWT_SECRET,
-    DB_USER: process.env.DB_USER,
-    DB_HOST: process.env.DB_HOST,
-    DB_NAME: process.env.DB_NAME,
-    DB_PASSWORD: process.env.DB_PASSWORD,
-    DB_PORT: process.env.DB_PORT,
-  },
-  // Logging configuration
-  logging: {
-    fetches: {
-      fullUrl: true,
-    },
-  },
-}
+};
 
-module.exports = nextConfig
-
-
+module.exports = nextConfig;

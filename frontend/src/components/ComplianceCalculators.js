@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { apiFetch } from '../../utils/api';
 
 const ComplianceCalculators = () => {
   const [activeCalculator, setActiveCalculator] = useState('paye');

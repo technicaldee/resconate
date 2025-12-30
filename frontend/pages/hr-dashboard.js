@@ -745,7 +745,7 @@ const HRDashboard = () => {
         <h3 className="text-base font-semibold text-gray-900">Employee Directory</h3>
         <button
           onClick={() => setShowAddEmployee(true)}
-          className="px-3 py-1.5 bg-blue-600 text-white text-xs font-medium rounded-lg hover:bg-blue-700 transition-colors"
+          className="px-3 py-1.5 bg-primary-500 text-white text-xs font-medium rounded-lg hover:bg-primary-600 transition-colors"
         >
           <i className="fas fa-plus mr-1"></i>Add Employee
         </button>
@@ -857,7 +857,7 @@ const HRDashboard = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                  className="px-4 py-2 bg-primary-500 text-white text-sm font-medium rounded-lg hover:bg-primary-600 disabled:opacity-50"
                 >
                   {loading ? 'Adding...' : 'Add Employee'}
                 </button>
@@ -999,7 +999,7 @@ const HRDashboard = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                  className="px-4 py-2 bg-primary-500 text-white text-sm font-medium rounded-lg hover:bg-primary-600 disabled:opacity-50"
                 >
                   {loading ? 'Updating...' : 'Update Employee'}
                 </button>
@@ -1285,7 +1285,7 @@ const HRDashboard = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                  className="px-4 py-2 bg-primary-500 text-white text-sm font-medium rounded-lg hover:bg-primary-600 disabled:opacity-50"
                 >
                   {loading ? (editingJob ? 'Updating...' : 'Adding...') : (editingJob ? 'Update Job' : 'Add Job')}
                 </button>
@@ -1307,7 +1307,7 @@ const HRDashboard = () => {
             <h3 className="text-base font-semibold text-gray-900">Job Postings</h3>
             <button
               onClick={() => setShowAddJob(true)}
-              className="px-3 py-1.5 bg-blue-600 text-white text-xs font-medium rounded-lg hover:bg-blue-700 transition-colors"
+              className="px-3 py-1.5 bg-primary-500 text-white text-xs font-medium rounded-lg hover:bg-primary-600 transition-colors"
             >
               <i className="fas fa-plus mr-1"></i>New Job
             </button>
@@ -1415,7 +1415,7 @@ const HRDashboard = () => {
             <h3 className="text-base font-semibold text-gray-900">Recent Candidates</h3>
             <button
               onClick={() => setShowAddCandidate(true)}
-              className="px-3 py-1.5 bg-blue-600 text-white text-xs font-medium rounded-lg hover:bg-blue-700 transition-colors"
+              className="px-3 py-1.5 bg-primary-500 text-white text-xs font-medium rounded-lg hover:bg-primary-600 transition-colors"
             >
               <i className="fas fa-plus mr-1"></i>Add Candidate
             </button>
@@ -1435,13 +1435,13 @@ const HRDashboard = () => {
                         <h4 className="text-sm font-medium text-gray-900">{candidate.name}</h4>
                         <p className="text-xs text-gray-700 mt-1">{candidate.email}</p>
                         {candidate.job_title && (
-                          <p className="text-xs text-blue-600 mt-1">{candidate.job_title}</p>
+                          <p className="text-xs text-primary-500 mt-1">{candidate.job_title}</p>
                         )}
                       </div>
                       <div className="flex items-center gap-2">
                         <span className={`px-2 py-1 text-xs font-medium rounded ${candidate.status === 'hired' ? 'bg-green-100 text-green-800' :
-                          candidate.status === 'interview' ? 'bg-yellow-100 text-yellow-800' :
-                            'bg-blue-100 text-blue-800'
+                            candidate.status === 'interview' ? 'bg-yellow-100 text-yellow-800' :
+                            'bg-primary-100 text-primary-800'
                           }`}>
                           {candidate.status}
                         </span>
@@ -1496,7 +1496,7 @@ const HRDashboard = () => {
           <h3 className="text-base font-semibold text-gray-900">Upcoming Interviews</h3>
           <button
             onClick={() => setShowAddInterview(true)}
-            className="px-3 py-1.5 bg-blue-600 text-white text-xs font-medium rounded-lg hover:bg-blue-700 transition-colors"
+            className="px-3 py-1.5 bg-primary-500 text-white text-xs font-medium rounded-lg hover:bg-primary-600 transition-colors"
           >
             <i className="fas fa-plus mr-1"></i>Schedule Interview
           </button>
@@ -1520,12 +1520,12 @@ const HRDashboard = () => {
                         {formatDate(interview.scheduled_date)}
                       </p>
                       {interview.job_title && (
-                        <p className="text-xs text-blue-600 mt-1">{interview.job_title}</p>
+                        <p className="text-xs text-primary-500 mt-1">{interview.job_title}</p>
                       )}
                     </div>
                     <div className="flex items-center gap-2">
                       <span className={`px-2 py-1 text-xs font-medium rounded ${interview.status === 'completed' ? 'bg-green-100 text-green-800' :
-                        interview.status === 'scheduled' ? 'bg-blue-100 text-blue-800' :
+                        interview.status === 'scheduled' ? 'bg-primary-100 text-primary-800' :
                           'bg-yellow-100 text-yellow-800'
                         }`}>
                         {interview.status}
@@ -1674,7 +1674,7 @@ const HRDashboard = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                  className="px-4 py-2 bg-primary-500 text-white text-sm font-medium rounded-lg hover:bg-primary-600 disabled:opacity-50"
                 >
                   {loading ? 'Adding...' : 'Add Candidate'}
                 </button>
@@ -1762,7 +1762,7 @@ const HRDashboard = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                  className="px-4 py-2 bg-primary-500 text-white text-sm font-medium rounded-lg hover:bg-primary-600 disabled:opacity-50"
                 >
                   {loading ? 'Scheduling...' : 'Schedule Interview'}
                 </button>
@@ -1787,7 +1787,7 @@ const HRDashboard = () => {
         <h3 className="text-base font-semibold text-gray-900">Payroll Records</h3>
         <button
           onClick={() => setShowAddPayroll(true)}
-          className="px-3 py-1.5 bg-blue-600 text-white text-xs font-medium rounded-lg hover:bg-blue-700 transition-colors"
+          className="px-3 py-1.5 bg-primary-500 text-white text-xs font-medium rounded-lg hover:bg-primary-600 transition-colors"
         >
           <i className="fas fa-plus mr-1"></i>Add Payroll
         </button>
@@ -1879,7 +1879,7 @@ const HRDashboard = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                  className="px-4 py-2 bg-primary-500 text-white text-sm font-medium rounded-lg hover:bg-primary-600 disabled:opacity-50"
                 >
                   {loading ? 'Adding...' : 'Add Payroll'}
                 </button>
@@ -1991,7 +1991,7 @@ const HRDashboard = () => {
         <h3 className="text-base font-semibold text-gray-900">Performance Reviews</h3>
         <button
           onClick={() => setShowAddPerformance(true)}
-          className="px-3 py-1.5 bg-blue-600 text-white text-xs font-medium rounded-lg hover:bg-blue-700 transition-colors"
+          className="px-3 py-1.5 bg-primary-500 text-white text-xs font-medium rounded-lg hover:bg-primary-600 transition-colors"
         >
           <i className="fas fa-plus mr-1"></i>Add Review
         </button>
@@ -2070,7 +2070,7 @@ const HRDashboard = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                  className="px-4 py-2 bg-primary-500 text-white text-sm font-medium rounded-lg hover:bg-primary-600 disabled:opacity-50"
                 >
                   {loading ? 'Adding...' : 'Add Review'}
                 </button>
@@ -2105,7 +2105,7 @@ const HRDashboard = () => {
                   <p className="text-xs text-gray-700 mt-1">{review.department}</p>
                 </div>
                 <div className="text-right">
-                  <div className="text-base font-bold text-blue-600">{review.rating}/5</div>
+                  <div className="text-base font-bold text-primary-500">{review.rating}/5</div>
                   <div className="text-xs text-gray-700">Rating</div>
                 </div>
               </div>
@@ -2325,7 +2325,7 @@ const HRDashboard = () => {
         <h3 className="text-base font-semibold text-gray-900">Compliance Records</h3>
         <button
           onClick={() => setShowAddCompliance(true)}
-          className="px-3 py-1.5 bg-blue-600 text-white text-xs font-medium rounded-lg hover:bg-blue-700 transition-colors"
+          className="px-3 py-1.5 bg-primary-500 text-white text-xs font-medium rounded-lg hover:bg-primary-600 transition-colors"
         >
           <i className="fas fa-plus mr-1"></i>Add Record
         </button>
@@ -2404,7 +2404,7 @@ const HRDashboard = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                  className="px-4 py-2 bg-primary-500 text-white text-sm font-medium rounded-lg hover:bg-primary-600 disabled:opacity-50"
                 >
                   {loading ? 'Adding...' : 'Add Record'}
                 </button>

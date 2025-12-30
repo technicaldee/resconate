@@ -1,15 +1,23 @@
 import React from 'react';
+import Header from '../src/components/Header';
+import Footer from '../src/components/Footer';
+import ScrollToTop from '../src/components/ScrollToTop';
 import ReferralSystem from '../src/components/ReferralSystem';
-import GlobalNav from '../src/components/GlobalNav';
 
 export default function ReferralsPage() {
   return (
-    <>
-      <GlobalNav />
-      <ReferralSystem />
-    </>
+    <div className="App">
+      <Header />
+      <main id="main-content">
+        <ReferralSystem />
+      </main>
+      <Footer />
+      <ScrollToTop />
+    </div>
   );
 }
+
+export const dynamic = 'force-dynamic';
 
 
 

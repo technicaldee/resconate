@@ -1,0 +1,69 @@
+/* Brand Colors - Resconate
+ * Primary: Indigo (#6366F1)
+ * Secondary: Pink (#EC4899)
+ * 
+ * Use CSS variables for consistency across the project
+ */
+
+:root {
+  /* Brand Color Variables */
+  --brand-primary: #6366f1;
+  --brand-primary-dark: #4f46e5;
+  --brand-primary-light: #818cf8;
+  
+  --brand-secondary: #ec4899;
+  --brand-secondary-dark: #db2777;
+  --brand-secondary-light: #f472b6;
+  
+  /* Brand Gradients */
+  --brand-gradient: linear-gradient(135deg, #6366F1 0%, #EC4899 100%);
+  --brand-gradient-hover: linear-gradient(135deg, #4f46e5 0%, #db2777 100%);
+  --brand-gradient-vertical: linear-gradient(180deg, #6366F1 0%, #EC4899 100%);
+  
+  /* Brand Color Utilities */
+  --brand-text-on-primary: #ffffff;
+  --brand-text-on-secondary: #ffffff;
+}
+
+/* Utility Classes for Brand Colors */
+.bg-brand-primary { background-color: var(--brand-primary); }
+.bg-brand-secondary { background-color: var(--brand-secondary); }
+.bg-brand-gradient { background: var(--brand-gradient); }
+
+.text-brand-primary { color: var(--brand-primary); }
+.text-brand-secondary { color: var(--brand-secondary); }
+
+.border-brand-primary { border-color: var(--brand-primary); }
+.border-brand-secondary { border-color: var(--brand-secondary); }
+
+/* Brand Button Styles */
+.btn-brand {
+  background: var(--brand-gradient);
+  color: var(--brand-text-on-primary);
+  transition: all 0.3s ease;
+}
+
+.btn-brand:hover {
+  background: var(--brand-gradient-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
+}
+
+.btn-brand-primary {
+  background-color: var(--brand-primary);
+  color: var(--brand-text-on-primary);
+}
+
+.btn-brand-primary:hover {
+  background-color: var(--brand-primary-dark);
+}
+
+.btn-brand-secondary {
+  background-color: var(--brand-secondary);
+  color: var(--brand-text-on-secondary);
+}
+
+.btn-brand-secondary:hover {
+  background-color: var(--brand-secondary-dark);
+}
+

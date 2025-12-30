@@ -1,11 +1,14 @@
+import React from 'react';
+import { AppProps } from 'next/app';
+import ErrorBoundary from '../src/components/ErrorBoundary';
 import '../src/styles/index.css';
-import '../src/styles/main.css';
-import '../src/styles/global-nav.css';
-import '../src/styles/responsive-enhancement.css';
 
-export default function App({ Component, pageProps }) {
-  return <Component {...pageProps} />;
+function MyApp({ Component, pageProps }) {
+  return (
+    <ErrorBoundary>
+      <Component {...pageProps} />
+    </ErrorBoundary>
+  );
 }
 
-
-
+export default MyApp;

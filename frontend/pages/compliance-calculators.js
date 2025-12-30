@@ -1,15 +1,23 @@
 import React from 'react';
-import ComplianceCalculators from '../src/components/ComplianceCalculators';
-import GlobalNav from '../src/components/GlobalNav';
+import Header from '../src/components/Header';
+import Footer from '../src/components/Footer';
+import ScrollToTop from '../src/components/ScrollToTop';
+import ComplianceCalculatorsEnhanced from '../src/components/ComplianceCalculatorsEnhanced';
 
 export default function ComplianceCalculatorsPage() {
   return (
-    <>
-      <GlobalNav />
-      <ComplianceCalculators />
-    </>
+    <div className="App">
+      <Header />
+      <main id="main-content">
+        <ComplianceCalculatorsEnhanced />
+      </main>
+      <Footer />
+      <ScrollToTop />
+    </div>
   );
 }
+
+export const dynamic = 'force-dynamic';
 
 
 

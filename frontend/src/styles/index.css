@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+@import './brand-colors.css';
 @import './main.css';
 @import './nigerian-design-system.css';
 @import './responsive-enhancement.css';
