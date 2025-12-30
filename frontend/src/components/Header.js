@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { handleAnchorClick } from '../utils/scrollUtils';
+import LanguageToggle from './LanguageToggle';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -73,6 +74,7 @@ const Header = () => {
           <nav className="header__nav" aria-label="Primary navigation">
             <ul className="header__nav-list">
               <li><a href="#home" className="header__nav-link" onClick={(e) => handleAnchorClick(e, 'home')}>Overview</a></li>
+              <li><Link href="/services" className="header__nav-link">Services</Link></li>
               <li><a href="#agency-services" className="header__nav-link" onClick={(e) => handleAnchorClick(e, 'agency-services')}>Value</a></li>
               <li><a href="#hr-platform" className="header__nav-link" onClick={(e) => handleAnchorClick(e, 'hr-platform')}>Solutions</a></li>
               <li><a href="#proof" className="header__nav-link" onClick={(e) => handleAnchorClick(e, 'proof')}>Proof</a></li>
@@ -81,6 +83,9 @@ const Header = () => {
             </ul>
           </nav>
           <div className="header__actions">
+            <div className="hidden md:block mr-4">
+              <LanguageToggle />
+            </div>
             <Link href="/hr-login" className="btn btn-primary header__cta hidden md:inline-flex" data-analytics="header-cta-hr-login">
               Launch HR Portal
             </Link>
@@ -105,6 +110,7 @@ const Header = () => {
             <nav className="mobile-menu__nav">
               <ul className="mobile-menu__nav-list">
                 <li><a href="#home" className="mobile-menu__nav-link" onClick={(e) => { handleAnchorClick(e, 'home'); closeMobileMenu(); }}>Overview</a></li>
+                <li><Link href="/services" className="mobile-menu__nav-link" onClick={closeMobileMenu}>Services</Link></li>
                 <li><a href="#agency-services" className="mobile-menu__nav-link" onClick={(e) => { handleAnchorClick(e, 'agency-services'); closeMobileMenu(); }}>Value</a></li>
                 <li><a href="#hr-platform" className="mobile-menu__nav-link" onClick={(e) => { handleAnchorClick(e, 'hr-platform'); closeMobileMenu(); }}>Solutions</a></li>
                 <li><a href="#proof" className="mobile-menu__nav-link" onClick={(e) => { handleAnchorClick(e, 'proof'); closeMobileMenu(); }}>Proof</a></li>

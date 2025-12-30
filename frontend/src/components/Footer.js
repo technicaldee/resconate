@@ -31,6 +31,26 @@ const Footer = () => {
               <Link href="/hr-login">HR Portal</Link>
               <Link href="/admin-dashboard">Admin Console</Link>
               <Link href="/employee-login">Employee Sign In</Link>
+              <Link href="/analytics">Analytics</Link>
+              <Link href="/payment">Payment & Billing</Link>
+            </div>
+          </div>
+          <div className="footer-nav">
+            <span className="footer-heading">Resources</span>
+            <div className="footer-links">
+              <Link href="/resources">Resource Library</Link>
+              <Link href="/templates">Industry Templates</Link>
+              <Link href="/compliance-calculators">Compliance Calculators</Link>
+              <Link href="/help">Help Center</Link>
+              <Link href="/referrals">Referral Program</Link>
+            </div>
+          </div>
+          <div className="footer-nav">
+            <span className="footer-heading">Business</span>
+            <div className="footer-links">
+              <Link href="/banking">Banking Integration</Link>
+              <Link href="/team">Team</Link>
+              <a href="#contact" onClick={(e) => handleAnchorClick(e, 'contact')}>Contact Us</a>
             </div>
           </div>
         </div>

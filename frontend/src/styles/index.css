@@ -3,5 +3,6 @@
 @tailwind utilities;
 
 @import './main.css';
+@import './nigerian-design-system.css';
 @import './responsive-enhancement.css';
 @import './global-nav.css';

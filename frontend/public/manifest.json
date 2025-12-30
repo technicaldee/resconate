@@ -1,0 +1,39 @@
+{
+  "name": "Resconate HR Platform",
+  "short_name": "Resconate",
+  "description": "HR Platform for Nigerian Businesses",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0e27",
+  "theme_color": "#16a34a",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/resconate-logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/resconate-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "productivity"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "HR Dashboard",
+      "short_name": "Dashboard",
+      "description": "Access your HR dashboard",
+      "url": "/hr-dashboard",
+      "icons": [{ "src": "/resconate-logo.png", "sizes": "96x96" }]
+    }
+  ]
+}
+
+
+
+

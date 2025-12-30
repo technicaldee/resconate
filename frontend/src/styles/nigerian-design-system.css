@@ -1,0 +1,284 @@
+/* Nigerian-Inspired Design System - Distinctive & Creative */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* Nigerian-Inspired Color Palette - Modernized */
+  --ng-green-50: #f0fdf4;
+  --ng-green-100: #dcfce7;
+  --ng-green-200: #bbf7d0;
+  --ng-green-300: #86efac;
+  --ng-green-400: #4ade80;
+  --ng-green-500: #22c55e;
+  --ng-green-600: #16a34a;
+  --ng-green-700: #15803d;
+  --ng-green-800: #166534;
+  --ng-green-900: #14532d;
+  
+  --ng-white: #ffffff;
+  --ng-cream: #fef9f3;
+  --ng-gold: #fbbf24;
+  --ng-gold-dark: #d97706;
+  
+  /* Vibrant Accents */
+  --accent-coral: #ff6b6b;
+  --accent-blue: #4dabf7;
+  --accent-purple: #9775fa;
+  --accent-amber: #ffc107;
+  
+  /* Dark Theme Base */
+  --dark-bg: #0a0e27;
+  --dark-surface: #141b3d;
+  --dark-surface-elevated: #1e2749;
+  --dark-border: #2a3558;
+  
+  /* Typography - Distinctive Fonts */
+  --font-display: 'DM Sans', -apple-system, sans-serif;
+  --font-body: 'Manrope', -apple-system, sans-serif;
+  --font-accent: 'Space Grotesk', monospace;
+  
+  /* Nigerian Naira Symbol */
+  --currency: '₦';
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #16a34a 0%, #15803d 50%, #166534 100%);
+  --gradient-gold: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+  --gradient-vibrant: linear-gradient(135deg, #22c55e 0%, #4dabf7 50%, #9775fa 100%);
+  --gradient-dark: linear-gradient(180deg, #0a0e27 0%, #141b3d 100%);
+  --gradient-mesh: radial-gradient(at 40% 20%, rgba(34, 197, 94, 0.15) 0px, transparent 50%),
+                    radial-gradient(at 80% 0%, rgba(77, 171, 247, 0.15) 0px, transparent 50%),
+                    radial-gradient(at 0% 50%, rgba(151, 117, 250, 0.15) 0px, transparent 50%);
+  
+  /* Shadows with Color */
+  --shadow-green: 0 10px 40px -10px rgba(34, 197, 94, 0.3);
+  --shadow-gold: 0 10px 40px -10px rgba(251, 191, 36, 0.3);
+  --shadow-vibrant: 0 20px 60px -15px rgba(34, 197, 94, 0.4);
+  
+  /* Animations */
+  --animate-bounce-slow: bounce 3s ease-in-out infinite;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-float: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Nigerian Pattern Background */
+.nigerian-pattern {
+  background-image: 
+    repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(34, 197, 94, 0.03) 10px, rgba(34, 197, 94, 0.03) 20px),
+    repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(251, 191, 36, 0.03) 10px, rgba(251, 191, 36, 0.03) 20px);
+}
+
+/* Glass Morphism */
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+/* Nigerian Flag Inspired Accent */
+.ng-accent-line {
+  position: relative;
+}
+
+.ng-accent-line::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--gradient-primary);
+  border-radius: 2px;
+}
+
+/* Currency Formatting */
+.currency::before {
+  content: '₦';
+  margin-right: 2px;
+}
+
+/* Distinctive Button Styles */
+.btn-ng-primary {
+  background: var(--gradient-primary);
+  color: white;
+  font-weight: 600;
+  padding: 0.875rem 2rem;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-green);
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.875rem;
+}
+
+.btn-ng-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-vibrant);
+  filter: brightness(1.1);
+}
+
+.btn-ng-gold {
+  background: var(--gradient-gold);
+  color: #0a0e27;
+  font-weight: 700;
+  padding: 0.875rem 2rem;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-gold);
+  font-family: var(--font-display);
+}
+
+.btn-ng-gold:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+/* Card Styles */
+.card-ng {
+  background: var(--dark-surface);
+  border: 1px solid var(--dark-border);
+  border-radius: 1.25rem;
+  padding: 2rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-ng::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-primary);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.card-ng:hover::before {
+  transform: scaleX(1);
+}
+
+.card-ng:hover {
+  transform: translateY(-4px);
+  border-color: var(--ng-green-500);
+  box-shadow: var(--shadow-green);
+}
+
+/* Typography */
+.heading-ng {
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.text-ng-body {
+  font-family: var(--font-body);
+  line-height: 1.7;
+}
+
+/* Badge Styles */
+.badge-ng {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.875rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family: var(--font-display);
+}
+
+.badge-ng-success {
+  background: rgba(34, 197, 94, 0.2);
+  color: var(--ng-green-400);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.badge-ng-warning {
+  background: rgba(251, 191, 36, 0.2);
+  color: var(--ng-gold);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+}
+
+/* Loading States */
+.loading-shimmer {
+  background: linear-gradient(90deg, 
+    rgba(255, 255, 255, 0.05) 0%, 
+    rgba(255, 255, 255, 0.1) 50%, 
+    rgba(255, 255, 255, 0.05) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+  .heading-ng {
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+  }
+}
+
+/* Nigerian Cultural Elements */
+.ng-divider {
+  height: 2px;
+  background: var(--gradient-primary);
+  margin: 2rem 0;
+  border-radius: 1px;
+}
+
+/* Tooltip Styles */
+.tooltip-ng {
+  position: relative;
+  cursor: help;
+}
+
+.tooltip-ng::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  background: var(--dark-surface-elevated);
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  border: 1px solid var(--dark-border);
+  z-index: 1000;
+}
+
+.tooltip-ng:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+
+
+

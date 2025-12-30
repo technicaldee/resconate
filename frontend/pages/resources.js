@@ -1,18 +1,10 @@
 import React, { useEffect } from 'react';
 import Header from '../src/components/Header';
-import Hero from '../src/components/Hero';
-import ValueProposition from '../src/components/ValueProposition';
-import HRPlatform from '../src/components/HRPlatform';
-import Ecosystem from '../src/components/Ecosystem';
-import Proof from '../src/components/Proof';
-import Pricing from '../src/components/Pricing';
-import Contact from '../src/components/Contact';
+import ResourceLibrary from '../src/components/ResourceLibrary';
 import Footer from '../src/components/Footer';
 import ScrollToTop from '../src/components/ScrollToTop';
 
-export const dynamic = 'force-dynamic';
-
-const Home = () => {
+export default function ResourcesPage() {
   useEffect(() => {
     // Initialize animations for elements with data-animate attribute
     const animatedElements = document.querySelectorAll('[data-animate]');
@@ -43,24 +35,18 @@ const Home = () => {
 
   return (
     <div className="App">
-      <a href="#home" className="skip-link">Skip to main content</a>
       <Header />
       <main id="main-content">
-        <Hero />
-        <ValueProposition />
-        <HRPlatform />
-        <Ecosystem />
-        <Proof />
-        <Pricing />
-        <Contact />
+        <ResourceLibrary />
       </main>
       <Footer />
       <ScrollToTop />
     </div>
   );
-};
+}
 
-export default Home;
+export const dynamic = 'force-dynamic';
+
 
 
 
