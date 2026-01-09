@@ -6,6 +6,20 @@
 const fs = require('fs').promises;
 const path = require('path');
 
+// Try to use puppeteer for PDF generation, fallback to html-pdf or pdfkit
+let pdfGenerator = null;
+try {
+  // Try puppeteer first (best quality)
+  pdfGenerator = require('puppeteer');
+} catch (e) {
+  try {
+    // Fallback to pdfkit
+    pdfGenerator = require('pdfkit');
+  } catch (e2) {
+    console.warn('No PDF library found. Install puppeteer or pdfkit for PDF generation.');
+  }
+}
+
 class PDFGenerator {
   constructor() {
     this.outputDir = process.env.PDF_OUTPUT_DIR || './public/pdfs';
@@ -28,9 +42,23 @@ class PDFGenerator {
       
       await fs.writeFile(filepath, html);
 
-      // TODO: Convert HTML to PDF using puppeteer or similar
-      // For now, return HTML file path
-      return `/pdfs/${filename}`;
+      // Convert HTML to PDF
+      if (pdfGenerator && typeof pdfGenerator.launch === 'function') {
+        // Using puppeteer
+        const browser = await pdfGenerator.launch({ headless: true });
+        const page = await browser.newPage();
+        await page.setContent(html, { waitUntil: 'networkidle0' });
+        const pdfBuffer = await page.pdf({ format: 'A4', printBackground: true });
+        await browser.close();
+
+        const pdfFilename = filename.replace('.html', '.pdf');
+        const pdfFilepath = path.join(this.outputDir, pdfFilename);
+        await fs.writeFile(pdfFilepath, pdfBuffer);
+        return `/pdfs/${pdfFilename}`;
+      } else {
+        // Fallback: return HTML file path
+        return `/pdfs/${filename}`;
+      }
     } catch (error) {
       console.error('Invoice generation error:', error);
       throw error;
@@ -214,8 +242,99 @@ class PDFGenerator {
    * Generate compliance report PDF
    */
   async generateComplianceReport(reportData) {
-    // TODO: Implement compliance report generation
-    return '/pdfs/compliance_report.pdf';
+    try {
+      await fs.mkdir(this.outputDir, { recursive: true });
+
+      const html = this.generateComplianceReportHTML(reportData);
+      const filename = `compliance_report_${Date.now()}.html`;
+      const filepath = path.join(this.outputDir, filename);
+      
+      await fs.writeFile(filepath, html);
+
+      // Convert to PDF if puppeteer is available
+      if (pdfGenerator && typeof pdfGenerator.launch === 'function') {
+        const browser = await pdfGenerator.launch({ headless: true });
+        const page = await browser.newPage();
+        await page.setContent(html, { waitUntil: 'networkidle0' });
+        const pdfBuffer = await page.pdf({ format: 'A4', printBackground: true });
+        await browser.close();
+
+        const pdfFilename = filename.replace('.html', '.pdf');
+        const pdfFilepath = path.join(this.outputDir, pdfFilename);
+        await fs.writeFile(pdfFilepath, pdfBuffer);
+        return `/pdfs/${pdfFilename}`;
+      }
+
+      return `/pdfs/${filename}`;
+    } catch (error) {
+      console.error('Compliance report generation error:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Generate compliance report HTML
+   */
+  generateComplianceReportHTML(reportData) {
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Compliance Report</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    .header { border-bottom: 2px solid #6366F1; padding-bottom: 20px; margin-bottom: 30px; }
+    .summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 30px 0; }
+    .summary-card { padding: 20px; background-color: #f5f5f5; border-radius: 8px; text-align: center; }
+    .summary-value { font-size: 24px; font-weight: bold; color: #6366F1; }
+    table { width: 100%; border-collapse: collapse; margin: 30px 0; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+    th { background-color: #6366F1; color: white; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Compliance Report</h1>
+    <p>Generated: ${new Date().toLocaleString()}</p>
+  </div>
+  <div class="summary">
+    <div class="summary-card">
+      <div class="summary-value">${reportData.totalRecords || 0}</div>
+      <div>Total Records</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-value">${reportData.compliantRecords || 0}</div>
+      <div>Compliant</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-value">${reportData.nonCompliantRecords || 0}</div>
+      <div>Non-Compliant</div>
+    </div>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Record Type</th>
+        <th>Status</th>
+        <th>Date</th>
+        <th>Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${(reportData.records || []).map(r => `
+        <tr>
+          <td>${r.record_type || 'N/A'}</td>
+          <td>${r.status || 'N/A'}</td>
+          <td>${r.date || 'N/A'}</td>
+          <td>${r.score || 'N/A'}</td>
+        </tr>
+      `).join('')}
+    </tbody>
+  </table>
+</body>
+</html>
+    `;
   }
 
   /**

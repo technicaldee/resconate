@@ -7,7 +7,7 @@ module.exports = {
   ],
   testPathIgnorePatterns: [
     '/node_modules/',
-    '/__tests__/components.test.js' // Skip component tests for now
+    '/__tests__/components.test.js' // Skip component tests (requires React testing setup)
   ]
 };
 

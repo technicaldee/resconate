@@ -1,5 +1,6 @@
 const { pool } = require('../../lib/database');
 const { authenticateAdmin } = require('../../lib/auth');
+const bankingAPIService = require('../../lib/bankingAPI');
 
 async function handler(req, res) {
   if (req.method === 'GET') {
@@ -36,15 +37,29 @@ async function handler(req, res) {
           return res.status(400).json({ error: 'employee_id, bank_name, and account_number are required' });
         }
 
-        // Verify account (in production, this would call bank API)
-        const isVerified = false; // Placeholder
+        // Verify account using banking API
+        let isVerified = false;
+        let verifiedAccountName = account_name;
+
+        if (bank_code && account_number) {
+          try {
+            const verification = await bankingAPIService.verifyAccount(account_number, bank_code);
+            if (verification.success) {
+              isVerified = true;
+              verifiedAccountName = verification.accountName || account_name;
+            }
+          } catch (error) {
+            console.error('Account verification error:', error);
+            // Continue with unverified account
+          }
+        }
 
         const result = await pool.query(
           `INSERT INTO bank_accounts 
-           (employee_id, bank_name, bank_code, account_number, account_name, is_verified)
-           VALUES ($1, $2, $3, $4, $5, $6)
+           (employee_id, bank_name, bank_code, account_number, account_name, is_verified, verification_date)
+           VALUES ($1, $2, $3, $4, $5, $6, CASE WHEN $6 THEN CURRENT_TIMESTAMP ELSE NULL END)
            RETURNING *`,
-          [employee_id, bank_name, bank_code || null, account_number, account_name || null, isVerified]
+          [employee_id, bank_name, bank_code || null, account_number, verifiedAccountName, isVerified]
         );
 
         res.json({ success: true, data: result.rows[0] });

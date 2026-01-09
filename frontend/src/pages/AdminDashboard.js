@@ -3,6 +3,241 @@ import { useRouter } from 'next/router';
 import GlobalNav from '../components/GlobalNav';
 import { apiUrl, apiFetch, setToken, clearTokens } from '../utils/api';
 
+const AdminDashboardContent = ({ activeTab }) => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadData();
+  }, [activeTab]);
+
+  const loadData = async () => {
+    setLoading(true);
+    try {
+      let endpoint = '';
+      if (activeTab === 'overview') {
+        endpoint = '/api/analytics';
+      } else if (activeTab === 'users') {
+        endpoint = '/api/employees';
+      } else if (activeTab === 'jobs') {
+        endpoint = '/api/hr/jobs';
+      } else if (activeTab === 'candidates') {
+        endpoint = '/api/recruitment/candidates';
+      }
+
+      if (endpoint) {
+        const response = await apiFetch(endpoint);
+        if (response.ok) {
+          const result = await response.json();
+          setData(result.data || result);
+        }
+      }
+    } catch (error) {
+      console.error('Error loading data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="bg-white rounded-lg shadow p-6">
+        <div className="text-center py-12">
+          <i className="fas fa-spinner fa-spin text-4xl text-blue-600 mb-4"></i>
+          <p className="text-gray-500">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (activeTab === 'overview') {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Total Employees</p>
+              <p className="text-2xl font-bold text-gray-900">{data?.totalEmployees || 0}</p>
+            </div>
+            <i className="fas fa-users text-3xl text-blue-600"></i>
+          </div>
+        </div>
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Active Jobs</p>
+              <p className="text-2xl font-bold text-gray-900">{data?.activeJobs || 0}</p>
+            </div>
+            <i className="fas fa-briefcase text-3xl text-green-600"></i>
+          </div>
+        </div>
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Pending Interviews</p>
+              <p className="text-2xl font-bold text-gray-900">{data?.pendingInterviews || 0}</p>
+            </div>
+            <i className="fas fa-calendar-check text-3xl text-yellow-600"></i>
+          </div>
+        </div>
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Compliance Score</p>
+              <p className="text-2xl font-bold text-gray-900">{data?.complianceScore || 0}%</p>
+            </div>
+            <i className="fas fa-shield-alt text-3xl text-purple-600"></i>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (activeTab === 'users') {
+    return (
+      <div className="bg-white rounded-lg shadow p-6">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-xl font-bold text-gray-900">Employees</h2>
+          <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+            <i className="fas fa-plus mr-2"></i>Add Employee
+          </button>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Department</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Position</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {data && data.length > 0 ? data.map((emp) => (
+                <tr key={emp.id}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{emp.name}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{emp.email}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{emp.department || 'N/A'}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{emp.position || 'N/A'}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`px-2 py-1 text-xs rounded-full ${emp.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                      {emp.status}
+                    </span>
+                  </td>
+                </tr>
+              )) : (
+                <tr>
+                  <td colSpan="5" className="px-6 py-4 text-center text-gray-500">No employees found</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+
+  if (activeTab === 'jobs') {
+    return (
+      <div className="bg-white rounded-lg shadow p-6">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-xl font-bold text-gray-900">Job Postings</h2>
+          <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+            <i className="fas fa-plus mr-2"></i>Post Job
+          </button>
+        </div>
+        <div className="space-y-4">
+          {data && data.length > 0 ? data.map((job) => (
+            <div key={job.id} className="border border-gray-200 rounded-lg p-4">
+              <div className="flex justify-between items-start">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900">{job.title}</h3>
+                  <p className="text-sm text-gray-600">{job.department} • {job.location}</p>
+                  <p className="text-sm text-gray-500 mt-2">{job.description?.substring(0, 150)}...</p>
+                </div>
+                <span className={`px-3 py-1 text-xs rounded-full ${job.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+                  {job.status}
+                </span>
+              </div>
+            </div>
+          )) : (
+            <p className="text-center text-gray-500 py-8">No job postings found</p>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  if (activeTab === 'candidates') {
+    return (
+      <div className="bg-white rounded-lg shadow p-6">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-xl font-bold text-gray-900">Candidates</h2>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Phone</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Applied</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {data && data.length > 0 ? data.map((candidate) => (
+                <tr key={candidate.id}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{candidate.name}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{candidate.email}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{candidate.phone || 'N/A'}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">{candidate.status}</span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {new Date(candidate.applied_date || candidate.created_at).toLocaleDateString()}
+                  </td>
+                </tr>
+              )) : (
+                <tr>
+                  <td colSpan="5" className="px-6 py-4 text-center text-gray-500">No candidates found</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+
+  if (activeTab === 'onboarding') {
+    return (
+      <div className="bg-white rounded-lg shadow p-6">
+        <h2 className="text-xl font-bold text-gray-900 mb-6">Onboarding</h2>
+        <div className="space-y-4">
+          <div className="border border-gray-200 rounded-lg p-4">
+            <h3 className="font-semibold text-gray-900 mb-2">New Employee Onboarding</h3>
+            <p className="text-sm text-gray-600 mb-4">Guide new employees through the onboarding process</p>
+            <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+              Start Onboarding
+            </button>
+          </div>
+          <div className="border border-gray-200 rounded-lg p-4">
+            <h3 className="font-semibold text-gray-900 mb-2">Onboarding Templates</h3>
+            <p className="text-sm text-gray-600 mb-4">Use pre-built templates for different roles</p>
+            <button className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">
+              View Templates
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+};
+
 const AdminDashboard = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
@@ -169,12 +404,7 @@ const AdminDashboard = () => {
       </div>
 
       <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-lg shadow p-6">
-          <div className="text-center py-12 text-gray-500">
-            <i className="fas fa-cog fa-spin text-4xl mb-4"></i>
-            <p>{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} module coming soon...</p>
-          </div>
-        </div>
+        <AdminDashboardContent activeTab={activeTab} />
       </main>
     </div>
   );

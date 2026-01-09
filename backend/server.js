@@ -627,13 +627,78 @@ app.post('/api/recruitment/interviews', authenticateAdmin, async (req, res) => {
   }
 });
 
-// Banking Endpoints (placeholder)
+// Banking Endpoints
+const bankingAPIService = require('./bankingAPI');
+
 app.get('/api/banking', authenticateAdmin, async (req, res) => {
-  res.json({ success: true, data: [], message: 'Banking module coming soon' });
+  try {
+    const { pool } = require('./database');
+    const result = await pool.query(`
+      SELECT ba.*, e.name as employee_name, e.employee_id, e.department
+      FROM bank_accounts ba
+      LEFT JOIN employees e ON ba.employee_id = e.id
+      ORDER BY ba.created_at DESC
+    `);
+    res.json({ success: true, data: result.rows });
+  } catch (e) {
+    console.error('Banking error:', e);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 app.get('/api/banking/accounts', authenticateAdmin, async (req, res) => {
-  res.json({ success: true, data: [], message: 'Banking accounts module coming soon' });
+  try {
+    const { pool } = require('./database');
+    const { employeeId } = req.query;
+    let query = `
+      SELECT ba.*, e.name as employee_name, e.employee_id
+      FROM bank_accounts ba
+      LEFT JOIN employees e ON ba.employee_id = e.id
+    `;
+    const params = [];
+    
+    if (employeeId) {
+      query += ' WHERE ba.employee_id = $1';
+      params.push(parseInt(employeeId));
+    }
+    
+    query += ' ORDER BY ba.created_at DESC';
+    const result = await pool.query(query, params);
+    res.json({ success: true, data: result.rows });
+  } catch (e) {
+    console.error('Banking accounts error:', e);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.post('/api/banking/verify', authenticateAdmin, async (req, res) => {
+  try {
+    const { accountNumber, bankCode } = req.body;
+    if (!accountNumber || !bankCode) {
+      return res.status(400).json({ error: 'accountNumber and bankCode are required' });
+    }
+    
+    const verification = await bankingAPIService.verifyAccount(accountNumber, bankCode);
+    res.json(verification);
+  } catch (e) {
+    console.error('Bank verification error:', e);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.post('/api/banking/bulk-transfer', authenticateAdmin, async (req, res) => {
+  try {
+    const { transfers } = req.body;
+    if (!transfers || !Array.isArray(transfers)) {
+      return res.status(400).json({ error: 'transfers array is required' });
+    }
+    
+    const result = await bankingAPIService.processBulkTransfer(transfers);
+    res.json(result);
+  } catch (e) {
+    console.error('Bulk transfer error:', e);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 // Compliance Endpoints

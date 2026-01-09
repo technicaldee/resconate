@@ -203,7 +203,7 @@ const HelpCenter = () => {
                 </p>
                 <div className="flex justify-center space-x-4">
                   <a
-                    href="https://wa.me/234XXXXXXXXXX"
+                    href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '234XXXXXXXXXX'}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn-ng-primary px-8 py-4 text-lg font-semibold"

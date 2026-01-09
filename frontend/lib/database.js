@@ -1010,6 +1010,90 @@ const createTables = async () => {
       CREATE INDEX IF NOT EXISTS idx_admins_superadmin ON admins(is_superadmin);
     `);
 
+    // Payment reminders table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS payment_reminders (
+        id SERIAL PRIMARY KEY,
+        subscription_id INTEGER REFERENCES subscriptions(id) ON DELETE CASCADE,
+        invoice_id INTEGER REFERENCES invoices(id) ON DELETE CASCADE,
+        reminder_type VARCHAR(50) NOT NULL,
+        days_before_due INTEGER,
+        status VARCHAR(50) DEFAULT 'pending',
+        sent_at TIMESTAMP,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(subscription_id, invoice_id, reminder_type)
+      );
+    `);
+
+    // Demo requests table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS demo_requests (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(200) NOT NULL,
+        email VARCHAR(100) NOT NULL,
+        phone VARCHAR(20),
+        company VARCHAR(200),
+        employees VARCHAR(50),
+        preferred_date DATE,
+        preferred_time VARCHAR(10),
+        message TEXT,
+        status VARCHAR(50) DEFAULT 'pending',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // Trial subscriptions table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS trial_subscriptions (
+        id SERIAL PRIMARY KEY,
+        email VARCHAR(100) UNIQUE NOT NULL,
+        company_name VARCHAR(200),
+        trial_start_date DATE NOT NULL,
+        trial_end_date DATE NOT NULL,
+        is_active BOOLEAN DEFAULT TRUE,
+        converted_to_paid BOOLEAN DEFAULT FALSE,
+        subscription_id INTEGER REFERENCES subscriptions(id),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // Onboarding progress table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS onboarding_progress (
+        id SERIAL PRIMARY KEY,
+        admin_id INTEGER REFERENCES admins(id) ON DELETE CASCADE,
+        employee_id INTEGER REFERENCES employees(id) ON DELETE CASCADE,
+        step_key VARCHAR(100) NOT NULL,
+        step_name VARCHAR(255) NOT NULL,
+        is_completed BOOLEAN DEFAULT FALSE,
+        completed_at TIMESTAMP,
+        data JSONB DEFAULT '{}',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(COALESCE(admin_id, 0), COALESCE(employee_id, 0), step_key)
+      );
+    `);
+
+    // Compliance calendar events table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS compliance_calendar_events (
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        description TEXT,
+        deadline_date DATE NOT NULL,
+        frequency VARCHAR(50) NOT NULL,
+        priority VARCHAR(50) DEFAULT 'medium',
+        category VARCHAR(50),
+        is_completed BOOLEAN DEFAULT FALSE,
+        completed_at TIMESTAMP,
+        reminder_sent BOOLEAN DEFAULT FALSE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
     // Run migrations
     await runMigrations(client);
 

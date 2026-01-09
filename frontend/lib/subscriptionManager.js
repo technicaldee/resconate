@@ -165,30 +165,57 @@ class SubscriptionManager {
   }
 
   /**
-   * Generate invoice PDF (placeholder - implement PDF generation)
+   * Generate invoice PDF
    */
   async generateInvoicePDF(invoice) {
-    // TODO: Implement PDF generation using pdfkit or similar
-    // For now, return placeholder URL
-    return `/invoices/${invoice.invoice_number}.pdf`;
+    try {
+      const subscription = await pool.query(
+        'SELECT * FROM subscriptions WHERE id = $1',
+        [invoice.subscription_id]
+      );
+      
+      const subscriptionData = subscription.rows[0] || {};
+      const pdfUrl = await pdfGenerator.generateInvoice(invoice, subscriptionData);
+      return pdfUrl;
+    } catch (error) {
+      console.error('Invoice PDF generation error:', error);
+      return `/invoices/${invoice.invoice_number}.pdf`;
+    }
   }
 
   /**
    * Generate receipt PDF
    */
   async generateReceipt(invoiceId) {
-    const invoice = await pool.query('SELECT * FROM invoices WHERE id = $1', [invoiceId]);
-    if (invoice.rows.length === 0) return null;
+    try {
+      const invoiceResult = await pool.query('SELECT * FROM invoices WHERE id = $1', [invoiceId]);
+      if (invoiceResult.rows.length === 0) return null;
 
-    // TODO: Implement PDF generation
-    const receiptUrl = `/receipts/${invoice.rows[0].invoice_number}.pdf`;
-    
-    await pool.query(
-      `UPDATE invoices SET receipt_pdf_url = $1 WHERE id = $2`,
-      [receiptUrl, invoiceId]
-    );
+      const invoice = invoiceResult.rows[0];
+      const subscription = await pool.query(
+        'SELECT * FROM subscriptions WHERE id = $1',
+        [invoice.subscription_id]
+      );
+      
+      const subscriptionData = subscription.rows[0] || {};
+      const paymentResult = await pool.query(
+        'SELECT * FROM payment_transactions WHERE reference = $1',
+        [invoice.payment_reference]
+      );
+      const paymentData = paymentResult.rows[0] || {};
 
-    return receiptUrl;
+      const receiptUrl = await pdfGenerator.generateReceipt(invoice, subscriptionData, paymentData);
+      
+      await pool.query(
+        `UPDATE invoices SET receipt_pdf_url = $1 WHERE id = $2`,
+        [receiptUrl, invoiceId]
+      );
+
+      return receiptUrl;
+    } catch (error) {
+      console.error('Receipt generation error:', error);
+      return `/receipts/${invoiceId}.pdf`;
+    }
   }
 
   /**

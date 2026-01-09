@@ -63,7 +63,7 @@ class FileUploadService {
   }
 
   /**
-   * Upload file (local storage)
+   * Upload file (supports local, S3, or Cloudinary)
    */
   async uploadFile(file, options = {}) {
     const { employeeId, documentType = 'general', uploadedBy } = options;
@@ -75,20 +75,41 @@ class FileUploadService {
     }
 
     try {
-      // Generate unique filename
-      const ext = path.extname(file.originalname);
-      const filename = `${Date.now()}_${Math.random().toString(36).substring(7)}${ext}`;
-      
-      // Determine subdirectory based on document type
-      let subdir = 'documents';
-      if (documentType === 'resume') subdir = 'resumes';
-      if (documentType === 'photo') subdir = 'photos';
+      let uploadResult;
+      let fileUrl;
+      let filePath;
 
-      const filePath = path.join(this.uploadDir, subdir, filename);
-      const relativePath = path.join(subdir, filename);
+      // Upload based on storage type
+      if (this.storageType === 's3') {
+        uploadResult = await this.uploadToS3(file, options);
+        if (!uploadResult.success) {
+          return uploadResult;
+        }
+        fileUrl = uploadResult.url;
+        filePath = uploadResult.key;
+      } else if (this.storageType === 'cloudinary') {
+        uploadResult = await this.uploadToCloudinary(file, options);
+        if (!uploadResult.success) {
+          return uploadResult;
+        }
+        fileUrl = uploadResult.url;
+        filePath = uploadResult.public_id;
+      } else {
+        // Local storage
+        const ext = path.extname(file.originalname);
+        const filename = `${Date.now()}_${Math.random().toString(36).substring(7)}${ext}`;
+        
+        let subdir = 'documents';
+        if (documentType === 'resume') subdir = 'resumes';
+        if (documentType === 'photo') subdir = 'photos';
 
-      // Save file
-      await fs.writeFile(filePath, file.buffer);
+        const filePathLocal = path.join(this.uploadDir, subdir, filename);
+        const relativePath = path.join(subdir, filename);
+
+        await fs.writeFile(filePathLocal, file.buffer);
+        fileUrl = `/uploads/${relativePath}`;
+        filePath = relativePath;
+      }
 
       // Save to database
       const result = await pool.query(
@@ -100,7 +121,7 @@ class FileUploadService {
           employeeId,
           documentType,
           file.originalname,
-          relativePath,
+          filePath,
           file.size,
           file.mimetype,
           uploadedBy
@@ -110,7 +131,7 @@ class FileUploadService {
       return {
         success: true,
         document: result.rows[0],
-        url: `/uploads/${relativePath}`
+        url: fileUrl
       };
     } catch (error) {
       console.error('File upload error:', error);
@@ -122,24 +143,88 @@ class FileUploadService {
    * Upload to cloud storage (AWS S3)
    */
   async uploadToS3(file, options = {}) {
-    // AWS S3 integration would go here
-    // const AWS = require('aws-sdk');
-    // const s3 = new AWS.S3();
-    // const uploadParams = { Bucket: process.env.S3_BUCKET, Key: key, Body: file.buffer };
-    // const result = await s3.upload(uploadParams).promise();
-    console.log('S3 upload not implemented');
-    return { success: false, error: 'S3 upload not configured' };
+    try {
+      if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY || !process.env.S3_BUCKET) {
+        return { success: false, error: 'S3 credentials not configured' };
+      }
+
+      // Use AWS SDK v3 (modular)
+      const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
+      
+      const s3Client = new S3Client({
+        region: process.env.AWS_REGION || 'us-east-1',
+        credentials: {
+          accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+        }
+      });
+
+      const ext = path.extname(file.originalname);
+      const filename = `${Date.now()}_${Math.random().toString(36).substring(7)}${ext}`;
+      const key = `${options.documentType || 'documents'}/${filename}`;
+
+      const command = new PutObjectCommand({
+        Bucket: process.env.S3_BUCKET,
+        Key: key,
+        Body: file.buffer,
+        ContentType: file.mimetype,
+        ACL: 'private'
+      });
+
+      await s3Client.send(command);
+
+      const fileUrl = `https://${process.env.S3_BUCKET}.s3.${process.env.AWS_REGION || 'us-east-1'}.amazonaws.com/${key}`;
+
+      return {
+        success: true,
+        url: fileUrl,
+        key: key,
+        filename: filename
+      };
+    } catch (error) {
+      console.error('S3 upload error:', error);
+      return { success: false, error: error.message };
+    }
   }
 
   /**
    * Upload to Cloudinary
    */
   async uploadToCloudinary(file, options = {}) {
-    // Cloudinary integration would go here
-    // const cloudinary = require('cloudinary').v2;
-    // const result = await cloudinary.uploader.upload(file.path);
-    console.log('Cloudinary upload not implemented');
-    return { success: false, error: 'Cloudinary upload not configured' };
+    try {
+      if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
+        return { success: false, error: 'Cloudinary credentials not configured' };
+      }
+
+      const cloudinary = require('cloudinary').v2;
+      
+      cloudinary.config({
+        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+        api_key: process.env.CLOUDINARY_API_KEY,
+        api_secret: process.env.CLOUDINARY_API_SECRET
+      });
+
+      // Convert buffer to base64 for Cloudinary
+      const base64Data = file.buffer.toString('base64');
+      const dataUri = `data:${file.mimetype};base64,${base64Data}`;
+
+      const result = await cloudinary.uploader.upload(dataUri, {
+        folder: options.documentType || 'documents',
+        resource_type: 'auto',
+        use_filename: true,
+        unique_filename: true
+      });
+
+      return {
+        success: true,
+        url: result.secure_url,
+        public_id: result.public_id,
+        filename: result.original_filename
+      };
+    } catch (error) {
+      console.error('Cloudinary upload error:', error);
+      return { success: false, error: error.message };
+    }
   }
 
   /**
