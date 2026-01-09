@@ -773,14 +773,21 @@ app.get('*', (req, res, next) => {
   }
 });
 
-const server = app.listen(PORT, () => console.log(`API running on ${PORT}. Docs at /api-docs`));
+const server = process.env.NODE_ENV !== 'production' || require.main === module ? app.listen(PORT, () => console.log(`API running on ${PORT}. Docs at /api-docs`)) : null;
+
 // Graceful shutdown
 const shutdown = () => {
-  server.close(() => {
+  if (server) {
+    server.close(() => {
+      pool.end().finally(() => process.exit(0));
+    });
+  } else {
     pool.end().finally(() => process.exit(0));
-  });
+  }
 };
 process.on('SIGINT', shutdown);
 process.on('SIGTERM', shutdown);
+
+module.exports = app;
 
 
