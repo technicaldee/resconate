@@ -6082,3 +6082,25 @@ select.error {
   font-size: var(--text-sm);
   line-height: 1.6;
 }
+
+/* Card Heading Fixes */
+.service-title,
+.service-card h3,
+.card-ng h2,
+.card-ng h3,
+.card h2,
+.card h3 {
+  font-size: var(--text-xl) !important;
+  line-height: 1.3;
+}
+
+@media (min-width: 1024px) {
+  .service-title,
+  .service-card h3,
+  .card-ng h2,
+  .card-ng h3,
+  .card h2,
+  .card h3 {
+    font-size: var(--text-2xl) !important;
+  }
+}
