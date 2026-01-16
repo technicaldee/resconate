@@ -81,7 +81,7 @@ const Contact = () => {
         {/* Contact Form & Info Section */}
         <section className="contact-content-section section-shell py-20 px-4 md:px-8">
           <div className="container mx-auto max-w-6xl">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div className="grid grid-cols-1 gap-12">
               {/* Contact Form */}
               <div className="contact-form-wrapper" data-animate="fade-up">
                 <h2 className="contact-section-title">Schedule Your Call</h2>
@@ -97,38 +97,40 @@ const Contact = () => {
                 )}
 
                 <form onSubmit={handleSubmit} className="contact-form">
-                  <div className="form-field">
-                    <label htmlFor="name" className="form-label">
-                      <i className="fas fa-user"></i>
-                      Full Name *
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      className="form-input"
-                      placeholder="John Doe"
-                    />
-                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="form-field">
+                      <label htmlFor="name" className="form-label">
+                        <i className="fas fa-user"></i>
+                        Full Name *
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        required
+                        className="form-input"
+                        placeholder="John Doe"
+                      />
+                    </div>
 
-                  <div className="form-field">
-                    <label htmlFor="email" className="form-label">
-                      <i className="fas fa-envelope"></i>
-                      Email Address *
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      className="form-input"
-                      placeholder="john@company.com"
-                    />
+                    <div className="form-field">
+                      <label htmlFor="email" className="form-label">
+                        <i className="fas fa-envelope"></i>
+                        Email Address *
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        className="form-input"
+                        placeholder="john@company.com"
+                      />
+                    </div>
                   </div>
 
                   <div className="form-field">

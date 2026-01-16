@@ -5847,6 +5847,14 @@ select.error {
   margin-bottom: 2rem;
 }
 
+@media (min-width: 1024px) {
+  .contact-info-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+}
+
 .contact-info-card {
   display: flex;
   gap: 1.5rem;
