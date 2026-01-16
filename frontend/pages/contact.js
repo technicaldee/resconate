@@ -9,6 +9,7 @@ const Contact = () => {
     email: '',
     phone: '',
     company: '',
+    serviceType: '',
     message: ''
   });
   const [submitted, setSubmitted] = useState(false);
@@ -48,7 +49,7 @@ const Contact = () => {
     setSubmitted(true);
     setTimeout(() => {
       setSubmitted(false);
-      setFormData({ name: '', email: '', phone: '', company: '', message: '' });
+      setFormData({ name: '', email: '', phone: '', company: '', serviceType: '', message: '' });
     }, 3000);
   };
 
@@ -70,7 +71,7 @@ const Contact = () => {
               <span className="section-eyebrow">Get In Touch</span>
               <h1 className="contact-title">Book a Delivery Call</h1>
               <p className="section-lead max-w-3xl mx-auto">
-                Let's discuss how Resconate can help transform your HR operations and digital products. 
+                Let's discuss how Resconate can help transform your HR operations and digital products.
                 Schedule a call with our team to explore solutions tailored to your needs.
               </p>
             </div>
@@ -87,7 +88,7 @@ const Contact = () => {
                 <p className="contact-section-lead mb-8">
                   Fill out the form below and we'll get back to you within one business day to schedule your delivery call.
                 </p>
-                
+
                 {submitted && (
                   <div className="contact-success-message">
                     <i className="fas fa-check-circle"></i>
@@ -163,21 +164,48 @@ const Contact = () => {
                   </div>
 
                   <div className="form-field">
-                    <label htmlFor="message" className="form-label">
-                      <i className="fas fa-comment"></i>
+                    <label htmlFor="serviceType" className="form-label">
+                      <i className="fas fa-list"></i>
                       How can we help? *
                     </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                      className="form-textarea"
-                      rows="5"
-                      placeholder="Tell us about your HR needs or digital product requirements..."
-                    ></textarea>
+                    <div className="select-wrapper">
+                      <select
+                        id="serviceType"
+                        name="serviceType"
+                        value={formData.serviceType}
+                        onChange={handleChange}
+                        required
+                        className="form-input form-select"
+                      >
+                        <option value="">Select a service...</option>
+                        <option value="Social Media Management">Social Media Management</option>
+                        <option value="HR Operations">HR Operations</option>
+                        <option value="Digital Products">Digital Products</option>
+                        <option value="Web Development">Web Development</option>
+                        <option value="Other">Other</option>
+                      </select>
+                      <i className="fas fa-chevron-down select-arrow"></i>
+                    </div>
                   </div>
+
+                  {formData.serviceType && (
+                    <div className="form-field" data-animate="fade-up">
+                      <label htmlFor="message" className="form-label">
+                        <i className="fas fa-comment"></i>
+                        Further Details *
+                      </label>
+                      <textarea
+                        id="message"
+                        name="message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        required
+                        className="form-textarea"
+                        rows="5"
+                        placeholder="Please provide more details about your request..."
+                      ></textarea>
+                    </div>
+                  )}
 
                   <button type="submit" className="contact-submit-btn">
                     <span>Request Delivery Call</span>
@@ -229,9 +257,9 @@ const Contact = () => {
                     <div className="contact-info-content">
                       <h3 className="contact-info-title">WhatsApp</h3>
                       <p className="contact-info-text">Start a quick chat</p>
-                      <a 
-                        href="https://wa.me/2348066023759" 
-                        target="_blank" 
+                      <a
+                        href="https://wa.me/2348066023759"
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="contact-info-link"
                       >
@@ -261,36 +289,36 @@ const Contact = () => {
                 <div className="contact-social-section">
                   <h3 className="contact-social-title">Follow Us</h3>
                   <div className="contact-social-links">
-                    <a 
-                      href="https://www.linkedin.com/in/res-conate-ab643137b/" 
-                      target="_blank" 
+                    <a
+                      href="https://www.linkedin.com/in/res-conate-ab643137b/"
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="contact-social-link"
                       aria-label="LinkedIn"
                     >
                       <i className="fab fa-linkedin-in"></i>
                     </a>
-                    <a 
-                      href="https://x.com/ResconateHR" 
-                      target="_blank" 
+                    <a
+                      href="https://x.com/ResconateHR"
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="contact-social-link"
                       aria-label="X (Twitter)"
                     >
                       <i className="fab fa-x-twitter"></i>
                     </a>
-                    <a 
-                      href="https://www.instagram.com/resconate" 
-                      target="_blank" 
+                    <a
+                      href="https://www.instagram.com/resconate"
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="contact-social-link"
                       aria-label="Instagram"
                     >
                       <i className="fab fa-instagram"></i>
                     </a>
-                    <a 
-                      href="https://www.facebook.com/resconate" 
-                      target="_blank" 
+                    <a
+                      href="https://www.facebook.com/resconate"
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="contact-social-link"
                       aria-label="Facebook"
