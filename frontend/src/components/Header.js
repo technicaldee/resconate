@@ -75,7 +75,7 @@ const Header = () => {
             <ul className="header__nav-list">
               <li><Link href="/services" className="header__nav-link">Services</Link></li>
               <li><Link href="/team" className="header__nav-link">Team</Link></li>
-              <li><Link href="/d2e" className="header__nav-link flex items-center gap-1">Marketplace <span className="text-xs bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded-full font-bold">New</span></Link></li>
+              <li><Link href="/d2e" className="header__nav-link flex items-center gap-1">Do To Earn <span className="text-xs bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded-full font-bold">New</span></Link></li>
             </ul>
           </nav>
           <div className="header__actions">
@@ -107,7 +107,7 @@ const Header = () => {
               <ul className="mobile-menu__nav-list">
                 <li><Link href="/services" className="mobile-menu__nav-link" onClick={closeMobileMenu}>Services</Link></li>
                 <li><Link href="/team" className="mobile-menu__nav-link" onClick={closeMobileMenu}>Team</Link></li>
-                <li><Link href="/d2e" className="mobile-menu__nav-link" onClick={closeMobileMenu}>Marketplace</Link></li>
+                <li><Link href="/d2e" className="mobile-menu__nav-link" onClick={closeMobileMenu}>Do To Earn</Link></li>
               </ul>
             </nav>
             <div className="mobile-menu__actions">

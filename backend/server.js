@@ -1,9 +1,11 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
 const rateLimit = require('express-rate-limit');
-const dotenv = require('dotenv');
 const path = require('path');
 const multer = require('multer');
 const fs = require('fs');
@@ -14,13 +16,11 @@ const { pool, initializeDatabase } = require('./database');
 const {
   authenticateAdmin, loginAdmin, getMe, forgotPassword,
   authenticateEmployee, loginEmployee, getEmployeeMe,
-  registerPublicEarner, loginPublicEarner
+  registerPublicEarner, loginPublicEarner, getEarnerMe, authenticateEarner
 } = require('./auth');
 const { validateJob, createValidationMiddleware } = require('./validation');
 const marketplaceRoutes = require('./routes/marketplace');
 const walletRoutes = require('./routes/wallet');
-
-dotenv.config();
 
 const app = express();
 app.set('trust proxy', 1);
@@ -180,6 +180,51 @@ app.get('/api/employee/me', getEmployeeMe);
 // D2E Earner Auth
 app.post('/api/d2e/register', registerPublicEarner);
 app.post('/api/d2e/login', loginPublicEarner);
+app.get('/api/d2e/me', authenticateEarner, getEarnerMe);
+
+// Earner Dashboard stats
+app.get('/api/d2e/stats', authenticateEarner, async (req, res) => {
+  try {
+    const { PrismaClient } = require('@prisma/client');
+    const prisma = new PrismaClient();
+
+    const wallet = await prisma.wallets.findFirst({
+      where: { owner_id: req.earner.id, owner_type: 'PUBLIC_EARNER' }
+    });
+
+    const claims = await prisma.task_claims.findMany({
+      where: { earner_id: req.earner.id },
+      include: { task: true },
+      orderBy: { created_at: 'desc' }
+    });
+
+    const inReview = claims.filter(c => c.status === 'SUBMITTED').length;
+    const completed = claims.filter(c => c.status === 'APPROVED').length;
+
+    res.json({
+      success: true,
+      data: {
+        wallet: wallet || { available_balance: 0, pending_balance: 0 },
+        stats: {
+          inReview,
+          completed,
+          totalEarned: 0 // Mocked for now
+        },
+        claims: claims.slice(0, 10).map(c => ({
+          id: c.id,
+          task_title: c.task.title,
+          status: c.status,
+          amount: c.task.pay_per_slot,
+          submitted_at: c.submitted_at,
+          created_at: c.created_at
+        }))
+      }
+    });
+  } catch (e) {
+    console.error('Stats error:', e);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 /**
  * @openapi
@@ -801,6 +846,55 @@ const shutdown = () => {
 };
 process.on('SIGINT', shutdown);
 process.on('SIGTERM', shutdown);
+
+// Poster Dashboard stats
+app.get('/api/d2e/poster/stats', authenticateEarner, async (req, res) => {
+  try {
+    const { PrismaClient } = require('@prisma/client');
+    const prisma = new PrismaClient();
+
+    // For now, let's assume the current authenticated user (earner) can also be a poster
+    // In a more complex app, we might check roles
+
+    const wallet = await prisma.wallets.findFirst({
+      where: { owner_id: req.earner.id, owner_type: 'PUBLIC_EARNER' }
+    });
+
+    const activeTasks = await prisma.tasks.findMany({
+      where: { poster_id: req.earner.id, status: 'ACTIVE' },
+      include: {
+        _count: { select: { claims: true } }
+      }
+    });
+
+    const pendingReview = await prisma.task_claims.count({
+      where: {
+        task: { poster_id: req.earner.id },
+        status: 'SUBMITTED'
+      }
+    });
+
+    res.json({
+      success: true,
+      data: {
+        wallet: wallet || { available_balance: 0, pending_balance: 0 },
+        activeTasks: activeTasks.length,
+        pendingReview,
+        recentTasks: activeTasks.slice(0, 5).map(t => ({
+          id: t.id,
+          title: t.title,
+          status: t.status,
+          filled: t._count.claims,
+          total: t.total_slots,
+          budget: t.pay_per_slot * t.total_slots
+        }))
+      }
+    });
+  } catch (e) {
+    console.error('Poster stats error:', e);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 module.exports = app;
 

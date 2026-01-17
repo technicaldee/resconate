@@ -36,6 +36,13 @@ module.exports = {
           indigo: '#6366f1',
           pink: '#ec4899',
         },
+        d2e: {
+          primary: "#13ec5b",
+          "bg-light": "#f6f8f6",
+          "bg-dark": "#102216",
+          "surface-dark": "#193322",
+          "accent-dark": "#23482f",
+        },
       },
       backgroundImage: {
         'brand-gradient': 'linear-gradient(135deg, #6366F1 0%, #EC4899 100%)',

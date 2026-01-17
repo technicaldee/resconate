@@ -233,6 +233,24 @@ const loginPublicEarner = async (req, res) => {
   }
 };
 
+const getEarnerMe = async (req, res) => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1] || req.session?.earnerToken;
+    if (!token) return res.status(401).json({ error: 'No token provided' });
+    const decoded = jwt.verify(token, JWT_SECRET);
+
+    const earner = await prisma.public_earners.findUnique({
+      where: { id: decoded.earnerId },
+      select: { id: true, full_name: true, email: true, phone: true, is_verified: true, created_at: true }
+    });
+
+    if (!earner) return res.status(401).json({ error: 'Invalid token' });
+    res.json({ success: true, earner });
+  } catch (e) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+};
+
 module.exports = {
   authenticateAdmin,
   loginAdmin,
@@ -243,7 +261,8 @@ module.exports = {
   getEmployeeMe,
   authenticateEarner,
   registerPublicEarner,
-  loginPublicEarner
+  loginPublicEarner,
+  getEarnerMe
 };
 
 

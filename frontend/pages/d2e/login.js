@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import Header from '../../src/components/Header';
-import Footer from '../../src/components/Footer';
 import { useRouter } from 'next/router';
 import { setEarnerToken } from '../../src/utils/api';
 
@@ -44,72 +42,93 @@ export default function EarnerLogin() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col font-sans text-gray-900">
+        <div className="min-h-screen bg-d2e-bg-light dark:bg-d2e-bg-dark font-display flex flex-col items-center justify-center p-4">
             <Head>
-                <title>Earner Login | Resconate D2E</title>
+                <title>Earner Login - D2E</title>
             </Head>
-            <Header />
 
-            <main className="flex-grow flex items-center justify-center py-20 px-4">
-                <div className="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
-                    <div className="bg-indigo-900 p-6 text-center">
-                        <h1 className="text-2xl font-bold text-white mb-2">Welcome Back 👋</h1>
-                        <p className="text-indigo-200 text-sm">Log in to your earner account.</p>
+            <div className="max-w-md w-full">
+                <div className="mb-10 text-center">
+                    <div className="h-16 w-16 bg-d2e-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-d2e-primary/20 shadow-inner">
+                        <span className="material-symbols-outlined !text-4xl text-d2e-primary">login</span>
                     </div>
+                    <h1 className="text-3xl font-black text-slate-900 dark:text-white mb-2">Welcome Back</h1>
+                    <p className="text-slate-500 dark:text-gray-400">Sign in to continue your earning journey.</p>
+                </div>
 
-                    <div className="p-8">
-                        {error && (
-                            <div className="mb-6 p-3 bg-red-50 border border-red-100 text-red-600 text-sm rounded-lg text-center font-medium">
-                                {error}
-                            </div>
-                        )}
+                <div className="bg-white dark:bg-[#1a2e1e] p-8 rounded-[2rem] border border-slate-200 dark:border-gray-800 shadow-xl relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-full h-1 bg-d2e-primary"></div>
 
-                        <form onSubmit={handleLogin} className="space-y-6">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Email or Phone</label>
+                    {error && (
+                        <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 text-red-500 text-sm rounded-xl text-center font-bold">
+                            {error}
+                        </div>
+                    )}
+
+                    <form onSubmit={handleLogin} className="space-y-6">
+                        <div>
+                            <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Email or Phone</label>
+                            <div className="relative">
+                                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">alternate_email</span>
                                 <input
                                     name="username"
                                     type="text"
                                     required
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                    className="w-full bg-slate-50 dark:bg-d2e-bg-dark border border-slate-200 dark:border-gray-800 rounded-xl h-14 pl-12 pr-6 text-base focus:ring-2 focus:ring-d2e-primary focus:border-transparent outline-none transition-all dark:text-white"
                                     placeholder="name@example.com"
                                     value={formData.username}
                                     onChange={handleChange}
                                 />
                             </div>
-                            <div>
-                                <div className="flex justify-between items-center mb-1">
-                                    <label className="block text-sm font-medium text-gray-700">Password</label>
-                                    <Link href="#" className="text-xs text-indigo-600 hover:underline">Forgot password?</Link>
-                                </div>
+                        </div>
+
+                        <div>
+                            <div className="flex justify-between items-center mb-2 ml-1">
+                                <label className="block text-xs font-bold uppercase tracking-widest text-slate-400">Password</label>
+                                <Link href="#" className="text-xs text-d2e-primary font-bold hover:underline">Forgot?</Link>
+                            </div>
+                            <div className="relative">
+                                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">lock</span>
                                 <input
                                     name="password"
                                     type="password"
                                     required
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                    className="w-full bg-slate-50 dark:bg-d2e-bg-dark border border-slate-200 dark:border-gray-800 rounded-xl h-14 pl-12 pr-6 text-base focus:ring-2 focus:ring-d2e-primary focus:border-transparent outline-none transition-all dark:text-white"
                                     placeholder="••••••••"
                                     value={formData.password}
                                     onChange={handleChange}
                                 />
                             </div>
+                        </div>
 
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg shadow-md hover:shadow-lg transition-all flex justify-center items-center"
-                            >
-                                {loading ? 'Logging in...' : 'Sign In'}
-                            </button>
-
-                            <p className="text-center text-sm text-gray-600">
-                                Don't have an account? <Link href="/d2e/register" className="text-indigo-600 font-semibold hover:underline">Register here</Link>
-                            </p>
-                        </form>
-                    </div>
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="w-full h-14 bg-d2e-primary hover:bg-d2e-primary/90 text-d2e-bg-dark font-black rounded-xl shadow-lg shadow-d2e-primary/20 transition-all active:scale-[0.98] flex justify-center items-center gap-2"
+                        >
+                            {loading ? (
+                                <div className="animate-spin rounded-full h-5 w-5 border-2 border-d2e-bg-dark border-t-transparent"></div>
+                            ) : (
+                                <>
+                                    <span>Sign In</span>
+                                    <span className="material-symbols-outlined">arrow_forward</span>
+                                </>
+                            )}
+                        </button>
+                    </form>
                 </div>
-            </main>
 
-            <Footer />
+                <p className="mt-8 text-center text-sm text-slate-600 dark:text-gray-400">
+                    Don't have an account? <Link href="/d2e/register" className="text-d2e-primary font-bold hover:underline">Register now</Link>
+                </p>
+
+                <div className="mt-12 flex justify-center">
+                    <Link href="/" className="text-slate-400 dark:text-gray-600 text-xs flex items-center gap-1 hover:text-d2e-primary transition-colors">
+                        <span className="material-symbols-outlined text-sm">home</span>
+                        <span>Back to main site</span>
+                    </Link>
+                </div>
+            </div>
         </div>
     );
 }
