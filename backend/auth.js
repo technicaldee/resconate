@@ -48,7 +48,7 @@ const getMe = async (req, res) => {
 const forgotPassword = async (req, res) => {
   const { username } = req.body;
   if (!username) return res.status(400).json({ error: 'Username required' });
-  
+
   try {
     const result = await pool.query('SELECT id, email FROM admins WHERE username=$1 OR email=$1', [username]);
     // For security, always return success even if user doesn't exist
@@ -81,7 +81,7 @@ const authenticateEmployee = async (req, res, next) => {
 const loginEmployee = async (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) return res.status(400).json({ error: 'Username and password required' });
-  
+
   try {
     const result = await pool.query(
       'SELECT id, employee_id, name, email, password_hash, department, position FROM employees WHERE employee_id=$1 OR email=$1',
@@ -89,18 +89,18 @@ const loginEmployee = async (req, res) => {
     );
     if (result.rows.length === 0) return res.status(401).json({ error: 'Invalid credentials' });
     const employee = result.rows[0];
-    
+
     if (!employee.password_hash) {
       return res.status(401).json({ error: 'Account not set up. Please contact HR.' });
     }
-    
+
     const ok = await bcrypt.compare(password, employee.password_hash);
     if (!ok) return res.status(401).json({ error: 'Invalid credentials' });
-    
+
     const token = jwt.sign({ employeeId: employee.id, employeeIdStr: employee.employee_id }, JWT_SECRET, { expiresIn: '24h' });
     req.session.employeeToken = token;
     req.session.employeeId = employee.id;
-    
+
     res.json({
       success: true,
       token,
@@ -135,6 +135,104 @@ const getEmployeeMe = async (req, res) => {
   }
 };
 
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+
+// Earner authentication
+const authenticateEarner = async (req, res, next) => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1] || req.session?.earnerToken;
+    if (!token) return res.status(401).json({ error: 'No token provided' });
+    const decoded = jwt.verify(token, JWT_SECRET);
+
+    // Check public_earners first
+    let earner = await prisma.public_earners.findUnique({
+      where: { id: decoded.earnerId }
+    });
+
+    if (!earner) {
+      // Check if it's an employee logged in as earner
+      const employee = await prisma.employees.findUnique({
+        where: { id: decoded.earnerId }
+      });
+      if (employee && employee.is_earner) {
+        earner = employee;
+      }
+    }
+
+    if (!earner) return res.status(401).json({ error: 'Invalid token' });
+    req.earner = earner;
+    next();
+  } catch (e) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+};
+
+const registerPublicEarner = async (req, res) => {
+  const { full_name, email, phone, password } = req.body;
+  if (!full_name || !email || !phone || !password) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
+
+  try {
+    const existing = await prisma.public_earners.findFirst({
+      where: { OR: [{ email }, { phone }] }
+    });
+    if (existing) return res.status(400).json({ error: 'Email or phone already registered' });
+
+    const password_hash = await bcrypt.hash(password, 10);
+    const earner = await prisma.public_earners.create({
+      data: {
+        full_name,
+        email,
+        phone,
+        password_hash,
+        is_verified: false // Requires NIN verification later
+      }
+    });
+
+    // Automatically create wallet
+    await prisma.wallets.create({
+      data: {
+        owner_id: earner.id,
+        owner_type: 'PUBLIC_EARNER',
+        available_balance: 0,
+        pending_balance: 0
+      }
+    });
+
+    const token = jwt.sign({ earnerId: earner.id, type: 'public' }, JWT_SECRET, { expiresIn: '7d' });
+    res.json({ success: true, token, earner: { id: earner.id, full_name, email } });
+  } catch (e) {
+    console.error('Earner registration error:', e);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+const loginPublicEarner = async (req, res) => {
+  const { username, password } = req.body; // username can be email or phone
+  if (!username || !password) return res.status(400).json({ error: 'Username and password required' });
+
+  try {
+    const earner = await prisma.public_earners.findFirst({
+      where: { OR: [{ email: username }, { phone: username }] }
+    });
+
+    if (!earner) return res.status(401).json({ error: 'Invalid credentials' });
+    const ok = await bcrypt.compare(password, earner.password_hash);
+    if (!ok) return res.status(401).json({ error: 'Invalid credentials' });
+
+    const token = jwt.sign({ earnerId: earner.id, type: 'public' }, JWT_SECRET, { expiresIn: '7d' });
+    res.json({
+      success: true,
+      token,
+      earner: { id: earner.id, full_name: earner.full_name, email: earner.email, is_verified: earner.is_verified }
+    });
+  } catch (e) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 module.exports = {
   authenticateAdmin,
   loginAdmin,
@@ -142,7 +240,10 @@ module.exports = {
   forgotPassword,
   authenticateEmployee,
   loginEmployee,
-  getEmployeeMe
+  getEmployeeMe,
+  authenticateEarner,
+  registerPublicEarner,
+  loginPublicEarner
 };
 
 

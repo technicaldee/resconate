@@ -13,6 +13,10 @@ export const getEmployeeToken = () => {
   return localStorage.getItem('employeeToken') || sessionStorage.getItem('employeeToken');
 };
 
+export const getEarnerToken = () => {
+  return localStorage.getItem('earnerToken') || sessionStorage.getItem('earnerToken');
+};
+
 export const setToken = (token, remember = false) => {
   if (remember) {
     localStorage.setItem('authToken', token);
@@ -29,6 +33,14 @@ export const setEmployeeToken = (token, remember = false) => {
   }
 };
 
+export const setEarnerToken = (token, remember = false) => {
+  if (remember) {
+    localStorage.setItem('earnerToken', token);
+  } else {
+    sessionStorage.setItem('earnerToken', token);
+  }
+};
+
 export const clearTokens = () => {
   localStorage.removeItem('authToken');
   localStorage.removeItem('employeeToken');
@@ -38,12 +50,12 @@ export const clearTokens = () => {
 
 // API fetch with authentication
 export const apiFetch = async (endpoint, options = {}) => {
-  const token = getToken() || getEmployeeToken();
+  const token = getToken() || getEmployeeToken() || getEarnerToken();
   const headers = {
     'Content-Type': 'application/json',
     ...options.headers,
   };
-  
+
   if (token) {
     headers['Authorization'] = `Bearer ${token}`;
   }
@@ -86,4 +98,26 @@ export const fetchTestimonials = async () => {
     return [];
   }
 };
+// Marketplace API
+export const fetchMarketplaceTasks = async (filters = {}) => {
+  const params = new URLSearchParams();
+  if (filters.skills) params.append('skills', filters.skills);
+  if (filters.minPay) params.append('minPay', filters.minPay);
+  if (filters.type) params.append('type', filters.type);
 
+  const response = await apiFetch(`/api/marketplace/tasks?${params.toString()}`);
+  return await response.json();
+};
+
+export const fetchTaskById = async (id) => {
+  const response = await apiFetch(`/api/marketplace/tasks/${id}`);
+  return await response.json();
+};
+
+export const claimTask = async (taskId, earnerId) => {
+  const response = await apiFetch(`/api/marketplace/tasks/${taskId}/claim`, {
+    method: 'POST',
+    body: JSON.stringify({ earnerId })
+  });
+  return await response.json();
+};

@@ -1,0 +1,621 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model admins {
+  id                                                                     Int                         @id @default(autoincrement())
+  username                                                               String                      @unique @db.VarChar(50)
+  email                                                                  String                      @unique @db.VarChar(100)
+  password_hash                                                          String                      @db.VarChar(255)
+  role                                                                   String?                     @default("admin") @db.VarChar(20)
+  created_at                                                             DateTime?                   @default(now()) @db.Timestamp(6)
+  updated_at                                                             DateTime?                   @default(now()) @db.Timestamp(6)
+  is_superadmin                                                          Boolean?                    @default(false)
+  admin_dashboard_access_admin_dashboard_access_admin_idToadmins         admin_dashboard_access[]    @relation("admin_dashboard_access_admin_idToadmins")
+  admin_dashboard_access_admin_dashboard_access_granted_byToadmins       admin_dashboard_access[]    @relation("admin_dashboard_access_granted_byToadmins")
+  admin_dashboards                                                       admin_dashboards[]
+  admin_feature_permissions_admin_feature_permissions_admin_idToadmins   admin_feature_permissions[] @relation("admin_feature_permissions_admin_idToadmins")
+  admin_feature_permissions_admin_feature_permissions_granted_byToadmins admin_feature_permissions[] @relation("admin_feature_permissions_granted_byToadmins")
+  bulk_payment_batches                                                   bulk_payment_batches[]
+  compliance_calculations                                                compliance_calculations[]
+  documents                                                              documents[]
+  interviews                                                             interviews[]                @relation("Interviewer")
+  leave_approvals                                                        leave_requests[]            @relation("Approver")
+  reviews_given                                                          performance_reviews[]       @relation("Reviewer")
+
+  @@index([is_superadmin], map: "idx_admins_superadmin")
+}
+
+model employees {
+  id                   Int                    @id @default(autoincrement())
+  employee_id          String                 @unique @db.VarChar(50)
+  name                 String                 @db.VarChar(200)
+  email                String                 @unique @db.VarChar(100)
+  password_hash        String?                @db.VarChar(255)
+  department           String?                @db.VarChar(100)
+  position             String?                @db.VarChar(100)
+  salary               Decimal?               @db.Decimal(12, 2)
+  phone                String?                @db.VarChar(20)
+  address              String?
+  emergency_contact    Json?
+  start_date           DateTime?              @db.Date
+  status               String?                @default("active") @db.VarChar(20)
+  is_earner            Boolean                @default(false)
+  benefits             Json?                  @default("[]")
+  created_at           DateTime?              @default(now()) @db.Timestamp(6)
+  updated_at           DateTime?              @default(now()) @db.Timestamp(6)
+  bank_accounts        bank_accounts[]
+  compliance_records   compliance_records[]
+  documents            documents[]
+  leave_requests       leave_requests[]
+  payment_transactions payment_transactions[]
+  payroll_records      payroll[]
+  performance_reviews  performance_reviews[]  @relation("Reviewee")
+  referrals            referrals[]
+}
+
+model jobs {
+  id              Int          @id @default(autoincrement())
+  title           String       @db.VarChar(200)
+  department      String       @db.VarChar(100)
+  location        String       @db.VarChar(100)
+  employment_type String?      @db.VarChar(50)
+  description     String?
+  requirements    String?
+  benefits        Json?        @default("[]")
+  status          String?      @default("active") @db.VarChar(20)
+  posted_date     DateTime?    @default(now()) @db.Timestamp(6)
+  salary          String?      @db.VarChar(100)
+  candidates      candidates[]
+  interviews      interviews[]
+}
+
+model candidates {
+  id           Int          @id @default(autoincrement())
+  name         String       @db.VarChar(200)
+  email        String       @db.VarChar(100)
+  phone        String?      @db.VarChar(20)
+  resume_url   String?
+  job_id       Int?
+  status       String?      @default("applied") @db.VarChar(50)
+  applied_date DateTime?    @default(now()) @db.Timestamp(6)
+  notes        String?
+  created_at   DateTime?    @default(now()) @db.Timestamp(6)
+  job          jobs?        @relation(fields: [job_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  interviews   interviews[]
+}
+
+model interviews {
+  id             Int         @id @default(autoincrement())
+  candidate_id   Int?
+  job_id         Int?
+  interviewer_id Int?
+  scheduled_date DateTime?   @db.Timestamp(6)
+  status         String?     @default("pending") @db.VarChar(50)
+  notes          String?
+  created_at     DateTime?   @default(now()) @db.Timestamp(6)
+  updated_at     DateTime?   @default(now()) @db.Timestamp(6)
+  candidate      candidates? @relation(fields: [candidate_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  interviewer    admins?     @relation("Interviewer", fields: [interviewer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  job            jobs?       @relation(fields: [job_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model leave_requests {
+  id             Int        @id @default(autoincrement())
+  employee_id    Int?
+  leave_type     String     @db.VarChar(50)
+  start_date     DateTime   @db.Date
+  end_date       DateTime   @db.Date
+  days_requested Int?
+  reason         String?
+  status         String?    @default("pending") @db.VarChar(50)
+  approved_by    Int?
+  created_at     DateTime?  @default(now()) @db.Timestamp(6)
+  updated_at     DateTime?  @default(now()) @db.Timestamp(6)
+  approver       admins?    @relation("Approver", fields: [approved_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  employee       employees? @relation(fields: [employee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model payroll {
+  id               Int        @id @default(autoincrement())
+  employee_id      Int?
+  pay_period_start DateTime   @db.Date
+  pay_period_end   DateTime   @db.Date
+  gross_salary     Decimal?   @db.Decimal(12, 2)
+  deductions       Json?      @default("[]")
+  net_salary       Decimal?   @db.Decimal(12, 2)
+  status           String?    @default("pending") @db.VarChar(50)
+  payslip_url      String?
+  created_at       DateTime?  @default(now()) @db.Timestamp(6)
+  employee         employees? @relation(fields: [employee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model performance_reviews {
+  id                  Int        @id @default(autoincrement())
+  employee_id         Int?
+  reviewer_id         Int?
+  review_period_start DateTime?  @db.Date
+  review_period_end   DateTime?  @db.Date
+  rating              Int?
+  comments            String?
+  goals               Json?      @default("[]")
+  status              String?    @default("draft") @db.VarChar(50)
+  created_at          DateTime?  @default(now()) @db.Timestamp(6)
+  updated_at          DateTime?  @default(now()) @db.Timestamp(6)
+  employee            employees? @relation("Reviewee", fields: [employee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  reviewer            admins?    @relation("Reviewer", fields: [reviewer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model compliance_records {
+  id              Int        @id @default(autoincrement())
+  record_type     String     @db.VarChar(100)
+  employee_id     Int?
+  compliance_date DateTime?  @db.Date
+  score           Int?
+  notes           String?
+  created_at      DateTime?  @default(now()) @db.Timestamp(6)
+  employee        employees? @relation(fields: [employee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model admin_dashboard_access {
+  id                                               Int               @id @default(autoincrement())
+  admin_id                                         Int?
+  dashboard_id                                     Int?
+  granted_by                                       Int?
+  granted_at                                       DateTime?         @default(now()) @db.Timestamp(6)
+  admins_admin_dashboard_access_admin_idToadmins   admins?           @relation("admin_dashboard_access_admin_idToadmins", fields: [admin_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  admin_dashboards                                 admin_dashboards? @relation(fields: [dashboard_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  admins_admin_dashboard_access_granted_byToadmins admins?           @relation("admin_dashboard_access_granted_byToadmins", fields: [granted_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([admin_id, dashboard_id])
+  @@index([admin_id], map: "idx_admin_dashboard_access_admin")
+  @@index([dashboard_id], map: "idx_admin_dashboard_access_dashboard")
+}
+
+model admin_dashboards {
+  id                        Int                         @id @default(autoincrement())
+  name                      String                      @db.VarChar(255)
+  slug                      String                      @unique @db.VarChar(255)
+  description               String?
+  icon                      String?                     @db.VarChar(100)
+  layout_config             Json?                       @default("{}")
+  is_active                 Boolean?                    @default(true)
+  created_by                Int?
+  created_at                DateTime?                   @default(now()) @db.Timestamp(6)
+  updated_at                DateTime?                   @default(now()) @db.Timestamp(6)
+  admin_dashboard_access    admin_dashboard_access[]
+  admins                    admins?                     @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  admin_feature_permissions admin_feature_permissions[]
+  dashboard_features        dashboard_features[]
+}
+
+model admin_feature_permissions {
+  id                                                  Int                 @id @default(autoincrement())
+  admin_id                                            Int?
+  dashboard_id                                        Int?
+  feature_id                                          Int?
+  can_view                                            Boolean?            @default(true)
+  can_create                                          Boolean?            @default(false)
+  can_edit                                            Boolean?            @default(false)
+  can_delete                                          Boolean?            @default(false)
+  can_export                                          Boolean?            @default(false)
+  custom_permissions                                  Json?               @default("{}")
+  granted_by                                          Int?
+  granted_at                                          DateTime?           @default(now()) @db.Timestamp(6)
+  admins_admin_feature_permissions_admin_idToadmins   admins?             @relation("admin_feature_permissions_admin_idToadmins", fields: [admin_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  admin_dashboards                                    admin_dashboards?   @relation(fields: [dashboard_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  dashboard_features                                  dashboard_features? @relation(fields: [feature_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  admins_admin_feature_permissions_granted_byToadmins admins?             @relation("admin_feature_permissions_granted_byToadmins", fields: [granted_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([admin_id, dashboard_id, feature_id])
+  @@index([admin_id], map: "idx_admin_feature_permissions_admin")
+  @@index([dashboard_id], map: "idx_admin_feature_permissions_dashboard")
+}
+
+model audit_logs {
+  id            Int       @id @default(autoincrement())
+  user_id       Int?
+  user_type     String?   @db.VarChar(20)
+  action        String    @db.VarChar(100)
+  resource_type String?   @db.VarChar(50)
+  resource_id   Int?
+  details       Json?
+  ip_address    String?   @db.VarChar(45)
+  user_agent    String?
+  created_at    DateTime? @default(now()) @db.Timestamp(6)
+}
+
+model bank_accounts {
+  id                   Int                    @id @default(autoincrement())
+  employee_id          Int?
+  bank_name            String                 @db.VarChar(100)
+  bank_code            String?                @db.VarChar(10)
+  account_number       String                 @db.VarChar(20)
+  account_name         String?                @db.VarChar(200)
+  is_verified          Boolean?               @default(false)
+  verification_date    DateTime?              @db.Timestamp(6)
+  created_at           DateTime?              @default(now()) @db.Timestamp(6)
+  updated_at           DateTime?              @default(now()) @db.Timestamp(6)
+  employees            employees?             @relation(fields: [employee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  payment_transactions payment_transactions[]
+}
+
+model bulk_payment_batches {
+  id                      Int       @id @default(autoincrement())
+  batch_reference         String    @unique @db.VarChar(100)
+  total_amount            Decimal?  @db.Decimal(12, 2)
+  total_transactions      Int?
+  successful_transactions Int?      @default(0)
+  failed_transactions     Int?      @default(0)
+  status                  String?   @default("pending") @db.VarChar(50)
+  uploaded_by             Int?
+  file_name               String?   @db.VarChar(255)
+  reconciliation_status   String?   @default("pending") @db.VarChar(50)
+  reconciled_at           DateTime? @db.Timestamp(6)
+  created_at              DateTime? @default(now()) @db.Timestamp(6)
+  admins                  admins?   @relation(fields: [uploaded_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model compliance_calculations {
+  id                 Int       @id @default(autoincrement())
+  salary             Decimal   @db.Decimal(12, 2)
+  state              String?   @db.VarChar(50)
+  calculator_type    String?   @db.VarChar(50)
+  calculation_result Json?
+  created_by         Int?
+  created_at         DateTime? @default(now()) @db.Timestamp(6)
+  admins             admins?   @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model compliance_calendar {
+  id                Int       @id @default(autoincrement())
+  compliance_type   String    @db.VarChar(100)
+  deadline_date     DateTime  @db.Date
+  description       String?
+  reminder_days     Int[]     @default([7, 3, 1])
+  is_recurring      Boolean?  @default(true)
+  recurrence_period String?   @db.VarChar(50)
+  status            String?   @default("upcoming") @db.VarChar(50)
+  completed_at      DateTime? @db.Timestamp(6)
+  created_at        DateTime? @default(now()) @db.Timestamp(6)
+}
+
+model dashboard_features {
+  id                        Int                         @id @default(autoincrement())
+  dashboard_id              Int?
+  feature_key               String                      @db.VarChar(100)
+  feature_name              String                      @db.VarChar(255)
+  feature_description       String?
+  component_path            String?                     @db.VarChar(255)
+  icon                      String?                     @db.VarChar(100)
+  order_index               Int?                        @default(0)
+  is_active                 Boolean?                    @default(true)
+  created_at                DateTime?                   @default(now()) @db.Timestamp(6)
+  admin_feature_permissions admin_feature_permissions[]
+  admin_dashboards          admin_dashboards?           @relation(fields: [dashboard_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([dashboard_id, feature_key])
+  @@index([dashboard_id], map: "idx_dashboard_features_dashboard")
+}
+
+model demo_bookings {
+  id             Int       @id @default(autoincrement())
+  name           String    @db.VarChar(200)
+  email          String    @db.VarChar(100)
+  phone          String?   @db.VarChar(20)
+  company_name   String?   @db.VarChar(200)
+  preferred_date DateTime? @db.Date
+  preferred_time DateTime? @db.Time(6)
+  status         String?   @default("pending") @db.VarChar(50)
+  notes          String?
+  created_at     DateTime? @default(now()) @db.Timestamp(6)
+}
+
+model demo_requests {
+  id             Int       @id @default(autoincrement())
+  name           String    @db.VarChar(200)
+  email          String    @db.VarChar(100)
+  phone          String?   @db.VarChar(20)
+  company        String?   @db.VarChar(200)
+  employees      String?   @db.VarChar(50)
+  preferred_date DateTime? @db.Date
+  preferred_time String?   @db.VarChar(10)
+  message        String?
+  status         String?   @default("pending") @db.VarChar(50)
+  created_at     DateTime? @default(now()) @db.Timestamp(6)
+  updated_at     DateTime? @default(now()) @db.Timestamp(6)
+}
+
+model documents {
+  id                  Int         @id @default(autoincrement())
+  employee_id         Int?
+  document_type       String      @db.VarChar(100)
+  file_name           String      @db.VarChar(255)
+  file_path           String
+  file_size           Int?
+  mime_type           String?     @db.VarChar(100)
+  uploaded_by         Int?
+  description         String?
+  storage_type        String?     @default("local") @db.VarChar(50)
+  version             Int?        @default(1)
+  previous_version_id Int?
+  created_at          DateTime?   @default(now()) @db.Timestamp(6)
+  employees           employees?  @relation(fields: [employee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  documents           documents?  @relation("documentsTodocuments", fields: [previous_version_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  other_documents     documents[] @relation("documentsTodocuments")
+  admins              admins?     @relation(fields: [uploaded_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model email_logs {
+  id              Int       @id @default(autoincrement())
+  recipient_email String    @db.VarChar(100)
+  recipient_name  String?   @db.VarChar(200)
+  subject         String    @db.VarChar(255)
+  email_type      String?   @db.VarChar(50)
+  status          String?   @default("pending") @db.VarChar(50)
+  sent_at         DateTime? @db.Timestamp(6)
+  error_message   String?
+  created_at      DateTime? @default(now()) @db.Timestamp(6)
+}
+
+model invoices {
+  id                Int                 @id @default(autoincrement())
+  subscription_id   Int?
+  invoice_number    String              @unique @db.VarChar(50)
+  amount            Decimal             @db.Decimal(12, 2)
+  status            String?             @default("pending") @db.VarChar(50)
+  due_date          DateTime?           @db.Date
+  paid_date         DateTime?           @db.Date
+  payment_reference String?             @db.VarChar(100)
+  pdf_url           String?
+  created_at        DateTime?           @default(now()) @db.Timestamp(6)
+  subscriptions     subscriptions?      @relation(fields: [subscription_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  payment_reminders payment_reminders[]
+}
+
+model payment_reminders {
+  id              Int            @id @default(autoincrement())
+  subscription_id Int?
+  invoice_id      Int?
+  reminder_type   String         @db.VarChar(20)
+  days_before_due Int?
+  sent_at         DateTime?      @db.Timestamp(6)
+  status          String?        @default("pending") @db.VarChar(50)
+  created_at      DateTime?      @default(now()) @db.Timestamp(6)
+  invoices        invoices?      @relation(fields: [invoice_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  subscriptions   subscriptions? @relation(fields: [subscription_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model payment_transactions {
+  id                 Int            @id @default(autoincrement())
+  employee_id        Int?
+  bank_account_id    Int?
+  amount             Decimal        @db.Decimal(12, 2)
+  transaction_type   String?        @default("payroll") @db.VarChar(50)
+  status             String?        @default("pending") @db.VarChar(50)
+  reference          String?        @unique @db.VarChar(100)
+  payment_provider   String?        @db.VarChar(50)
+  provider_reference String?        @db.VarChar(100)
+  failure_reason     String?
+  processed_at       DateTime?      @db.Timestamp(6)
+  created_at         DateTime?      @default(now()) @db.Timestamp(6)
+  bank_accounts      bank_accounts? @relation(fields: [bank_account_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  employees          employees?     @relation(fields: [employee_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model referrals {
+  id             Int        @id @default(autoincrement())
+  referrer_id    Int?
+  referred_email String     @db.VarChar(100)
+  referred_name  String?    @db.VarChar(200)
+  referral_code  String     @unique @db.VarChar(50)
+  status         String?    @default("pending") @db.VarChar(50)
+  reward_type    String?    @db.VarChar(50)
+  reward_amount  String?    @db.VarChar(100)
+  created_at     DateTime?  @default(now()) @db.Timestamp(6)
+  updated_at     DateTime?  @default(now()) @db.Timestamp(6)
+  employees      employees? @relation(fields: [referrer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model subscriptions {
+  id                  Int                   @id @default(autoincrement())
+  company_name        String?               @db.VarChar(200)
+  plan_type           String?               @default("premium") @db.VarChar(50)
+  amount              Decimal?              @db.Decimal(12, 2)
+  billing_cycle       String?               @default("monthly") @db.VarChar(20)
+  status              String?               @default("active") @db.VarChar(50)
+  payment_method      String?               @db.VarChar(50)
+  payment_provider    String?               @db.VarChar(50)
+  next_billing_date   DateTime?             @db.Date
+  auto_renewal        Boolean?              @default(true)
+  created_at          DateTime?             @default(now()) @db.Timestamp(6)
+  updated_at          DateTime?             @default(now()) @db.Timestamp(6)
+  invoices            invoices[]
+  payment_reminders   payment_reminders[]
+  trial_subscriptions trial_subscriptions[]
+}
+
+model system_settings {
+  id            Int       @id @default(autoincrement())
+  setting_key   String    @unique @db.VarChar(100)
+  setting_value String?
+  setting_type  String?   @default("string") @db.VarChar(50)
+  description   String?
+  updated_at    DateTime? @default(now()) @db.Timestamp(6)
+}
+
+model trial_accounts {
+  id                Int       @id @default(autoincrement())
+  email             String    @unique @db.VarChar(100)
+  company_name      String?   @db.VarChar(200)
+  name              String?   @db.VarChar(200)
+  phone             String?   @db.VarChar(20)
+  trial_start_date  DateTime  @db.Date
+  trial_end_date    DateTime  @db.Date
+  status            String?   @default("active") @db.VarChar(50)
+  converted_to_paid Boolean?  @default(false)
+  converted_at      DateTime? @db.Timestamp(6)
+  created_at        DateTime? @default(now()) @db.Timestamp(6)
+}
+
+model trial_subscriptions {
+  id                Int            @id @default(autoincrement())
+  email             String         @unique @db.VarChar(100)
+  company_name      String?        @db.VarChar(200)
+  trial_start_date  DateTime       @db.Date
+  trial_end_date    DateTime       @db.Date
+  is_active         Boolean?       @default(true)
+  converted_to_paid Boolean?       @default(false)
+  subscription_id   Int?
+  created_at        DateTime?      @default(now()) @db.Timestamp(6)
+  updated_at        DateTime?      @default(now()) @db.Timestamp(6)
+  subscriptions     subscriptions? @relation(fields: [subscription_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+// --- D2E Marketplace Models ---
+
+model companies {
+  id              String         @id @default(uuid())
+  name            String
+  email           String         @unique
+  d2e_enabled     Boolean        @default(false)
+  plan            String         @default("FREE")
+  created_at      DateTime       @default(now())
+  updated_at      DateTime       @updatedAt
+}
+
+model tasks {
+  id              String         @id @default(uuid())
+  poster_id       String         
+  poster_type     String         @default("COMPANY") // COMPANY or ADMIN
+  title           String         @db.VarChar(255)
+  description     String         @db.Text
+  required_skills String[]       
+  total_slots     Int
+  filled_slots    Int            @default(0)
+  pay_per_slot    Decimal        @db.Decimal(12, 2)
+  currency        String         @default("NGN") @db.VarChar(3)
+  deadline        DateTime
+  status          String         @default("DRAFT") // DRAFT, ACTIVE, COMPLETED, CANCELLED
+  type            String         @default("FIXED") // FIXED, COMPETITION
+  visibility      String         @default("PUBLIC") // PUBLIC, PRIVATE
+  created_at      DateTime       @default(now())
+  updated_at      DateTime       @updatedAt
+
+  claims          task_claims[]
+  escrow          task_escrow?
+}
+
+model public_earners {
+  id              String         @id @default(uuid())
+  email           String         @unique
+  phone           String         @unique
+  password_hash   String
+  full_name       String
+  nin             String?
+  bvn             String?
+  id_document_url String?
+  skills          String[]
+  tier            String         @default("BRONZE")
+  total_earnings  Decimal        @default(0) @db.Decimal(12, 2)
+  avg_rating      Decimal        @default(0) @db.Decimal(3, 2)
+  is_verified     Boolean        @default(false)
+  bank_details    Json?
+  created_at      DateTime       @default(now())
+  updated_at      DateTime       @updatedAt
+
+  claims          task_claims[]
+  squad_membership squad_members?
+}
+
+model task_claims {
+  id              String         @id @default(uuid())
+  task_id         String
+  earner_id       String         // Can be from public_earners.id or employees.id
+  earner_type     String         @default("PUBLIC") // PUBLIC or EMPLOYEE
+  status          String         @default("CLAIMED") // CLAIMED, SUBMITTED, APPROVED, REJECTED
+  submission_url  String?
+  feedback        String?
+  claimed_at      DateTime       @default(now())
+  submitted_at    DateTime?
+  reviewed_at     DateTime?
+
+  task            tasks          @relation(fields: [task_id], references: [id])
+  public_earner   public_earners? @relation(fields: [earner_id], references: [id], map: "task_claims_earner_id_fkey_public")
+}
+
+model task_escrow {
+  id              String         @id @default(uuid())
+  task_id         String         @unique
+  poster_id       String
+  amount_held     Decimal        @db.Decimal(12, 2)
+  platform_fee    Decimal        @db.Decimal(12, 2)
+  status          String         @default("HELD") // HELD, RELEASED, REFUNDED
+  created_at      DateTime       @default(now())
+  released_at     DateTime?
+
+  task            tasks          @relation(fields: [task_id], references: [id])
+}
+
+model wallets {
+  id              String         @id @default(uuid())
+  owner_id        String         @unique // company_id, earner_id, employee_id
+  owner_type      String         // COMPANY, PUBLIC_EARNER, EMPLOYEE
+  available_balance Decimal      @default(0) @db.Decimal(12, 2)
+  pending_balance   Decimal      @default(0) @db.Decimal(12, 2)
+  created_at      DateTime       @default(now())
+  updated_at      DateTime       @updatedAt
+
+  transactions    wallet_transactions[]
+}
+
+model wallet_transactions {
+  id              String         @id @default(uuid())
+  wallet_id       String
+  amount          Decimal        @db.Decimal(12, 2)
+  type            String         // CREDIT, DEBIT
+  category        String         // EARNING, WITHDRAWAL, TOPUP, ESCROW_HOLD, ESCROW_RELEASE
+  status          String         @default("COMPLETED") // PENDING, COMPLETED, FAILED
+  description     String?
+  reference_id    String?        // related task_id or withdrawal_id
+  created_at      DateTime       @default(now())
+
+  wallet          wallets        @relation(fields: [wallet_id], references: [id])
+}
+
+model withdrawal_requests {
+  id              String         @id @default(uuid())
+  owner_id        String
+  amount          Decimal        @db.Decimal(12, 2)
+  bank_details    Json
+  status          String         @default("PENDING") // PENDING, PROCESSING, COMPLETED, FAILED
+  processed_at    DateTime?
+  created_at      DateTime       @default(now())
+}
+
+model partners {
+  id              String         @id @default(uuid())
+  email           String         @unique
+  name            String
+  referral_code   String         @unique
+  commission_rate Decimal        @default(0.05) @db.Decimal(3, 2)
+  created_at      DateTime       @default(now())
+
+  recruits        squad_members[]
+}
+
+model squad_members {
+  id              String         @id @default(uuid())
+  partner_id      String
+  earner_id       String         @unique
+  joined_at       DateTime       @default(now())
+
+  partner         partners       @relation(fields: [partner_id], references: [id])
+  earner          public_earners @relation(fields: [earner_id], references: [id])
+}
+

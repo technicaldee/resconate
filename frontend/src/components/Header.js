@@ -28,12 +28,12 @@ const Header = () => {
     const handleClickOutside = (event) => {
       const mobileMenu = document.getElementById('mobile-menu');
       const hamburgerButton = document.querySelector('.header__mobile-toggle');
-      
-      if (isMobileMenuOpen && 
-          mobileMenu && 
-          !mobileMenu.contains(event.target) && 
-          hamburgerButton && 
-          !hamburgerButton.contains(event.target)) {
+
+      if (isMobileMenuOpen &&
+        mobileMenu &&
+        !mobileMenu.contains(event.target) &&
+        hamburgerButton &&
+        !hamburgerButton.contains(event.target)) {
         closeMobileMenu();
       }
     };
@@ -59,8 +59,8 @@ const Header = () => {
     <>
       <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
         <div className="header__container">
-          <button 
-            className="header__mobile-toggle" 
+          <button
+            className="header__mobile-toggle"
             aria-label="Open mobile menu"
             onClick={toggleMobileMenu}
             aria-expanded={isMobileMenuOpen}
@@ -75,6 +75,7 @@ const Header = () => {
             <ul className="header__nav-list">
               <li><Link href="/services" className="header__nav-link">Services</Link></li>
               <li><Link href="/team" className="header__nav-link">Team</Link></li>
+              <li><Link href="/d2e" className="header__nav-link flex items-center gap-1">Marketplace <span className="text-xs bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded-full font-bold">New</span></Link></li>
             </ul>
           </nav>
           <div className="header__actions">
@@ -94,8 +95,8 @@ const Header = () => {
       <div id="mobile-menu" className={`mobile-menu ${isMobileMenuOpen ? 'active' : ''}`}>
         <div className="mobile-menu__backdrop" onClick={closeMobileMenu}></div>
         <div className="mobile-menu__sidebar">
-          <button 
-            className="mobile-menu__close" 
+          <button
+            className="mobile-menu__close"
             aria-label="Close mobile menu"
             onClick={closeMobileMenu}
           >
@@ -106,6 +107,7 @@ const Header = () => {
               <ul className="mobile-menu__nav-list">
                 <li><Link href="/services" className="mobile-menu__nav-link" onClick={closeMobileMenu}>Services</Link></li>
                 <li><Link href="/team" className="mobile-menu__nav-link" onClick={closeMobileMenu}>Team</Link></li>
+                <li><Link href="/d2e" className="mobile-menu__nav-link" onClick={closeMobileMenu}>Marketplace</Link></li>
               </ul>
             </nav>
             <div className="mobile-menu__actions">

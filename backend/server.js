@@ -11,8 +11,14 @@ const session = require('express-session');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const { pool, initializeDatabase } = require('./database');
-const { authenticateAdmin, loginAdmin, getMe, forgotPassword, authenticateEmployee, loginEmployee, getEmployeeMe } = require('./auth');
+const {
+  authenticateAdmin, loginAdmin, getMe, forgotPassword,
+  authenticateEmployee, loginEmployee, getEmployeeMe,
+  registerPublicEarner, loginPublicEarner
+} = require('./auth');
 const { validateJob, createValidationMiddleware } = require('./validation');
+const marketplaceRoutes = require('./routes/marketplace');
+const walletRoutes = require('./routes/wallet');
 
 dotenv.config();
 
@@ -83,6 +89,10 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
  *         description: OK
  */
 app.get('/health', (req, res) => res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() }));
+
+// D2E Marketplace routes
+app.use('/api/marketplace', marketplaceRoutes);
+app.use('/api/wallet', walletRoutes);
 
 // Basic HR endpoints (Postgres-backed)
 /**
@@ -166,6 +176,10 @@ app.post('/api/employee/login', loginEmployee);
  *       401: { description: Unauthorized }
  */
 app.get('/api/employee/me', getEmployeeMe);
+
+// D2E Earner Auth
+app.post('/api/d2e/register', registerPublicEarner);
+app.post('/api/d2e/login', loginPublicEarner);
 
 /**
  * @openapi
@@ -470,7 +484,7 @@ app.post('/api/leave/request', authenticateEmployee, async (req, res) => {
     const start = new Date(start_date);
     const end = new Date(end_date);
     const days_requested = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
-    
+
     const result = await pool.query(
       'INSERT INTO leave_requests (employee_id, leave_type, start_date, end_date, days_requested, reason) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
       [req.employee.id, leave_type, start_date, end_date, days_requested, reason || null]
@@ -656,12 +670,12 @@ app.get('/api/banking/accounts', authenticateAdmin, async (req, res) => {
       LEFT JOIN employees e ON ba.employee_id = e.id
     `;
     const params = [];
-    
+
     if (employeeId) {
       query += ' WHERE ba.employee_id = $1';
       params.push(parseInt(employeeId));
     }
-    
+
     query += ' ORDER BY ba.created_at DESC';
     const result = await pool.query(query, params);
     res.json({ success: true, data: result.rows });
@@ -677,7 +691,7 @@ app.post('/api/banking/verify', authenticateAdmin, async (req, res) => {
     if (!accountNumber || !bankCode) {
       return res.status(400).json({ error: 'accountNumber and bankCode are required' });
     }
-    
+
     const verification = await bankingAPIService.verifyAccount(accountNumber, bankCode);
     res.json(verification);
   } catch (e) {
@@ -692,7 +706,7 @@ app.post('/api/banking/bulk-transfer', authenticateAdmin, async (req, res) => {
     if (!transfers || !Array.isArray(transfers)) {
       return res.status(400).json({ error: 'transfers array is required' });
     }
-    
+
     const result = await bankingAPIService.processBulkTransfer(transfers);
     res.json(result);
   } catch (e) {
@@ -738,8 +752,8 @@ app.get('/', (req, res) => {
  */
 app.get('/api/projects', (req, res) => {
   res.json([
-    { id: 1, name: 'Zocket AI', description: 'AI-powered marketing platform', image: 'https://placehold.co/600x400/111/333', category: 'Web App', color: 'blue', technologies: ['React','Node.js','TensorFlow'] },
-    { id: 2, name: 'HeavyOps', description: 'Fleet management solution', image: 'https://placehold.co/600x400/111/333', category: 'Mobile App', color: 'orange', technologies: ['React Native','Firebase','Google Maps API'] }
+    { id: 1, name: 'Zocket AI', description: 'AI-powered marketing platform', image: 'https://placehold.co/600x400/111/333', category: 'Web App', color: 'blue', technologies: ['React', 'Node.js', 'TensorFlow'] },
+    { id: 2, name: 'HeavyOps', description: 'Fleet management solution', image: 'https://placehold.co/600x400/111/333', category: 'Mobile App', color: 'orange', technologies: ['React Native', 'Firebase', 'Google Maps API'] }
   ]);
 });
 
