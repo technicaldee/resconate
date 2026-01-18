@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { AppProps } from 'next/app';
+import Head from 'next/head';
 import ErrorBoundary from '../src/components/ErrorBoundary';
 import '../src/styles/index.css';
 
@@ -22,6 +22,11 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <ErrorBoundary>
+      <Head>
+        <title>Resconate | Digital Human Resources Operations</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="Resconate - Transform your HR operations and digital products with our modern ecosystem." />
+      </Head>
       <Component {...pageProps} />
     </ErrorBoundary>
   );

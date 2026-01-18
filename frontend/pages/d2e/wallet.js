@@ -45,149 +45,170 @@ export default function MyWallet() {
     const { wallet, claims } = data || { wallet: { available_balance: 0, pending_balance: 0 }, claims: [] };
 
     return (
-        <div className="bg-d2e-bg-light dark:bg-d2e-bg-dark text-slate-900 dark:text-white transition-colors duration-300 min-h-screen">
+        <div className="bg-d2e-bg-light dark:bg-d2e-bg-dark text-slate-900 dark:text-white transition-colors duration-300 min-h-screen pb-24">
             <Head>
                 <title>My Wallet - D2E Marketplace</title>
             </Head>
 
-            <div className="relative flex h-auto min-h-screen w-full flex-col max-w-[480px] mx-auto bg-d2e-bg-light dark:bg-d2e-bg-dark overflow-x-hidden border-x border-slate-200 dark:border-white/5 pb-20">
-                {/* TopAppBar */}
-                <div className="sticky top-0 z-50 flex items-center bg-d2e-bg-light/80 dark:bg-d2e-bg-dark/80 backdrop-blur-md p-4 pb-2 justify-between">
+            {/* TopAppBar */}
+            <div className="sticky top-0 z-50 bg-d2e-bg-light/80 dark:bg-d2e-bg-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-white/10">
+                <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
                     <button
                         onClick={() => router.back()}
-                        className="text-slate-900 dark:text-white flex size-12 shrink-0 items-center focus:outline-none"
+                        className="text-slate-900 dark:text-white flex size-10 items-center justify-center rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-colors focus:outline-none"
                     >
                         <span className="material-symbols-outlined cursor-pointer">arrow_back_ios</span>
                     </button>
-                    <h2 className="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center font-display">My Wallet</h2>
-                    <div className="flex w-12 items-center justify-end">
-                        <button className="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 bg-transparent text-slate-900 dark:text-white gap-2 text-base font-bold leading-normal tracking-[0.015em] min-w-0 p-0 focus:outline-none">
+                    <h2 className="text-slate-900 dark:text-white text-lg font-black uppercase tracking-widest text-center flex-1">My Wallet</h2>
+                    <div className="flex w-10 items-center justify-end">
+                        <button className="flex size-10 items-center justify-center rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-colors focus:outline-none">
                             <span className="material-symbols-outlined">settings</span>
                         </button>
                     </div>
                 </div>
+            </div>
 
-                {/* Wallet Balance Card */}
-                <div className="p-4">
-                    <div className="flex flex-col items-stretch justify-start rounded-xl shadow-lg bg-white dark:bg-[#193322] border border-slate-200 dark:border-white/5 overflow-hidden">
-                        {/* Abstract Pattern Background */}
-                        <div className="w-full h-24 bg-gradient-to-br from-d2e-primary/20 to-d2e-primary/5 relative">
-                            <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, #13ec5b 1px, transparent 0)', backgroundSize: '20px 20px' }}></div>
-                        </div>
-                        <div className="flex w-full min-w-72 grow flex-col items-stretch justify-center gap-1 py-4 px-6 -mt-10 bg-white dark:bg-[#193322] rounded-t-2xl relative z-10">
-                            <div className="flex items-center gap-2 mb-1">
-                                <span className="material-symbols-outlined text-d2e-primary text-sm">verified_user</span>
-                                <p className="text-slate-500 dark:text-[#92c9a4] text-xs font-semibold uppercase tracking-wider leading-normal font-display">
-                                    {user?.is_verified ? 'KYC Level 2: Verified' : 'KYC Level 1: Pending Verification'}
-                                </p>
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+                    {/* Left Column: Balance & Bank Info */}
+                    <div className="lg:col-span-5 space-y-8">
+                        {/* Wallet Balance Card */}
+                        <div className="flex flex-col items-stretch justify-start rounded-[2.5rem] shadow-2xl shadow-d2e-primary/10 bg-white dark:bg-d2e-surface-dark border border-slate-200 dark:border-white/5 overflow-hidden group">
+                            <div className="w-full h-32 bg-gradient-to-br from-d2e-primary/30 to-emerald-500/10 relative overflow-hidden">
+                                <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, #13ec5b 1px, transparent 0)', backgroundSize: '24px 24px' }}></div>
+                                <div className="absolute -right-8 -top-8 size-32 bg-d2e-primary/10 rounded-full blur-3xl group-hover:bg-d2e-primary/20 transition-colors"></div>
                             </div>
-                            <p className="text-slate-900 dark:text-white text-4xl font-bold leading-tight tracking-[-0.015em] font-display">₦{parseFloat(wallet.available_balance).toLocaleString()}</p>
-                            <div className="flex items-center gap-3 justify-between mt-4">
-                                <div className="flex flex-col">
-                                    <p className="text-slate-500 dark:text-[#92c9a4] text-sm font-normal leading-normal font-display">Available Balance</p>
-                                    <p className="text-slate-400 dark:text-[#92c9a4]/60 text-[10px] font-normal leading-normal font-display">Last sync: Just now</p>
+                            <div className="flex w-full flex-col items-stretch justify-center gap-2 py-8 px-8 -mt-12 bg-white dark:bg-d2e-surface-dark rounded-t-[2.5rem] relative z-10">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <div className="size-6 rounded-full bg-d2e-primary/20 flex items-center justify-center">
+                                        <span className="material-symbols-outlined text-d2e-primary text-[10px] font-black">verified</span>
+                                    </div>
+                                    <p className="text-d2e-primary text-[10px] font-black uppercase tracking-widest leading-normal">
+                                        {user?.is_verified ? 'Verified Premium Wallet' : 'KYC Level 1: Pending'}
+                                    </p>
                                 </div>
-                                <button className="flex min-w-[120px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-6 bg-d2e-primary text-[#112217] text-sm font-bold leading-normal transition-transform active:scale-95 shadow-md shadow-d2e-primary/20">
-                                    <span className="truncate">Withdraw</span>
+                                <div className="flex flex-col mb-6">
+                                    <p className="text-slate-400 dark:text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">Available Funds</p>
+                                    <p className="text-slate-900 dark:text-white text-5xl font-black leading-tight tracking-tighter">₦{parseFloat(wallet.available_balance).toLocaleString()}</p>
+                                </div>
+                                <button className="flex w-full cursor-pointer items-center justify-center rounded-2xl h-14 px-8 bg-d2e-primary text-d2e-bg-dark text-base font-black uppercase tracking-widest transition-all active:scale-[0.98] shadow-xl shadow-d2e-primary/30 hover:shadow-d2e-primary/50">
+                                    <span>Withdraw Funds</span>
                                 </button>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                {/* Bank Account Section */}
-                <div className="px-4">
-                    <div className="flex items-center justify-between pt-4 pb-2">
-                        <h3 className="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] font-display">Linked Bank Account</h3>
-                        <Link href="/d2e/kyc/bank" className="text-d2e-primary text-sm font-medium cursor-pointer">Change</Link>
-                    </div>
-                    <div className="flex items-center gap-4 bg-white dark:bg-[#193322]/40 border border-slate-200 dark:border-white/5 rounded-xl px-4 min-h-[72px] py-2 justify-between">
-                        <div className="flex items-center gap-4">
-                            <div className="bg-d2e-primary/10 rounded-lg flex items-center justify-center h-12 w-12 shrink-0">
-                                <span className="material-symbols-outlined text-d2e-primary">account_balance</span>
+                        {/* Bank Account Section */}
+                        <div className="bg-white dark:bg-d2e-surface-dark rounded-[2rem] p-6 border border-slate-200 dark:border-white/5 shadow-sm">
+                            <div className="flex items-center justify-between mb-6">
+                                <h3 className="text-slate-900 dark:text-white text-base font-black uppercase tracking-widest">Linked Bank</h3>
+                                <Link href="/d2e/verification/bank" className="text-d2e-primary text-[10px] font-black uppercase tracking-widest hover:underline decoration-2 underline-offset-4">Change</Link>
                             </div>
-                            <div className="flex flex-col justify-center">
-                                <p className="text-slate-900 dark:text-white text-base font-semibold leading-normal line-clamp-1 font-display">Zenith Bank PLC</p>
-                                <p className="text-slate-500 dark:text-[#92c9a4] text-sm font-normal leading-normal line-clamp-2 font-display">1234****890 • {user?.full_name || 'Olusegun J.'}</p>
+                            <div className="flex items-center gap-5 bg-slate-50 dark:bg-d2e-accent-dark/40 rounded-2xl p-5 justify-between group hover:bg-slate-100 dark:hover:bg-d2e-accent-dark/60 transition-colors">
+                                <div className="flex items-center gap-4">
+                                    <div className="bg-d2e-primary/10 rounded-xl flex items-center justify-center size-14 shrink-0 transition-transform group-hover:rotate-12">
+                                        <span className="material-symbols-outlined text-d2e-primary text-3xl">account_balance</span>
+                                    </div>
+                                    <div className="flex flex-col justify-center">
+                                        <p className="text-slate-900 dark:text-white text-lg font-black leading-tight mb-0.5">Zenith Bank PLC</p>
+                                        <p className="text-slate-500 dark:text-gray-400 text-xs font-bold font-mono tracking-wider italic">1234****890 • {user?.full_name?.toUpperCase() || 'OLUSEGUN J.'}</p>
+                                    </div>
+                                </div>
+                                <div className="shrink-0 text-slate-300 dark:text-white/20 hover:text-d2e-primary transition-colors cursor-pointer">
+                                    <span className="material-symbols-outlined">edit_square</span>
+                                </div>
                             </div>
                         </div>
-                        <div className="shrink-0 text-slate-400 dark:text-white/40 flex size-7 items-center justify-center cursor-pointer">
-                            <span className="material-symbols-outlined text-xl">edit</span>
+
+                        {/* Fast Actions */}
+                        <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
+                            {[
+                                { icon: 'add_circle', label: 'Top-up' },
+                                { icon: 'payments', label: 'Auto-pay' },
+                                { icon: 'receipt_long', label: 'Reports' }
+                            ].map((action, idx) => (
+                                <button key={idx} className="flex-1 flex flex-col items-center gap-3 p-5 rounded-3xl bg-white dark:bg-d2e-surface-dark border border-slate-200 dark:border-white/5 shadow-sm hover:border-d2e-primary/40 transition-all group">
+                                    <div className="size-10 rounded-xl bg-slate-50 dark:bg-d2e-accent-dark flex items-center justify-center text-slate-500 dark:text-gray-400 group-hover:bg-d2e-primary/10 group-hover:text-d2e-primary transition-colors">
+                                        <span className="material-symbols-outlined text-xl">{action.icon}</span>
+                                    </div>
+                                    <span className="text-[10px] font-black uppercase tracking-widest">{action.label}</span>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Right Column: Recent Activity */}
+                    <div className="lg:col-span-7 space-y-6">
+                        <div className="flex items-center justify-between">
+                            <h3 className="text-slate-900 dark:text-white text-2xl font-black uppercase tracking-tight">Recent Activity</h3>
+                            <button className="size-10 rounded-xl bg-white dark:bg-d2e-surface-dark border border-slate-100 dark:border-white/5 shadow-sm flex items-center justify-center text-slate-400 hover:text-d2e-primary transition-colors">
+                                <span className="material-symbols-outlined">tune</span>
+                            </button>
+                        </div>
+
+                        <div className="bg-white dark:bg-d2e-surface-dark rounded-[2.5rem] border border-slate-200 dark:border-white/5 overflow-hidden shadow-sm">
+                            {claims.length > 0 ? (
+                                <div className="divide-y divide-slate-50 dark:divide-white/5">
+                                    {claims.map((claim) => (
+                                        <div key={claim.id} className="flex items-center gap-5 p-6 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors cursor-pointer group">
+                                            <div className={`rounded-2xl flex items-center justify-center size-14 shrink-0 transition-all group-hover:scale-110 ${claim.status === 'APPROVED' ? 'bg-d2e-primary/10 shadow-lg shadow-d2e-primary/5' : 'bg-amber-500/10'}`}>
+                                                <span className={`material-symbols-outlined text-2xl ${claim.status === 'APPROVED' ? 'text-d2e-primary' : 'text-amber-500'}`}>
+                                                    {claim.status === 'APPROVED' ? 'check_circle' : 'hourglass_top'}
+                                                </span>
+                                            </div>
+                                            <div className="flex flex-col flex-1 min-w-0">
+                                                <p className="text-slate-900 dark:text-white text-base font-black leading-tight mb-1 truncate">{claim.task_title}</p>
+                                                <p className="text-slate-500 dark:text-gray-400 text-[10px] font-bold uppercase tracking-widest">
+                                                    {new Date(claim.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })} • {new Date(claim.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                </p>
+                                            </div>
+                                            <div className="text-right shrink-0">
+                                                <p className="text-d2e-primary text-lg font-black tracking-tight">+₦{parseFloat(claim.amount).toLocaleString()}</p>
+                                                <p className={`text-[9px] font-black uppercase tracking-tighter px-2 py-0.5 rounded-md inline-block ${claim.status === 'APPROVED' ? 'bg-d2e-primary/10 text-d2e-primary' : 'bg-slate-100 dark:bg-white/5 text-slate-400'}`}>
+                                                    {claim.status}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="text-center py-32 px-10">
+                                    <div className="size-20 rounded-full bg-slate-50 dark:bg-white/5 flex items-center justify-center mx-auto mb-6">
+                                        <span className="material-symbols-outlined text-4xl text-slate-200">receipt_long</span>
+                                    </div>
+                                    <p className="text-slate-500 dark:text-gray-400 font-bold text-lg mb-2">No Transactions Yet</p>
+                                    <p className="text-slate-400 dark:text-gray-500 text-sm max-w-xs mx-auto">Start completing tasks from the marketplace to earn and fill your wallet!</p>
+                                    <Link href="/d2e/tasks">
+                                        <button className="mt-8 h-10 px-8 bg-d2e-primary text-d2e-bg-dark text-xs font-black uppercase tracking-widest rounded-xl">Go Explore</button>
+                                    </Link>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
+            </main>
 
-                {/* Quick Actions */}
-                <div className="flex gap-3 px-4 py-6 overflow-x-auto no-scrollbar" style={{ scrollbarWidth: 'none' }}>
-                    <button className="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 whitespace-nowrap">
-                        <span className="material-symbols-outlined text-sm">add_circle</span>
-                        <span className="text-sm font-medium">Top-up</span>
-                    </button>
-                    <button className="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 whitespace-nowrap">
-                        <span className="material-symbols-outlined text-sm">payments</span>
-                        <span className="text-sm font-medium">Auto-payout</span>
-                    </button>
-                    <button className="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 whitespace-nowrap">
-                        <span className="material-symbols-outlined text-sm">receipt_long</span>
-                        <span className="text-sm font-medium">Statements</span>
-                    </button>
+            {/* Sticky Bottom Navigation Bar */}
+            <nav className="fixed bottom-0 left-0 right-0 h-20 bg-white/90 dark:bg-[#112217]/95 backdrop-blur-xl border-t border-slate-200 dark:border-white/10 px-8 pb-4 z-50">
+                <div className="max-w-lg mx-auto w-full h-full flex justify-between items-center">
+                    <Link href="/d2e/dashboard" className="flex flex-col items-center gap-1.5 text-slate-400 hover:text-d2e-primary transition-colors">
+                        <span className="material-symbols-outlined">home</span>
+                        <span className="text-[10px] font-bold uppercase tracking-widest">Home</span>
+                    </Link>
+                    <Link href="/d2e/tasks" className="flex flex-col items-center gap-1.5 text-slate-400 hover:text-d2e-primary transition-colors">
+                        <span className="material-symbols-outlined">explore</span>
+                        <span className="text-[10px] font-bold uppercase tracking-widest">Market</span>
+                    </Link>
+                    <Link href="/d2e/wallet" className="flex flex-col items-center gap-1.5 text-d2e-primary">
+                        <span className="material-symbols-outlined fill-[1]">account_balance_wallet</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest">Wallet</span>
+                    </Link>
+                    <Link href="/d2e/dashboard?tab=profile" className="flex flex-col items-center gap-1.5 text-slate-400 hover:text-d2e-primary transition-colors">
+                        <span className="material-symbols-outlined">person</span>
+                        <span className="text-[10px] font-bold uppercase tracking-widest">Profile</span>
+                    </Link>
                 </div>
-
-                {/* Recent Transactions */}
-                <div className="flex-1 bg-white dark:bg-[#152a1b] rounded-t-[2rem] mt-2 shadow-2xl">
-                    <div className="flex items-center justify-between px-6 pt-6 pb-2 text-white">
-                        <h3 className="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] font-display">Recent Activity</h3>
-                        <span className="material-symbols-outlined text-slate-400 dark:text-[#92c9a4]">tune</span>
-                    </div>
-                    {/* Transaction List */}
-                    <div className="space-y-1 pb-20">
-                        {claims.length > 0 ? claims.map((claim) => (
-                            <div key={claim.id} className="flex items-center gap-4 px-6 py-4 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors cursor-pointer">
-                                <div className={`rounded-full flex items-center justify-center h-12 w-12 shrink-0 ${claim.status === 'APPROVED' ? 'bg-d2e-primary/10' : 'bg-blue-500/10'}`}>
-                                    <span className={`material-symbols-outlined ${claim.status === 'APPROVED' ? 'text-d2e-primary' : 'text-blue-500'}`}>
-                                        {claim.status === 'APPROVED' ? 'task_alt' : 'schedule'}
-                                    </span>
-                                </div>
-                                <div className="flex flex-col flex-1">
-                                    <p className="text-slate-900 dark:text-white text-base font-semibold leading-normal font-display">{claim.task_title}</p>
-                                    <p className="text-slate-500 dark:text-[#92c9a4] text-xs font-normal font-display">
-                                        {new Date(claim.created_at).toLocaleDateString()} • {new Date(claim.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                    </p>
-                                </div>
-                                <div className="text-right">
-                                    <p className="text-d2e-primary text-base font-bold font-display">+₦{parseFloat(claim.amount).toLocaleString()}</p>
-                                    <p className="text-[10px] text-d2e-primary/60 font-medium uppercase tracking-tighter">{claim.status}</p>
-                                </div>
-                            </div>
-                        )) : (
-                            <div className="text-center py-20 px-6">
-                                <p className="text-slate-500 dark:text-slate-400">No transactions yet.</p>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </div>
-
-            {/* Sticky Bottom Navigation Bar (iOS Style) */}
-            <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-white/90 dark:bg-d2e-bg-dark/90 backdrop-blur-lg border-t border-slate-200 dark:border-white/5 px-6 py-3 flex justify-between items-center z-50">
-                <Link href="/d2e/dashboard" className="flex flex-col items-center gap-1 cursor-pointer">
-                    <span className="material-symbols-outlined text-slate-400">home</span>
-                    <span className="text-[10px] font-medium text-slate-400 font-display">Home</span>
-                </Link>
-                <Link href="/d2e/tasks" className="flex flex-col items-center gap-1 cursor-pointer">
-                    <span className="material-symbols-outlined text-slate-400">explore</span>
-                    <span className="text-[10px] font-medium text-slate-400 font-display">Tasks</span>
-                </Link>
-                <Link href="/d2e/wallet" className="flex flex-col items-center gap-1 cursor-pointer relative text-d2e-primary">
-                    <div className="absolute -top-1 right-0 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-d2e-bg-dark"></div>
-                    <span className="material-symbols-outlined">account_balance_wallet</span>
-                    <span className="text-[10px] font-medium font-display">Wallet</span>
-                </Link>
-                <Link href="/d2e/dashboard?tab=profile" className="flex flex-col items-center gap-1 cursor-pointer">
-                    <span className="material-symbols-outlined text-slate-400">person</span>
-                    <span className="text-[10px] font-medium text-slate-400 font-display">Profile</span>
-                </Link>
-            </div>
+            </nav>
         </div>
     );
 }

@@ -47,110 +47,124 @@ export default function BankKYC() {
                 <title>Bank Details KYC - D2E</title>
             </Head>
 
-            <header className="sticky top-0 z-50 bg-d2e-bg-light/80 dark:bg-d2e-bg-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-white/10 p-4">
-                <div className="max-w-md mx-auto flex items-center justify-between">
-                    <button onClick={() => router.back()} className="flex items-center justify-center h-10 w-10">
+            <nav className="sticky top-0 z-50 bg-d2e-bg-light/80 dark:bg-d2e-bg-dark/80 backdrop-blur-xl border-b border-slate-200 dark:border-white/10">
+                <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+                    <button onClick={() => router.back()} className="flex size-10 items-center justify-center rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-colors">
                         <span className="material-symbols-outlined">arrow_back_ios</span>
                     </button>
-                    <h2 className="text-lg font-bold">Payout Details</h2>
+                    <h2 className="text-lg font-black uppercase tracking-widest text-center flex-1">Payout Protocol</h2>
                     <div className="w-10"></div>
                 </div>
-            </header>
+            </nav>
 
-            <main className="max-w-md mx-auto p-4 pt-10">
-                <div className="mb-8">
-                    <h3 className="text-2xl font-black tracking-tight mb-2">Where should we <br /><span className="text-d2e-primary">send your money?</span></h3>
-                    <p className="text-slate-500 dark:text-gray-400 text-sm">Add your local bank account details carefully. This is where your task earnings will be sent.</p>
-                </div>
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div className="flex justify-center">
+                    <div className="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
 
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="space-y-4">
-                        <div className="relative group">
-                            <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Select Bank</label>
-                            <div className="relative">
-                                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-[#92c9a4]">account_balance</span>
-                                <select
-                                    name="bankName"
-                                    className="w-full bg-white dark:bg-[#1a2e1e] border border-slate-200 dark:border-gray-800 rounded-xl h-14 pl-12 pr-6 text-base focus:ring-2 focus:ring-d2e-primary focus:border-transparent outline-none transition-all appearance-none"
-                                    value={formData.bankName}
-                                    onChange={handleChange}
-                                    required
+                        {/* Information Side */}
+                        <div className="space-y-8">
+                            <div className="space-y-4">
+                                <h3 className="text-4xl md:text-5xl font-black tracking-tighter leading-none">Where should we <br /><span className="text-d2e-primary">send your funds?</span></h3>
+                                <p className="text-slate-500 dark:text-gray-400 text-lg font-medium leading-relaxed">
+                                    Configure your primary withdrawal channel. Ensure all details exactly match your government-issued identity documents.
+                                </p>
+                            </div>
+
+                            <div className="bg-blue-500/10 border border-blue-500/20 rounded-3xl p-8 space-y-4">
+                                <div className="size-12 bg-blue-500 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/20">
+                                    <span className="material-symbols-outlined text-white">bolt</span>
+                                </div>
+                                <div>
+                                    <h4 className="text-sm font-black uppercase tracking-widest mb-1">Instant Settlement</h4>
+                                    <p className="text-xs text-blue-800 dark:text-blue-300 font-medium leading-normal opacity-80">
+                                        Once your account is linked, withdrawals are processed through our high-speed settlement layer, reaching your bank in seconds.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Form Side */}
+                        <div className="bg-white dark:bg-d2e-surface-dark rounded-[2.5rem] p-8 md:p-12 border border-slate-200 dark:border-white/5 shadow-2xl relative overflow-hidden">
+                            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-d2e-primary to-emerald-500"></div>
+
+                            <form onSubmit={handleSubmit} className="space-y-8">
+                                <div className="space-y-2 relative">
+                                    <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">Settlement Bank</label>
+                                    <div className="relative group">
+                                        <span className="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-d2e-primary transition-colors">account_balance</span>
+                                        <select
+                                            name="bankName"
+                                            className="w-full bg-slate-50 dark:bg-d2e-bg-dark border border-slate-200 dark:border-white/5 rounded-2xl h-16 pl-14 pr-6 text-base font-bold focus:ring-2 focus:ring-d2e-primary/20 focus:border-d2e-primary outline-none transition-all appearance-none dark:text-white"
+                                            value={formData.bankName}
+                                            onChange={handleChange}
+                                            required
+                                        >
+                                            <option value="" disabled>Select Sector Bank</option>
+                                            <option value="access">Access Bank</option>
+                                            <option value="gtbank">GTBank</option>
+                                            <option value="kuda">Kuda Bank</option>
+                                            <option value="opay">OPay</option>
+                                            <option value="palmpay">PalmPay</option>
+                                            <option value="zenith">Zenith Bank</option>
+                                            <option value="uab">UBA</option>
+                                        </select>
+                                        <span className="material-symbols-outlined absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">expand_more</span>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">Channel ID (Account No.)</label>
+                                    <div className="relative group">
+                                        <span className="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-d2e-primary transition-colors">pin</span>
+                                        <input
+                                            type="text"
+                                            name="accountNumber"
+                                            inputMode="numeric"
+                                            maxLength={10}
+                                            placeholder="0123456789"
+                                            className="w-full bg-slate-50 dark:bg-d2e-bg-dark border border-slate-200 dark:border-white/5 rounded-2xl h-16 pl-14 pr-6 text-xl font-black tracking-[0.3em] focus:ring-2 focus:ring-d2e-primary/20 focus:border-d2e-primary outline-none transition-all dark:text-white placeholder:tracking-normal placeholder:opacity-20"
+                                            value={formData.accountNumber}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">Account Holder Name</label>
+                                    <div className="relative group">
+                                        <span className="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-d2e-primary transition-colors">person</span>
+                                        <input
+                                            type="text"
+                                            name="accountName"
+                                            placeholder="AS WRITTEN ON ACCOUNT"
+                                            className="w-full bg-slate-50 dark:bg-d2e-bg-dark border border-slate-200 dark:border-white/5 rounded-2xl h-16 pl-14 pr-6 text-base font-black uppercase focus:ring-2 focus:ring-d2e-primary/20 focus:border-d2e-primary outline-none transition-all dark:text-white placeholder:opacity-20"
+                                            value={formData.accountName}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </div>
+                                    <p className="text-[10px] text-slate-400 mt-3 flex items-center gap-1.5 font-bold italic">
+                                        <span className="material-symbols-outlined text-[12px]">info</span>
+                                        Identity must match your Resconate Profile
+                                    </p>
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    disabled={loading || !formData.accountNumber || !formData.bankName}
+                                    className="w-full h-18 bg-d2e-primary hover:bg-d2e-primary/90 text-d2e-bg-dark font-black rounded-2xl shadow-xl shadow-d2e-primary/20 transition-all active:scale-[0.98] flex items-center justify-center gap-3 text-lg uppercase tracking-widest disabled:opacity-50"
                                 >
-                                    <option value="" disabled>Select your bank</option>
-                                    <option value="access">Access Bank</option>
-                                    <option value="gtbank">Guaranty Trust Bank (GTB)</option>
-                                    <option value="kuda">Kuda Microfinance Bank</option>
-                                    <option value="opay">OPay</option>
-                                    <option value="palmpay">PalmPay</option>
-                                    <option value="zenith">Zenith Bank</option>
-                                    <option value="uab">United Bank for Africa (UBA)</option>
-                                </select>
-                                <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">expand_more</span>
-                            </div>
-                        </div>
-
-                        <div className="relative group">
-                            <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Account Number</label>
-                            <div className="relative">
-                                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-[#92c9a4]">pin</span>
-                                <input
-                                    type="text"
-                                    name="accountNumber"
-                                    inputMode="numeric"
-                                    maxLength={10}
-                                    placeholder="0123456789"
-                                    className="w-full bg-white dark:bg-[#1a2e1e] border border-slate-200 dark:border-gray-800 rounded-xl h-14 pl-12 pr-6 text-base tracking-widest focus:ring-2 focus:ring-d2e-primary focus:border-transparent outline-none transition-all"
-                                    value={formData.accountNumber}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        <div className="relative group">
-                            <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2 ml-1">Account Name</label>
-                            <div className="relative">
-                                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-[#92c9a4]">person</span>
-                                <input
-                                    type="text"
-                                    name="accountName"
-                                    placeholder="FULL NAME ON BANK"
-                                    className="w-full bg-white dark:bg-[#1a2e1e] border border-slate-200 dark:border-gray-800 rounded-xl h-14 pl-12 pr-6 text-base uppercase focus:ring-2 focus:ring-d2e-primary focus:border-transparent outline-none transition-all"
-                                    value={formData.accountName}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <p className="text-[10px] text-slate-400 mt-2 ml-1 italic">* Must match the name on your profile</p>
-                        </div>
-                    </div>
-
-                    <div className="pt-4">
-                        <button
-                            type="submit"
-                            disabled={loading || !formData.accountNumber || !formData.bankName}
-                            className="w-full h-14 bg-d2e-primary hover:bg-d2e-primary/90 text-d2e-bg-dark font-black rounded-xl shadow-lg shadow-d2e-primary/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2"
-                        >
-                            {loading ? (
-                                <div className="animate-spin rounded-full h-5 w-5 border-2 border-d2e-bg-dark border-t-transparent"></div>
-                            ) : (
-                                <>
-                                    <span>Verify Account</span>
-                                    <span className="material-symbols-outlined font-bold">arrow_forward</span>
-                                </>
-                            )}
-                        </button>
-                    </div>
-                </form>
-
-                <div className="mt-8 p-4 bg-blue-500/5 border border-blue-500/10 rounded-xl">
-                    <div className="flex gap-3">
-                        <span className="material-symbols-outlined text-blue-400">info</span>
-                        <div>
-                            <h4 className="text-xs font-bold text-white mb-1 uppercase tracking-tight">Daily Withdrawals</h4>
-                            <p className="text-[11px] text-gray-400 leading-normal">
-                                Once verified, you can withdraw your task earnings daily to this bank account instantly.
-                            </p>
+                                    {loading ? (
+                                        <div className="animate-spin rounded-full h-6 w-6 border-3 border-d2e-bg-dark border-t-transparent"></div>
+                                    ) : (
+                                        <>
+                                            <span>Authorize Account</span>
+                                            <span className="material-symbols-outlined font-black">arrow_forward</span>
+                                        </>
+                                    )}
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

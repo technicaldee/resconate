@@ -45,59 +45,84 @@ export default function NINVerification() {
                 <title>NIN Verification - D2E</title>
             </Head>
 
-            <header className="sticky top-0 z-50 bg-d2e-bg-light/80 dark:bg-d2e-bg-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-white/10 p-4">
-                <div className="max-w-md mx-auto flex items-center justify-between">
-                    <button onClick={() => router.back()} className="flex items-center justify-center h-10 w-10">
+            <nav className="sticky top-0 z-50 bg-d2e-bg-light/80 dark:bg-d2e-bg-dark/80 backdrop-blur-xl border-b border-slate-200 dark:border-white/10">
+                <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+                    <button onClick={() => router.back()} className="flex size-10 items-center justify-center rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-colors">
                         <span className="material-symbols-outlined">arrow_back_ios</span>
                     </button>
-                    <h2 className="text-lg font-bold">NIN Verification</h2>
+                    <h2 className="text-lg font-black uppercase tracking-widest text-center flex-1">Identity Protocol</h2>
                     <div className="w-10"></div>
                 </div>
-            </header>
+            </nav>
 
-            <main className="max-w-md mx-auto p-4 pt-10">
-                <div className="mb-8 text-center">
-                    <div className="h-20 w-20 rounded-2xl bg-d2e-primary/10 text-d2e-primary flex items-center justify-center mx-auto mb-4 border border-d2e-primary/20">
-                        <span className="material-symbols-outlined !text-4xl">fingerprint</span>
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div className="flex justify-center">
+                    <div className="w-full max-w-2xl">
+                        <div className="bg-white dark:bg-d2e-surface-dark rounded-[3rem] p-8 md:p-16 border border-slate-200 dark:border-white/5 shadow-2xl relative overflow-hidden text-center">
+                            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-d2e-primary to-emerald-500"></div>
+
+                            <div className="mb-12">
+                                <div className="size-24 bg-d2e-primary/10 rounded-[2rem] flex items-center justify-center mx-auto mb-8 transition-transform hover:scale-110">
+                                    <span className="material-symbols-outlined !text-5xl text-d2e-primary">fingerprint</span>
+                                </div>
+                                <h3 className="text-4xl font-black mb-4 tracking-tighter">Secure Identity.</h3>
+                                <p className="text-slate-500 dark:text-gray-400 text-base font-medium max-w-sm mx-auto">
+                                    Input your 11-digit National Identification Number. We use enterprise-grade encryption for all government ID processing.
+                                </p>
+                            </div>
+
+                            <form onSubmit={handleSubmit} className="space-y-10">
+                                <div className="space-y-4">
+                                    <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Government Identifier (NIN)</label>
+                                    <div className="relative group">
+                                        <input
+                                            type="text"
+                                            inputMode="numeric"
+                                            maxLength={11}
+                                            placeholder="0000 0000 000"
+                                            className="w-full bg-slate-50 dark:bg-d2e-bg-dark border-2 border-slate-100 dark:border-white/5 rounded-[2rem] h-20 text-center text-3xl font-black tracking-[0.3em] focus:ring-4 focus:ring-d2e-primary/10 focus:border-d2e-primary outline-none transition-all dark:text-white placeholder:opacity-10"
+                                            value={nin}
+                                            onChange={(e) => setNin(e.target.value.replace(/\D/g, ''))}
+                                            required
+                                        />
+                                    </div>
+                                    {error && (
+                                        <p className="text-red-500 text-xs font-black uppercase tracking-widest animate-bounce">
+                                            {error}
+                                        </p>
+                                    )}
+                                </div>
+
+                                <div className="p-6 bg-amber-500/5 border border-amber-500/10 rounded-2xl flex gap-4 text-left">
+                                    <span className="material-symbols-outlined text-amber-500 shrink-0">security</span>
+                                    <p className="text-[11px] text-amber-700 dark:text-amber-400 font-bold leading-relaxed">
+                                        PRIVACY NOTICE: Your National Identification Number is verified against our secure identity provider and is never stored in its plain-text form on our servers.
+                                    </p>
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    disabled={loading || nin.length !== 11}
+                                    className="w-full h-20 bg-d2e-primary hover:bg-d2e-primary/95 text-d2e-bg-dark font-black rounded-[2rem] shadow-2xl shadow-d2e-primary/20 transition-all active:scale-[0.98] disabled:opacity-30 text-xl uppercase tracking-widest group"
+                                >
+                                    {loading ? (
+                                        <div className="animate-spin rounded-full h-8 w-8 border-4 border-d2e-bg-dark border-t-transparent mx-auto"></div>
+                                    ) : (
+                                        <div className="flex items-center justify-center gap-3">
+                                            <span>Initialize Validation</span>
+                                            <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                                        </div>
+                                    )}
+                                </button>
+                            </form>
+
+                            <div className="mt-12 pt-12 border-t border-slate-100 dark:border-white/5">
+                                <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest">
+                                    Lost your NIN? <a href="#" className="text-d2e-primary hover:underline underline-offset-4 decoration-2 transition-all">Request Retrieval Guide</a>
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                    <h3 className="text-2xl font-bold mb-2">Identify Yourself</h3>
-                    <p className="text-slate-500 dark:text-gray-400 text-sm">Please enter your 11-digit National Identification Number (NIN) as it appears on your card.</p>
-                </div>
-
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    <div>
-                        <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">National ID Number</label>
-                        <input
-                            type="text"
-                            inputMode="numeric"
-                            maxLength={11}
-                            placeholder="0000 0000 000"
-                            className="w-full bg-white dark:bg-[#1a2e1e] border border-slate-200 dark:border-gray-800 rounded-xl h-14 px-6 text-xl tracking-[0.2em] font-mono focus:ring-2 focus:ring-d2e-primary focus:border-transparent outline-none transition-all"
-                            value={nin}
-                            onChange={(e) => setNin(e.target.value.replace(/\D/g, ''))}
-                            required
-                        />
-                        {error && <p className="text-red-500 text-xs mt-2 font-medium">{error}</p>}
-                    </div>
-
-                    <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl flex gap-3">
-                        <span className="material-symbols-outlined text-amber-500 text-xl">security</span>
-                        <p className="text-xs text-amber-600 dark:text-amber-400 leading-relaxed font-medium">
-                            Your NIN is handled securely and only used for identity validation. We do not store your full government ID data.
-                        </p>
-                    </div>
-
-                    <button
-                        type="submit"
-                        disabled={loading || nin.length !== 11}
-                        className="w-full h-14 bg-d2e-primary hover:bg-d2e-primary/90 text-d2e-bg-dark font-bold rounded-xl shadow-lg shadow-d2e-primary/20 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        {loading ? 'Verifying...' : 'Next Step'}
-                    </button>
-                </form>
-
-                <div className="mt-10 text-center">
-                    <p className="text-slate-500 dark:text-gray-400 text-xs">Don't have an NIN? <a href="#" className="text-d2e-primary font-bold">Find out how to get one</a></p>
                 </div>
             </main>
         </div>
