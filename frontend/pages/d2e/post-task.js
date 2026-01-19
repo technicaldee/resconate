@@ -65,14 +65,14 @@ export default function PostTask() {
     const totals = calculateTotal();
 
     return (
-        <div className="min-h-screen bg-d2e-bg-light dark:bg-d2e-bg-dark font-display text-slate-900 dark:text-white pb-32">
+        <div className="min-h-screen bg-d2e-bg-dark font-display text-white pb-32">
             <Head>
                 <title>Post a Task - D2E</title>
             </Head>
 
-            <nav className="sticky top-0 z-50 bg-d2e-bg-light/80 dark:bg-d2e-bg-dark/80 backdrop-blur-xl border-b border-slate-200 dark:border-white/10">
+            <nav className="sticky top-0 z-50 bg-d2e-bg-dark/80 backdrop-blur-xl border-b border-white/10">
                 <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-                    <button onClick={() => router.back()} className="flex size-10 items-center justify-center rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-colors">
+                    <button onClick={() => router.back()} className="flex size-10 items-center justify-center rounded-xl hover:bg-white/5 transition-colors">
                         <span className="material-symbols-outlined">arrow_back_ios</span>
                     </button>
                     <h2 className="text-lg font-black uppercase tracking-widest text-center flex-1">Launch Campaign</h2>
@@ -85,7 +85,7 @@ export default function PostTask() {
                 <div className="mb-12">
                     <div className="flex items-center gap-4 mb-4">
                         <div className={`size-12 rounded-2xl flex items-center justify-center font-black text-xl transition-all duration-500 ${step === 1 ? 'bg-d2e-primary text-d2e-bg-dark shadow-lg shadow-d2e-primary/20' : 'bg-d2e-primary/20 text-d2e-primary'}`}>01</div>
-                        <div className="h-px flex-1 bg-slate-200 dark:bg-white/10"></div>
+                        <div className="h-px flex-1 bg-white/10"></div>
                         <div className={`size-12 rounded-2xl flex items-center justify-center font-black text-xl transition-all duration-500 ${step === 2 ? 'bg-d2e-primary text-d2e-bg-dark shadow-lg shadow-d2e-primary/20' : 'bg-white/5 text-slate-400 border border-white/5'}`}>02</div>
                     </div>
                     <h1 className="text-4xl md:text-6xl font-black tracking-tighter leading-tight">
@@ -96,7 +96,7 @@ export default function PostTask() {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
                     {/* Left Side: Form */}
                     <div className="lg:col-span-7">
-                        <div className="bg-white dark:bg-d2e-surface-dark rounded-[2.5rem] p-8 md:p-12 border border-slate-200 dark:border-white/5 shadow-sm relative overflow-hidden">
+                        <div className="bg-d2e-surface-dark rounded-[2.5rem] p-8 md:p-12 border border-white/5 shadow-sm relative overflow-hidden">
                             <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-d2e-primary to-emerald-500"></div>
 
                             {step === 1 && (
@@ -197,11 +197,11 @@ export default function PostTask() {
                                     </div>
 
                                     <div className="space-y-4 mb-10">
-                                        <div className="flex items-center justify-between p-6 bg-slate-50 dark:bg-d2e-bg-dark rounded-[2rem] border border-slate-100 dark:border-white/5">
+                                        <div className="flex items-center justify-between p-6 bg-d2e-bg-dark rounded-[2rem] border border-white/5">
                                             <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Total Force Pay</span>
                                             <span className="text-xl font-black">₦{totals.subtotal.toLocaleString()}</span>
                                         </div>
-                                        <div className="flex items-center justify-between p-6 bg-slate-50 dark:bg-d2e-bg-dark rounded-[2rem] border border-slate-100 dark:border-white/5">
+                                        <div className="flex items-center justify-between p-6 bg-d2e-bg-dark rounded-[2rem] border border-white/5">
                                             <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Security Fee (15%)</span>
                                             <span className="text-xl font-black text-amber-500">₦{totals.fee.toLocaleString()}</span>
                                         </div>
@@ -210,7 +210,7 @@ export default function PostTask() {
                                     <button
                                         onClick={handleFund}
                                         disabled={loading}
-                                        className="w-full h-20 bg-white text-d2e-bg-dark font-black rounded-3xl shadow-2xl flex justify-center items-center gap-4 transition-all active:scale-[0.98] text-2xl uppercase tracking-[0.1em]"
+                                        className="w-full h-20 bg-d2e-primary text-d2e-bg-dark font-black rounded-3xl shadow-2xl flex justify-center items-center gap-4 transition-all active:scale-[0.98] text-2xl uppercase tracking-[0.1em]"
                                     >
                                         {loading ? (
                                             <div className="animate-spin rounded-full h-8 w-8 border-4 border-d2e-bg-dark border-t-transparent"></div>

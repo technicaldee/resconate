@@ -42,7 +42,7 @@ export default function EarnerLogin() {
     };
 
     return (
-        <div className="min-h-screen bg-d2e-bg-light dark:bg-d2e-bg-dark font-display flex items-center justify-center p-6 relative overflow-hidden">
+        <div className="min-h-screen bg-d2e-bg-dark font-display flex items-center justify-center p-6 relative overflow-hidden">
             <Head>
                 <title>Earner Login - D2E</title>
             </Head>
@@ -59,22 +59,22 @@ export default function EarnerLogin() {
                             <span className="size-2 rounded-full bg-d2e-primary animate-pulse"></span>
                             <span className="text-[10px] font-black text-d2e-primary uppercase tracking-[0.2em]">Next-Gen Earning</span>
                         </div>
-                        <h1 className="text-7xl font-black text-slate-900 dark:text-white tracking-tight leading-[0.9]">
+                        <h1 className="text-7xl font-black text-white tracking-tight leading-[0.9]">
                             Unlock your <br />
                             <span className="text-d2e-primary">Digital Potential.</span>
                         </h1>
-                        <p className="text-xl text-slate-500 dark:text-gray-400 max-w-lg leading-relaxed font-medium">
+                        <p className="text-xl text-gray-400 max-w-lg leading-relaxed font-medium">
                             Join thousands of earners completing micro-tasks and building the future of decentralized work.
                         </p>
                     </div>
 
                     <div className="grid grid-cols-2 gap-6 max-w-md">
-                        <div className="p-6 rounded-3xl bg-white dark:bg-d2e-surface-dark border border-slate-100 dark:border-white/5 shadow-sm">
+                        <div className="p-6 rounded-3xl bg-d2e-surface-dark border border-white/5 shadow-sm">
                             <span className="material-symbols-outlined text-d2e-primary text-3xl mb-3">bolt</span>
                             <h4 className="font-black text-lg mb-1">Fast Payouts</h4>
                             <p className="text-xs text-slate-400 leading-normal">Withdraw your earnings instantly to your local bank.</p>
                         </div>
-                        <div className="p-6 rounded-3xl bg-white dark:bg-d2e-surface-dark border border-slate-100 dark:border-white/5 shadow-sm">
+                        <div className="p-6 rounded-3xl bg-d2e-surface-dark border border-white/5 shadow-sm">
                             <span className="material-symbols-outlined text-d2e-primary text-3xl mb-3">verified</span>
                             <h4 className="font-black text-lg mb-1">Global Tasks</h4>
                             <p className="text-xs text-slate-400 leading-normal">Access exclusive opportunities from top brands.</p>
@@ -89,11 +89,11 @@ export default function EarnerLogin() {
                             <div className="h-16 w-16 bg-d2e-primary/10 rounded-2xl flex items-center justify-center mb-6 border border-d2e-primary/20 shadow-inner">
                                 <span className="material-symbols-outlined !text-4xl text-d2e-primary">login</span>
                             </div>
-                            <h1 className="text-3xl font-black text-slate-900 dark:text-white mb-2 tracking-tight">Welcome Back</h1>
-                            <p className="text-slate-500 dark:text-gray-400 font-medium">Sign in to continue your earning journey.</p>
+                            <h1 className="text-3xl font-black text-white mb-2 tracking-tight">Welcome Back</h1>
+                            <p className="text-gray-400 font-medium">Sign in to continue your earning journey.</p>
                         </div>
 
-                        <div className="bg-white dark:bg-d2e-surface-dark p-8 md:p-12 rounded-[3rem] border border-slate-200 dark:border-white/5 shadow-2xl relative overflow-hidden group">
+                        <div className="bg-d2e-surface-dark p-8 md:p-12 rounded-[3rem] border border-white/5 shadow-2xl relative overflow-hidden group">
                             <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-d2e-primary to-emerald-500"></div>
 
                             {error && (
@@ -111,7 +111,7 @@ export default function EarnerLogin() {
                                             name="username"
                                             type="text"
                                             required
-                                            className="w-full bg-slate-50 dark:bg-d2e-bg-dark border border-slate-200 dark:border-white/5 rounded-2xl h-16 pl-14 pr-6 text-base font-bold focus:ring-2 focus:ring-d2e-primary/20 focus:border-d2e-primary outline-none transition-all dark:text-white placeholder:text-slate-300 dark:placeholder:text-white/10"
+                                            className="w-full bg-d2e-bg-dark border border-white/5 rounded-2xl h-16 pl-14 pr-6 text-base font-bold focus:ring-2 focus:ring-d2e-primary/20 focus:border-d2e-primary outline-none transition-all text-white placeholder:text-white/10"
                                             placeholder="Email or Username"
                                             value={formData.username}
                                             onChange={handleChange}
@@ -130,7 +130,7 @@ export default function EarnerLogin() {
                                             name="password"
                                             type="password"
                                             required
-                                            className="w-full bg-slate-50 dark:bg-d2e-bg-dark border border-slate-200 dark:border-white/5 rounded-2xl h-16 pl-14 pr-6 text-base font-bold focus:ring-2 focus:ring-d2e-primary/20 focus:border-d2e-primary outline-none transition-all dark:text-white placeholder:text-slate-300 dark:placeholder:text-white/10"
+                                            className="w-full bg-d2e-bg-dark border border-white/5 rounded-2xl h-16 pl-14 pr-6 text-base font-bold focus:ring-2 focus:ring-d2e-primary/20 focus:border-d2e-primary outline-none transition-all text-white placeholder:text-white/10"
                                             placeholder="••••••••"
                                             value={formData.password}
                                             onChange={handleChange}

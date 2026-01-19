@@ -62,14 +62,14 @@ export default function VerificationCenter() {
     ];
 
     return (
-        <div className="bg-d2e-bg-light dark:bg-d2e-bg-dark text-slate-900 dark:text-white font-display min-h-screen pb-32">
+        <div className="bg-d2e-bg-dark text-white font-display min-h-screen pb-32">
             <Head>
                 <title>Verification Center - D2E</title>
             </Head>
 
-            <nav className="sticky top-0 z-50 bg-d2e-bg-light/80 dark:bg-d2e-bg-dark/80 backdrop-blur-xl border-b border-slate-200 dark:border-white/10">
+            <nav className="sticky top-0 z-50 bg-d2e-bg-dark/80 backdrop-blur-xl border-b border-white/10">
                 <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-                    <button onClick={() => router.back()} className="flex size-10 items-center justify-center rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-colors">
+                    <button onClick={() => router.back()} className="flex size-10 items-center justify-center rounded-xl hover:bg-white/5 transition-colors">
                         <span className="material-symbols-outlined">arrow_back_ios</span>
                     </button>
                     <h2 className="text-lg font-black uppercase tracking-widest text-center flex-1">Security Prototypes</h2>
@@ -118,7 +118,7 @@ export default function VerificationCenter() {
                                     { icon: 'shield_person', label: 'Priority Support', desc: 'Dedicated security desk for your account.' }
                                 ].map((item, idx) => (
                                     <div key={idx} className="flex gap-4">
-                                        <div className="size-10 rounded-xl bg-slate-50 dark:bg-d2e-bg-dark flex items-center justify-center shrink-0">
+                                        <div className="size-10 rounded-xl bg-d2e-bg-dark flex items-center justify-center shrink-0">
                                             <span className="material-symbols-outlined text-d2e-primary text-xl">{item.icon}</span>
                                         </div>
                                         <div>
@@ -137,8 +137,8 @@ export default function VerificationCenter() {
                         <div className="space-y-4">
                             {verificationSteps.map((step) => (
                                 <Link href={step.link} key={step.id} className="block group">
-                                    <div className="flex items-center gap-6 bg-white dark:bg-d2e-surface-dark p-6 md:p-8 rounded-[2rem] border border-slate-100 dark:border-white/5 shadow-sm group-hover:border-d2e-primary/30 transition-all group-active:scale-[0.98]">
-                                        <div className={`size-16 rounded-2xl flex items-center justify-center transition-all ${step.status === 'Completed' ? 'bg-d2e-primary/10 text-d2e-primary shadow-lg shadow-d2e-primary/5' : 'bg-slate-50 dark:bg-d2e-bg-dark text-slate-400'}`}>
+                                    <div className="flex items-center gap-6 bg-d2e-surface-dark p-6 md:p-8 rounded-[2rem] border border-white/5 shadow-sm group-hover:border-d2e-primary/30 transition-all group-active:scale-[0.98]">
+                                        <div className={`size-16 rounded-2xl flex items-center justify-center transition-all ${step.status === 'Completed' ? 'bg-d2e-primary/10 text-d2e-primary shadow-lg shadow-d2e-primary/5' : 'bg-d2e-bg-dark text-slate-400'}`}>
                                             <span className="material-symbols-outlined !text-3xl">{step.icon}</span>
                                         </div>
                                         <div className="flex-1">
@@ -156,11 +156,11 @@ export default function VerificationCenter() {
                             ))}
                         </div>
 
-                        <div className="mt-12 p-10 bg-slate-50 dark:bg-d2e-surface-dark/40 rounded-[2.5rem] border border-dashed border-slate-200 dark:border-white/10 text-center">
+                        <div className="mt-12 p-10 bg-d2e-surface-dark/40 rounded-[2.5rem] border border-dashed border-white/10 text-center">
                             <span className="material-symbols-outlined text-4xl text-slate-200 mb-4">help</span>
                             <h4 className="text-base font-black uppercase tracking-widest mb-2">Need Assistance?</h4>
                             <p className="text-sm text-slate-400 max-w-sm mx-auto font-medium">If you're having trouble with identity verification, please contact our security dispatch.</p>
-                            <button className="mt-6 px-8 h-12 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:text-d2e-primary transition-all">Open Security Ticket</button>
+                            <button className="mt-6 px-8 h-12 bg-white/5 border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:text-d2e-primary transition-all">Open Security Ticket</button>
                         </div>
                     </div>
                 </div>

@@ -61,7 +61,7 @@ export default function TaskDetails() {
 
     if (!task) {
         return (
-            <div className="min-h-screen bg-d2e-bg-light dark:bg-d2e-bg-dark flex flex-col items-center justify-center text-white p-4 text-center">
+            <div className="min-h-screen bg-d2e-bg-dark flex flex-col items-center justify-center text-white p-4 text-center">
                 <h1 className="text-2xl font-bold mb-4">Task Not Found</h1>
                 <Link href="/d2e/tasks" className="text-d2e-primary hover:underline">Back to Explore</Link>
             </div>
@@ -69,23 +69,23 @@ export default function TaskDetails() {
     }
 
     return (
-        <div className="bg-d2e-bg-light dark:bg-d2e-bg-dark text-slate-900 dark:text-white font-display min-h-screen pb-32">
+        <div className="bg-d2e-bg-dark text-white font-display min-h-screen pb-32">
             <Head>
                 <title>{task.title} - D2E Marketplace</title>
             </Head>
 
             {/* Top App Bar */}
-            <nav className="sticky top-0 z-50 bg-d2e-bg-light/80 dark:bg-d2e-bg-dark/80 backdrop-blur-xl border-b border-slate-200 dark:border-white/10">
+            <nav className="sticky top-0 z-50 bg-d2e-bg-dark/80 backdrop-blur-xl border-b border-white/10">
                 <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
                     <button
                         onClick={() => router.back()}
-                        className="flex size-10 items-center justify-center rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-colors focus:outline-none"
+                        className="flex size-10 items-center justify-center rounded-xl hover:bg-white/5 transition-colors focus:outline-none"
                     >
                         <span className="material-symbols-outlined text-2xl">arrow_back_ios</span>
                     </button>
                     <h2 className="text-lg font-black uppercase tracking-widest text-center flex-1">Task Details</h2>
                     <div className="flex w-10 items-center justify-end">
-                        <button className="flex size-10 items-center justify-center rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-colors focus:outline-none">
+                        <button className="flex size-10 items-center justify-center rounded-xl hover:bg-white/5 transition-colors focus:outline-none">
                             <span className="material-symbols-outlined text-2xl">share</span>
                         </button>
                     </div>
@@ -120,7 +120,7 @@ export default function TaskDetails() {
                         </div>
 
                         {/* Details Grid */}
-                        <div className="bg-white dark:bg-d2e-surface-dark rounded-[2.5rem] p-8 md:p-12 border border-slate-200 dark:border-white/5 space-y-12 shadow-sm">
+                        <div className="bg-d2e-surface-dark rounded-[2.5rem] p-8 md:p-12 border border-white/5 space-y-12 shadow-sm">
                             {/* Description */}
                             <section>
                                 <h3 className="text-xl font-black uppercase tracking-tight mb-6 flex items-center gap-3">
@@ -130,7 +130,7 @@ export default function TaskDetails() {
                                     The Mission
                                 </h3>
                                 <div className="prose dark:prose-invert prose-slate max-w-none">
-                                    <p className="text-slate-600 dark:text-gray-300 leading-relaxed text-base md:text-lg">
+                                    <p className="text-gray-300 leading-relaxed text-base md:text-lg">
                                         {task.description}
                                     </p>
                                 </div>
@@ -146,11 +146,11 @@ export default function TaskDetails() {
                                 </h3>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     {task.required_skills?.map((req, idx) => (
-                                        <div key={idx} className="flex items-center gap-4 p-4 bg-slate-50 dark:bg-d2e-accent-dark/30 rounded-2xl border border-transparent hover:border-d2e-primary/20 transition-all">
+                                        <div key={idx} className="flex items-center gap-4 p-4 bg-d2e-accent-dark/30 rounded-2xl border border-transparent hover:border-d2e-primary/20 transition-all">
                                             <div className="size-10 rounded-xl bg-d2e-primary/20 flex items-center justify-center shrink-0">
                                                 <span className="material-symbols-outlined text-d2e-primary !text-xl">check</span>
                                             </div>
-                                            <span className="text-sm font-bold text-slate-700 dark:text-gray-300 italic">"{req}"</span>
+                                            <span className="text-sm font-bold text-gray-300 italic">"{req}"</span>
                                         </div>
                                     ))}
                                     {(!task.required_skills || task.required_skills.length === 0) && (
@@ -160,14 +160,14 @@ export default function TaskDetails() {
                             </section>
 
                             {/* About the Poster */}
-                            <section className="pt-8 border-t border-slate-100 dark:border-white/5">
-                                <div className="flex flex-col md:flex-row items-center gap-6 p-6 rounded-3xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/5">
+                            <section className="pt-8 border-t border-white/5">
+                                <div className="flex flex-col md:flex-row items-center gap-6 p-6 rounded-3xl bg-white/5 border border-white/5">
                                     <div className="size-20 rounded-[1.5rem] bg-gradient-to-br from-d2e-primary to-emerald-600 flex items-center justify-center text-d2e-bg-dark text-4xl font-black shadow-lg">
                                         {task.poster_name ? task.poster_name.charAt(0) : 'P'}
                                     </div>
                                     <div className="flex-1 text-center md:text-left">
                                         <div className="flex items-center justify-center md:justify-start gap-2 mb-1">
-                                            <h4 className="font-black text-slate-900 dark:text-white text-2xl tracking-tight">{task.poster_name || 'Anonymous Poster'}</h4>
+                                            <h4 className="font-black text-white text-2xl tracking-tight">{task.poster_name || 'Anonymous Poster'}</h4>
                                             <span className="material-symbols-outlined text-blue-500 fill-1">verified</span>
                                         </div>
                                         <div className="flex items-center justify-center md:justify-start gap-3">
@@ -177,7 +177,7 @@ export default function TaskDetails() {
                                             <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Elite Verified Entity</span>
                                         </div>
                                     </div>
-                                    <button className="h-10 px-6 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-100 dark:hover:bg-white/10 transition-colors">Contact Entity</button>
+                                    <button className="h-10 px-6 bg-white/5 border border-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-colors">Contact Entity</button>
                                 </div>
                             </section>
                         </div>
@@ -186,7 +186,7 @@ export default function TaskDetails() {
                     {/* Right Column: Reward & Claim (Sticky) */}
                     <div className="lg:col-span-4 lg:sticky lg:top-24 space-y-6">
                         {/* Payout Card */}
-                        <div className="bg-white dark:bg-d2e-surface-dark rounded-[2.5rem] p-8 border border-slate-200 dark:border-white/5 shadow-2xl shadow-d2e-primary/5">
+                        <div className="bg-d2e-surface-dark rounded-[2.5rem] p-8 border border-white/5 shadow-2xl shadow-d2e-primary/5">
                             <div className="flex flex-col items-center text-center mb-8">
                                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Network Payout</span>
                                 <h2 className="text-d2e-primary text-6xl font-black tracking-tighter mb-4">₦{parseFloat(task.pay_per_slot).toLocaleString()}</h2>
@@ -196,7 +196,7 @@ export default function TaskDetails() {
                             </div>
 
                             <div className="space-y-4 mb-8">
-                                <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-d2e-accent-dark/40 rounded-2xl">
+                                <div className="flex items-center justify-between p-4 bg-d2e-accent-dark/40 rounded-2xl">
                                     <div className="flex items-center gap-3">
                                         <span className="material-symbols-outlined text-orange-400">event_available</span>
                                         <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Deadline</span>

@@ -34,7 +34,7 @@ export default function EarnerDashboard() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-d2e-bg-light dark:bg-d2e-bg-dark flex items-center justify-center">
+            <div className="min-h-screen bg-d2e-bg-dark flex items-center justify-center">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-d2e-primary"></div>
             </div>
         );
@@ -47,13 +47,13 @@ export default function EarnerDashboard() {
     };
 
     return (
-        <div className="bg-d2e-bg-light dark:bg-d2e-bg-dark font-display text-slate-900 dark:text-white antialiased min-h-screen flex flex-col pb-24">
+        <div className="bg-d2e-bg-dark font-display text-white antialiased min-h-screen flex flex-col pb-24">
             <Head>
                 <title>Earner Dashboard - D2E Marketplace</title>
             </Head>
 
             {/* TopAppBar */}
-            <header className="sticky top-0 z-50 flex items-center bg-d2e-bg-light/80 dark:bg-d2e-bg-dark/80 backdrop-blur-md p-4 justify-between border-b border-gray-200 dark:border-white/10">
+            <header className="sticky top-0 z-50 flex items-center bg-d2e-bg-dark/80 backdrop-blur-md p-4 justify-between border-b border-white/10">
                 <div className="flex max-w-7xl mx-auto w-full items-center justify-between">
                     <div className="flex size-10 shrink-0 items-center">
                         <div
@@ -61,9 +61,9 @@ export default function EarnerDashboard() {
                             style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuBsWlfQIUjQ-goR7jya0Em6bX2n5PNqBviF8xzzHBHaCP4Dg1I1dfoplx5qum79pdw46rmcfWtxPVud_yjDW_X1gcittdLNx8co4YqAopcD5HDtX-n7l6r3iPv5BWnGpZuJ62Sq1IllsDVRAqQCcFkEgHb96IeosZsdh7l3VjEPg1ii7xLvJPvRSiMULl5kae9DkerRfIYhGcwk8p4JEUmFlaPqkGmlu6_coqbPKBlM8c-2QWRd32fxFWcxcA6Qbarser8h5qVd3g")' }}
                         ></div>
                     </div>
-                    <h2 className="text-slate-900 dark:text-white text-lg font-black leading-tight tracking-tight uppercase">Dashboard</h2>
+                    <h2 className="text-white text-lg font-black leading-tight tracking-tight uppercase">Dashboard</h2>
                     <div className="flex w-10 items-center justify-end">
-                        <button className="flex cursor-pointer items-center justify-center rounded-xl h-10 w-10 bg-white dark:bg-d2e-surface-dark border border-gray-100 dark:border-white/5 shadow-sm text-slate-900 dark:text-white transition-transform active:scale-95">
+                        <button className="flex cursor-pointer items-center justify-center rounded-xl h-10 w-10 bg-d2e-surface-dark border border-white/5 shadow-sm text-white transition-transform active:scale-95">
                             <span className="material-symbols-outlined">notifications</span>
                         </button>
                     </div>
@@ -75,7 +75,7 @@ export default function EarnerDashboard() {
                     {/* Left Column: Profile & Stats */}
                     <div className="lg:col-span-2 space-y-8">
                         {/* ProfileHeader */}
-                        <div className="bg-white dark:bg-d2e-surface-dark rounded-3xl p-6 border border-gray-100 dark:border-white/5 shadow-sm">
+                        <div className="bg-d2e-surface-dark rounded-3xl p-6 border border-white/5 shadow-sm">
                             <div className="flex flex-col md:flex-row gap-6 items-center md:items-start text-center md:text-left">
                                 <div
                                     className="bg-center bg-no-repeat aspect-square bg-cover rounded-2xl size-24 shadow-xl flex items-center justify-center text-white"
@@ -84,16 +84,16 @@ export default function EarnerDashboard() {
                                     <span className="material-symbols-outlined !text-5xl text-d2e-bg-dark">military_tech</span>
                                 </div>
                                 <div className="flex flex-col justify-center flex-1">
-                                    <p className="text-slate-900 dark:text-white text-3xl font-black leading-tight tracking-tight mb-1">Hi, {user?.full_name?.split(' ')[0] || 'Earner'}</p>
+                                    <p className="text-white text-3xl font-black leading-tight tracking-tight mb-1">Hi, {user?.full_name?.split(' ')[0] || 'Earner'}</p>
                                     <p className="text-d2e-primary text-sm font-bold uppercase tracking-widest mb-4">
                                         {user?.is_verified ? 'Verified Premium Earner' : 'Standard Earner'}
                                     </p>
                                     <div className="w-full max-w-sm mx-auto md:mx-0">
-                                        <div className="flex justify-between text-xs font-bold uppercase tracking-tighter text-slate-500 mb-2">
+                                        <div className="flex justify-between text-xs font-bold uppercase tracking-tighter text-gray-400 mb-2">
                                             <span>Verification Progress</span>
                                             <span>{user?.is_verified ? '100%' : '33%'}</span>
                                         </div>
-                                        <div className="h-3 w-full rounded-full bg-gray-100 dark:bg-d2e-accent-dark overflow-hidden">
+                                        <div className="h-3 w-full rounded-full bg-d2e-accent-dark overflow-hidden">
                                             <div className="h-full rounded-full bg-gradient-to-r from-d2e-primary to-emerald-400 transition-all duration-1000" style={{ width: user?.is_verified ? '100%' : '33%' }}></div>
                                         </div>
                                     </div>
@@ -110,7 +110,7 @@ export default function EarnerDashboard() {
 
                         {/* Stats Cards */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div className="flex flex-col gap-4 rounded-3xl p-8 bg-white dark:bg-d2e-surface-dark border border-gray-100 dark:border-white/5 shadow-sm group hover:border-d2e-primary/30 transition-colors">
+                            <div className="flex flex-col gap-4 rounded-3xl p-8 bg-d2e-surface-dark border border-white/5 shadow-sm group hover:border-d2e-primary/30 transition-colors">
                                 <div className="flex items-center justify-between">
                                     <div className="size-12 rounded-2xl bg-d2e-primary/10 text-d2e-primary flex items-center justify-center">
                                         <span className="material-symbols-outlined !text-2xl">account_balance_wallet</span>
@@ -118,20 +118,20 @@ export default function EarnerDashboard() {
                                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Available</span>
                                 </div>
                                 <div>
-                                    <p className="text-slate-500 dark:text-gray-400 text-sm font-bold uppercase tracking-tighter mb-1">Balance</p>
-                                    <p className="text-slate-900 dark:text-white tracking-tight text-4xl font-black">₦{parseFloat(wallet.available_balance).toLocaleString()}</p>
+                                    <p className="text-gray-400 text-sm font-bold uppercase tracking-tighter mb-1">Balance</p>
+                                    <p className="text-white tracking-tight text-4xl font-black">₦{parseFloat(wallet.available_balance).toLocaleString()}</p>
                                 </div>
                             </div>
-                            <div className="flex flex-col gap-4 rounded-3xl p-8 bg-white dark:bg-d2e-surface-dark border border-gray-100 dark:border-white/5 shadow-sm group hover:border-gray-300 dark:hover:border-white/20 transition-colors">
+                            <div className="flex flex-col gap-4 rounded-3xl p-8 bg-d2e-surface-dark border border-white/5 shadow-sm group hover:border-white/20 transition-colors">
                                 <div className="flex items-center justify-between">
-                                    <div className="size-12 rounded-2xl bg-slate-100 dark:bg-d2e-accent-dark text-slate-500 dark:text-gray-400 flex items-center justify-center">
+                                    <div className="size-12 rounded-2xl bg-d2e-accent-dark text-gray-400 flex items-center justify-center">
                                         <span className="material-symbols-outlined !text-2xl">schedule</span>
                                     </div>
                                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Pending</span>
                                 </div>
                                 <div>
-                                    <p className="text-slate-500 dark:text-gray-400 text-sm font-bold uppercase tracking-tighter mb-1">Locked Funds</p>
-                                    <p className="text-slate-600 dark:text-gray-300 tracking-tight text-4xl font-black">₦{parseFloat(wallet.pending_balance).toLocaleString()}</p>
+                                    <p className="text-gray-400 text-sm font-bold uppercase tracking-tighter mb-1">Locked Funds</p>
+                                    <p className="text-gray-300 tracking-tight text-4xl font-black">₦{parseFloat(wallet.pending_balance).toLocaleString()}</p>
                                 </div>
                             </div>
                         </div>
@@ -148,19 +148,19 @@ export default function EarnerDashboard() {
                     {/* Right Column: Active Claims */}
                     <div className="space-y-6">
                         <div className="flex items-center justify-between">
-                            <h2 className="text-slate-900 dark:text-white text-2xl font-black leading-tight tracking-tight uppercase">Active Claims</h2>
+                            <h2 className="text-white text-2xl font-black leading-tight tracking-tight uppercase">Active Claims</h2>
                             <Link href="/d2e/dashboard?tab=tasks" className="text-d2e-primary text-xs font-black uppercase tracking-widest border-b-2 border-d2e-primary/30 hover:border-d2e-primary pb-0.5 transition-all">View All</Link>
                         </div>
 
                         <div className="flex flex-col gap-4">
                             {claims.length > 0 ? claims.map((claim) => (
-                                <div key={claim.id} className="flex items-center gap-4 rounded-2xl p-5 bg-white dark:bg-d2e-surface-dark border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-md transition-shadow">
+                                <div key={claim.id} className="flex items-center gap-4 rounded-2xl p-5 bg-d2e-surface-dark border border-white/5 shadow-sm hover:shadow-md transition-shadow">
                                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-d2e-primary/10 text-d2e-primary">
                                         <span className="material-symbols-outlined">description</span>
                                     </div>
                                     <div className="flex-1 overflow-hidden">
-                                        <p className="text-slate-900 dark:text-white font-bold truncate text-sm mb-0.5">{claim.task_title}</p>
-                                        <p className="text-slate-500 dark:text-gray-400 text-[10px] font-bold uppercase tracking-tighter">
+                                        <p className="text-white font-bold truncate text-sm mb-0.5">{claim.task_title}</p>
+                                        <p className="text-gray-400 text-[10px] font-bold uppercase tracking-tighter">
                                             {claim.status === 'SUBMITTED' ? `Sent ${new Date(claim.submitted_at).toLocaleDateString()}` : `Claimed ${new Date(claim.created_at).toLocaleDateString()}`}
                                         </p>
                                     </div>
@@ -172,11 +172,11 @@ export default function EarnerDashboard() {
                                             }`}>
                                             {claim.status.replace('_', ' ')}
                                         </span>
-                                        <p className="text-slate-900 dark:text-white font-black text-sm">₦{parseFloat(claim.amount).toLocaleString()}</p>
+                                        <p className="text-white font-black text-sm">₦{parseFloat(claim.amount).toLocaleString()}</p>
                                     </div>
                                 </div>
                             )) : (
-                                <div className="text-center py-16 px-6 bg-white dark:bg-d2e-surface-dark rounded-3xl border-2 border-dashed border-gray-200 dark:border-white/5">
+                                <div className="text-center py-16 px-6 bg-d2e-surface-dark rounded-3xl border-2 border-dashed border-white/5">
                                     <span className="material-symbols-outlined text-4xl text-slate-300 mb-2">work_off</span>
                                     <p className="text-slate-500 font-bold mb-6">No active claims yet.</p>
                                     <Link href="/d2e/tasks" className="block mx-auto max-w-[200px]">

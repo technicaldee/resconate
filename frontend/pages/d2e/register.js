@@ -55,7 +55,7 @@ export default function EarnerRegister() {
     };
 
     return (
-        <div className="min-h-screen bg-d2e-bg-light dark:bg-d2e-bg-dark font-display flex items-center justify-center p-6 relative overflow-hidden">
+        <div className="min-h-screen bg-d2e-bg-dark font-display flex items-center justify-center p-6 relative overflow-hidden">
             <Head>
                 <title>Join D2E - Become an Earner</title>
             </Head>
@@ -73,12 +73,12 @@ export default function EarnerRegister() {
                             <span className="size-2 rounded-full bg-d2e-primary animate-pulse"></span>
                             <span className="text-[10px] font-black text-d2e-primary uppercase tracking-[0.2em]">Earner Recruitment</span>
                         </div>
-                        <h1 className="text-6xl xl:text-7xl font-black text-slate-900 dark:text-white leading-[0.9] tracking-tighter">
+                        <h1 className="text-6xl xl:text-7xl font-black text-white leading-[0.9] tracking-tighter">
                             Start Your <br />
                             <span className="text-d2e-primary">Digital Hustle</span> <br />
                             Today.
                         </h1>
-                        <p className="text-xl text-slate-500 dark:text-gray-400 max-w-md font-medium leading-relaxed">
+                        <p className="text-xl text-gray-400 max-w-md font-medium leading-relaxed">
                             Join over 50,000+ active earners completing micro-tasks for global brands and local startups.
                         </p>
                     </div>
@@ -99,21 +99,21 @@ export default function EarnerRegister() {
 
                 {/* Form Side */}
                 <div className="flex flex-col items-center lg:items-end">
-                    <div className="w-full max-w-[520px] bg-white dark:bg-d2e-surface-dark p-8 md:p-14 rounded-[3rem] border border-slate-100 dark:border-white/5 shadow-2xl relative overflow-hidden">
+                    <div className="w-full max-w-[520px] bg-d2e-surface-dark p-8 md:p-14 rounded-[3rem] border border-white/5 shadow-2xl relative overflow-hidden">
                         <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-d2e-primary to-emerald-500"></div>
 
                         <div className="mb-10 lg:hidden">
                             <div className="h-20 w-20 bg-d2e-primary/10 rounded-3xl flex items-center justify-center mb-6 border border-d2e-primary/20 shadow-inner">
                                 <span className="material-symbols-outlined !text-4xl text-d2e-primary">person_add</span>
                             </div>
-                            <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-2 tracking-tighter">Join the Squad</h2>
-                            <p className="text-slate-500 dark:text-gray-400 font-medium">Create your earner profile to get started.</p>
+                            <h2 className="text-4xl font-black text-white mb-2 tracking-tighter">Join the Squad</h2>
+                            <p className="text-gray-400 font-medium">Create your earner profile to get started.</p>
                         </div>
 
                         {/* Step Progress Indicator (Visual only) */}
                         <div className="flex gap-3 mb-12">
-                            <div className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${step >= 1 ? 'bg-d2e-primary box-shadow-d2e' : 'bg-slate-100 dark:bg-white/5'}`}></div>
-                            <div className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${step >= 2 ? 'bg-d2e-primary box-shadow-d2e' : 'bg-slate-100 dark:bg-white/5'}`}></div>
+                            <div className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${step >= 1 ? 'bg-d2e-primary box-shadow-d2e' : 'bg-white/5'}`}></div>
+                            <div className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${step >= 2 ? 'bg-d2e-primary box-shadow-d2e' : 'bg-white/5'}`}></div>
                         </div>
 
                         {error && (
@@ -132,7 +132,7 @@ export default function EarnerRegister() {
                                             name="fullName"
                                             type="text"
                                             required
-                                            className="w-full bg-slate-50 dark:bg-d2e-bg-dark border border-slate-200 dark:border-white/5 rounded-2xl h-16 pl-14 pr-6 text-base font-bold focus:ring-2 focus:ring-d2e-primary/20 focus:border-d2e-primary outline-none transition-all dark:text-white placeholder:text-slate-300 dark:placeholder:text-white/10"
+                                            className="w-full bg-d2e-bg-dark border border-white/5 rounded-2xl h-16 pl-14 pr-6 text-base font-bold focus:ring-2 focus:ring-d2e-primary/20 focus:border-d2e-primary outline-none transition-all text-white placeholder:text-white/10"
                                             placeholder="Johnathan Doe"
                                             value={formData.fullName}
                                             onChange={handleChange}
@@ -148,7 +148,7 @@ export default function EarnerRegister() {
                                             name="email"
                                             type="email"
                                             required
-                                            className="w-full bg-slate-50 dark:bg-d2e-bg-dark border border-slate-200 dark:border-white/5 rounded-2xl h-16 pl-14 pr-6 text-base font-bold focus:ring-2 focus:ring-d2e-primary/20 focus:border-d2e-primary outline-none transition-all dark:text-white placeholder:text-slate-300 dark:placeholder:text-white/10"
+                                            className="w-full bg-d2e-bg-dark border border-white/5 rounded-2xl h-16 pl-14 pr-6 text-base font-bold focus:ring-2 focus:ring-d2e-primary/20 focus:border-d2e-primary outline-none transition-all text-white placeholder:text-white/10"
                                             placeholder="name@ecosystem.com"
                                             value={formData.email}
                                             onChange={handleChange}

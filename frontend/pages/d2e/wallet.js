@@ -45,23 +45,23 @@ export default function MyWallet() {
     const { wallet, claims } = data || { wallet: { available_balance: 0, pending_balance: 0 }, claims: [] };
 
     return (
-        <div className="bg-d2e-bg-light dark:bg-d2e-bg-dark text-slate-900 dark:text-white transition-colors duration-300 min-h-screen pb-24">
+        <div className="bg-d2e-bg-dark text-white font-display min-h-screen pb-24">
             <Head>
                 <title>My Wallet - D2E Marketplace</title>
             </Head>
 
             {/* TopAppBar */}
-            <div className="sticky top-0 z-50 bg-d2e-bg-light/80 dark:bg-d2e-bg-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-white/10">
+            <div className="sticky top-0 z-50 bg-d2e-bg-dark/80 backdrop-blur-md border-b border-white/10">
                 <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
                     <button
                         onClick={() => router.back()}
-                        className="text-slate-900 dark:text-white flex size-10 items-center justify-center rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-colors focus:outline-none"
+                        className="text-white flex size-10 items-center justify-center rounded-xl hover:bg-white/5 transition-colors focus:outline-none"
                     >
                         <span className="material-symbols-outlined cursor-pointer">arrow_back_ios</span>
                     </button>
-                    <h2 className="text-slate-900 dark:text-white text-lg font-black uppercase tracking-widest text-center flex-1">My Wallet</h2>
+                    <h2 className="text-white text-lg font-black uppercase tracking-widest text-center flex-1">My Wallet</h2>
                     <div className="flex w-10 items-center justify-end">
-                        <button className="flex size-10 items-center justify-center rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-colors focus:outline-none">
+                        <button className="flex size-10 items-center justify-center rounded-xl hover:bg-white/5 transition-colors focus:outline-none">
                             <span className="material-symbols-outlined">settings</span>
                         </button>
                     </div>
@@ -74,12 +74,12 @@ export default function MyWallet() {
                     {/* Left Column: Balance & Bank Info */}
                     <div className="lg:col-span-5 space-y-8">
                         {/* Wallet Balance Card */}
-                        <div className="flex flex-col items-stretch justify-start rounded-[2.5rem] shadow-2xl shadow-d2e-primary/10 bg-white dark:bg-d2e-surface-dark border border-slate-200 dark:border-white/5 overflow-hidden group">
+                        <div className="flex flex-col items-stretch justify-start rounded-[2.5rem] shadow-2xl shadow-d2e-primary/10 bg-d2e-surface-dark border border-white/5 overflow-hidden group">
                             <div className="w-full h-32 bg-gradient-to-br from-d2e-primary/30 to-emerald-500/10 relative overflow-hidden">
                                 <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, #13ec5b 1px, transparent 0)', backgroundSize: '24px 24px' }}></div>
                                 <div className="absolute -right-8 -top-8 size-32 bg-d2e-primary/10 rounded-full blur-3xl group-hover:bg-d2e-primary/20 transition-colors"></div>
                             </div>
-                            <div className="flex w-full flex-col items-stretch justify-center gap-2 py-8 px-8 -mt-12 bg-white dark:bg-d2e-surface-dark rounded-t-[2.5rem] relative z-10">
+                            <div className="flex w-full flex-col items-stretch justify-center gap-2 py-8 px-8 -mt-12 bg-d2e-surface-dark rounded-t-[2.5rem] relative z-10">
                                 <div className="flex items-center gap-2 mb-2">
                                     <div className="size-6 rounded-full bg-d2e-primary/20 flex items-center justify-center">
                                         <span className="material-symbols-outlined text-d2e-primary text-[10px] font-black">verified</span>
@@ -89,8 +89,8 @@ export default function MyWallet() {
                                     </p>
                                 </div>
                                 <div className="flex flex-col mb-6">
-                                    <p className="text-slate-400 dark:text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">Available Funds</p>
-                                    <p className="text-slate-900 dark:text-white text-5xl font-black leading-tight tracking-tighter">₦{parseFloat(wallet.available_balance).toLocaleString()}</p>
+                                    <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">Available Funds</p>
+                                    <p className="text-white text-5xl font-black leading-tight tracking-tighter">₦{parseFloat(wallet.available_balance).toLocaleString()}</p>
                                 </div>
                                 <button className="flex w-full cursor-pointer items-center justify-center rounded-2xl h-14 px-8 bg-d2e-primary text-d2e-bg-dark text-base font-black uppercase tracking-widest transition-all active:scale-[0.98] shadow-xl shadow-d2e-primary/30 hover:shadow-d2e-primary/50">
                                     <span>Withdraw Funds</span>
@@ -140,31 +140,31 @@ export default function MyWallet() {
                     {/* Right Column: Recent Activity */}
                     <div className="lg:col-span-7 space-y-6">
                         <div className="flex items-center justify-between">
-                            <h3 className="text-slate-900 dark:text-white text-2xl font-black uppercase tracking-tight">Recent Activity</h3>
-                            <button className="size-10 rounded-xl bg-white dark:bg-d2e-surface-dark border border-slate-100 dark:border-white/5 shadow-sm flex items-center justify-center text-slate-400 hover:text-d2e-primary transition-colors">
+                            <h3 className="text-white text-2xl font-black uppercase tracking-tight">Recent Activity</h3>
+                            <button className="size-10 rounded-xl bg-d2e-surface-dark border border-white/5 shadow-sm flex items-center justify-center text-slate-400 hover:text-d2e-primary transition-colors">
                                 <span className="material-symbols-outlined">tune</span>
                             </button>
                         </div>
 
-                        <div className="bg-white dark:bg-d2e-surface-dark rounded-[2.5rem] border border-slate-200 dark:border-white/5 overflow-hidden shadow-sm">
+                        <div className="bg-d2e-surface-dark rounded-[2.5rem] border border-white/5 overflow-hidden shadow-sm">
                             {claims.length > 0 ? (
-                                <div className="divide-y divide-slate-50 dark:divide-white/5">
+                                <div className="divide-y divide-white/5">
                                     {claims.map((claim) => (
-                                        <div key={claim.id} className="flex items-center gap-5 p-6 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors cursor-pointer group">
+                                        <div key={claim.id} className="flex items-center gap-5 p-6 hover:bg-white/5 transition-colors cursor-pointer group">
                                             <div className={`rounded-2xl flex items-center justify-center size-14 shrink-0 transition-all group-hover:scale-110 ${claim.status === 'APPROVED' ? 'bg-d2e-primary/10 shadow-lg shadow-d2e-primary/5' : 'bg-amber-500/10'}`}>
                                                 <span className={`material-symbols-outlined text-2xl ${claim.status === 'APPROVED' ? 'text-d2e-primary' : 'text-amber-500'}`}>
                                                     {claim.status === 'APPROVED' ? 'check_circle' : 'hourglass_top'}
                                                 </span>
                                             </div>
                                             <div className="flex flex-col flex-1 min-w-0">
-                                                <p className="text-slate-900 dark:text-white text-base font-black leading-tight mb-1 truncate">{claim.task_title}</p>
-                                                <p className="text-slate-500 dark:text-gray-400 text-[10px] font-bold uppercase tracking-widest">
+                                                <p className="text-white text-base font-black leading-tight mb-1 truncate">{claim.task_title}</p>
+                                                <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest">
                                                     {new Date(claim.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })} • {new Date(claim.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                                 </p>
                                             </div>
                                             <div className="text-right shrink-0">
                                                 <p className="text-d2e-primary text-lg font-black tracking-tight">+₦{parseFloat(claim.amount).toLocaleString()}</p>
-                                                <p className={`text-[9px] font-black uppercase tracking-tighter px-2 py-0.5 rounded-md inline-block ${claim.status === 'APPROVED' ? 'bg-d2e-primary/10 text-d2e-primary' : 'bg-slate-100 dark:bg-white/5 text-slate-400'}`}>
+                                                <p className={`text-[9px] font-black uppercase tracking-tighter px-2 py-0.5 rounded-md inline-block ${claim.status === 'APPROVED' ? 'bg-d2e-primary/10 text-d2e-primary' : 'bg-white/5 text-slate-400'}`}>
                                                     {claim.status}
                                                 </p>
                                             </div>
@@ -173,11 +173,11 @@ export default function MyWallet() {
                                 </div>
                             ) : (
                                 <div className="text-center py-32 px-10">
-                                    <div className="size-20 rounded-full bg-slate-50 dark:bg-white/5 flex items-center justify-center mx-auto mb-6">
+                                    <div className="size-20 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-6">
                                         <span className="material-symbols-outlined text-4xl text-slate-200">receipt_long</span>
                                     </div>
-                                    <p className="text-slate-500 dark:text-gray-400 font-bold text-lg mb-2">No Transactions Yet</p>
-                                    <p className="text-slate-400 dark:text-gray-500 text-sm max-w-xs mx-auto">Start completing tasks from the marketplace to earn and fill your wallet!</p>
+                                    <p className="text-gray-400 font-bold text-lg mb-2">No Transactions Yet</p>
+                                    <p className="text-gray-500 text-sm max-w-xs mx-auto">Start completing tasks from the marketplace to earn and fill your wallet!</p>
                                     <Link href="/d2e/tasks">
                                         <button className="mt-8 h-10 px-8 bg-d2e-primary text-d2e-bg-dark text-xs font-black uppercase tracking-widest rounded-xl">Go Explore</button>
                                     </Link>
@@ -189,7 +189,7 @@ export default function MyWallet() {
             </main>
 
             {/* Sticky Bottom Navigation Bar */}
-            <nav className="fixed bottom-0 left-0 right-0 h-20 bg-white/90 dark:bg-[#112217]/95 backdrop-blur-xl border-t border-slate-200 dark:border-white/10 px-8 pb-4 z-50">
+            <nav className="fixed bottom-0 left-0 right-0 h-20 bg-d2e-bg-dark/95 backdrop-blur-xl border-t border-white/10 px-8 pb-4 z-50">
                 <div className="max-w-lg mx-auto w-full h-full flex justify-between items-center">
                     <Link href="/d2e/dashboard" className="flex flex-col items-center gap-1.5 text-slate-400 hover:text-d2e-primary transition-colors">
                         <span className="material-symbols-outlined">home</span>
