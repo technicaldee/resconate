@@ -10,10 +10,10 @@ const Footer = () => {
       <div className="container mx-auto px-4 md:px-8 py-12">
         <div className="footer-grid">
           <div className="footer-brand">
-            <a href="#home" className="footer-logo" onClick={(e) => handleAnchorClick(e, 'home')}>
-              <img src="/resconate-logo.png" alt="Resconate logo" />
+            <Link href="/" className="footer-logo">
+              <img src="/RLogo.png" alt="Resconate logo" />
               <span>Resconate</span>
-            </a>
+            </Link>
             <p>Digital products and HR infrastructure that move ambitious African teams forward.</p>
           </div>
           <div className="footer-nav">
@@ -21,7 +21,7 @@ const Footer = () => {
             <div className="footer-links">
               <a href="#agency-services" onClick={(e) => handleAnchorClick(e, 'agency-services')}>Value</a>
               <a href="#hr-platform" onClick={(e) => handleAnchorClick(e, 'hr-platform')}>Solutions</a>
-              <a href="#proof" onClick={(e) => handleAnchorClick(e, 'proof')}>Proof</a>
+
               <a href="#contact" onClick={(e) => handleAnchorClick(e, 'contact')}>Contact</a>
             </div>
           </div>
@@ -31,16 +31,14 @@ const Footer = () => {
               <Link href="/hr-login">HR Portal</Link>
               <Link href="/admin-dashboard">Admin Console</Link>
               <Link href="/employee-login">Employee Sign In</Link>
-              <Link href="/analytics">Analytics</Link>
-              <Link href="/payment">Payment & Billing</Link>
+
             </div>
           </div>
           <div className="footer-nav">
             <span className="footer-heading">Resources</span>
             <div className="footer-links">
               <Link href="/resources">Resource Library</Link>
-              <Link href="/templates">Industry Templates</Link>
-              <Link href="/compliance-calculators">Compliance Calculators</Link>
+
               <Link href="/help">Help Center</Link>
               <Link href="/referrals">Referral Program</Link>
             </div>
@@ -48,7 +46,7 @@ const Footer = () => {
           <div className="footer-nav">
             <span className="footer-heading">Business</span>
             <div className="footer-links">
-              <Link href="/banking">Banking Integration</Link>
+
               <Link href="/team">Team</Link>
               <a href="#contact" onClick={(e) => handleAnchorClick(e, 'contact')}>Contact Us</a>
             </div>

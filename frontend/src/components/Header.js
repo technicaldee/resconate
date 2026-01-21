@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { handleAnchorClick } from '../utils/scrollUtils';
-import LanguageToggle from './LanguageToggle';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -67,10 +65,10 @@ const Header = () => {
           >
             <i className="fas fa-bars"></i>
           </button>
-          <a href="#home" className="header__brand" onClick={(e) => handleAnchorClick(e, 'home')}>
-            <img src="/resconate-logo.png" alt="Resconate Logo" className="header__logo" />
+          <Link href="/" className="header__brand">
+            <img src="/RLogo.png" alt="Resconate Logo" className="header__logo" />
             <span>Resconate</span>
-          </a>
+          </Link>
           <nav className="header__nav" aria-label="Primary navigation">
             <ul className="header__nav-list">
               <li><Link href="/services" className="header__nav-link">Services</Link></li>
@@ -79,9 +77,6 @@ const Header = () => {
             </ul>
           </nav>
           <div className="header__actions">
-            <div className="hidden md:block mr-4">
-              <LanguageToggle />
-            </div>
             <Link href="/hr-login" className="btn btn-primary header__cta hidden md:inline-flex" data-analytics="header-cta-hr-login">
               Launch HR Portal
             </Link>

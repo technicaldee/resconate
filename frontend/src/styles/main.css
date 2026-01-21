@@ -386,7 +386,7 @@ a:hover {
 .header__container {
   max-width: var(--container-2xl);
   margin: 0 auto;
-  padding: var(--space-4) var(--space-6);
+  padding: var(--space-6) var(--space-10);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -4643,6 +4643,9 @@ select.error {
   color: var(--text-secondary);
   font-size: var(--text-sm);
   line-height: 1.55;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 .layer-meta {

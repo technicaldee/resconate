@@ -39,8 +39,8 @@ const Contact = () => {
             <a href="https://www.linkedin.com/in/res-conate-ab643137b/" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
               <i className="fab fa-linkedin-in"></i>
             </a>
-            <a href="https://x.com/ResconateHR" aria-label="X (Twitter)" target="_blank" rel="noopener noreferrer">
-              <i className="fab fa-x-twitter"></i>
+            <a href="https://x.com/ResconateHR" aria-label="Twitter" target="_blank" rel="noopener noreferrer">
+              <i className="fab fa-twitter"></i>
             </a>
             <a href="https://www.instagram.com/resconate" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
               <i className="fab fa-instagram"></i>

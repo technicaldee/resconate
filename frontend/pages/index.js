@@ -4,7 +4,7 @@ import Hero from '../src/components/Hero';
 import ValueProposition from '../src/components/ValueProposition';
 import HRPlatform from '../src/components/HRPlatform';
 import Ecosystem from '../src/components/Ecosystem';
-import Proof from '../src/components/Proof';
+
 import Pricing from '../src/components/Pricing';
 import Contact from '../src/components/Contact';
 import Footer from '../src/components/Footer';
@@ -50,7 +50,7 @@ const Home = () => {
         <ValueProposition />
         <HRPlatform />
         <Ecosystem />
-        <Proof />
+
         <Pricing />
         <Contact />
       </main>
