@@ -224,15 +224,15 @@ const Contact = () => {
                 </p>
 
                 <div className="contact-info-cards">
-                  <div className="contact-info-card">
+              <div className="contact-info-card">
                     <div className="contact-info-icon email">
                       <i className="fas fa-envelope"></i>
                     </div>
                     <div className="contact-info-content">
                       <h3 className="contact-info-title">Email Us</h3>
                       <p className="contact-info-text">Send us an email anytime</p>
-                      <a href="mailto:resconate@gmail.com" className="contact-info-link">
-                        resconate@gmail.com
+                      <a href="mailto:admin@resconate.com" className="contact-info-link">
+                        admin@resconate.com
                         <i className="fas fa-external-link-alt"></i>
                       </a>
                     </div>

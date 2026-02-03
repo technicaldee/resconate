@@ -94,7 +94,7 @@ const HelpCenter = () => {
       id: 13,
       category: 'billing',
       question: 'Do you offer discounts for annual payments?',
-      answer: 'Yes! We offer a 20% discount for annual subscriptions. Contact our sales team at sales@resconate.com to learn more about annual pricing.'
+      answer: 'Yes! We offer a 20% discount for annual subscriptions. Contact our sales team at admin@resconate.com to learn more about annual pricing.'
     },
     {
       id: 14,
@@ -112,7 +112,7 @@ const HelpCenter = () => {
       id: 16,
       category: 'technical',
       question: 'What if I need help or have questions?',
-      answer: 'We offer multiple support channels: email support at support@resconate.com, WhatsApp chat (click the chat button), live chat on the website, and comprehensive documentation. Our support team is available Monday-Friday, 9 AM - 6 PM WAT.'
+      answer: 'We offer multiple support channels: email support at admin@resconate.com, WhatsApp chat (click the chat button), live chat on the website, and comprehensive documentation. Our support team is available Monday-Friday, 9 AM - 6 PM WAT.'
     }
   ];
 
@@ -211,7 +211,7 @@ const HelpCenter = () => {
                     💬 Chat on WhatsApp
                   </a>
                   <a
-                    href="mailto:support@resconate.com"
+                    href="mailto:admin@resconate.com"
                     className="btn-ng-secondary px-8 py-4 text-lg font-semibold"
                   >
                     📧 Email Support

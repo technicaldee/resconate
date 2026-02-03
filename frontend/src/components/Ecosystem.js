@@ -13,23 +13,24 @@ const Ecosystem = () => {
       linkText: 'See how we work'
     },
     {
-      pill: 'People',
+      pill: 'Remote Team',
       pillClass: 'layer-pill--pink',
       time: 'Always-on',
-      title: 'HR cockpit for African teams',
-      description: 'Role-based portals, smart approvals, and compliance automation that feels effortless.',
+      title: 'Your external staff management team',
+      description: 'We operate as your 3rd party remote project management team—handling all internal staff activities and operations on your behalf.',
       link: '/hr-dashboard.html',
-      linkText: 'Peek inside the suite',
+      linkText: 'See how we manage your team',
       external: true
     },
     {
-      pill: 'Support',
+      pill: 'Do-To-Earn',
       pillClass: 'layer-pill--emerald',
-      time: 'Ongoing',
-      title: 'Growth & adoption programs',
-      description: 'Change enablement, training, and analytics sprints keep momentum alive after launch.',
-      link: '#contact',
-      linkText: 'Schedule a working session'
+      time: 'Coming soon',
+      title: 'Decentralized crowd work',
+      description: 'A marketplace connecting businesses with verified talent for on-demand tasks and projects.',
+      link: '/d2e',
+      linkText: 'Learn more about Do-To-Earn',
+      external: true
     }
   ];
 
@@ -38,7 +39,7 @@ const Ecosystem = () => {
       <div className="container mx-auto max-w-5xl text-center section-heading" data-animate="fade-up">
         <span className="section-eyebrow">Experience Layers</span>
         <h2 className="section-title">Every journey is modular, but the experience stays seamless.</h2>
-        <p className="section-lead">Our studio and HR teams layer in as you grow—so vision, delivery, and adoption feel like one continuous story.</p>
+        <p className="section-lead">Our Product Studio and Remote Team Management services layer in as you grow—so product development and staff operations feel like one continuous story.</p>
       </div>
       <div className="container mx-auto max-w-6xl layer-grid">
         {layers.map((layer, index) => (

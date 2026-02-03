@@ -60,31 +60,16 @@ const Hero = () => {
       <div className="container mx-auto max-w-6xl relative z-10">
         <div className="hero__grid">
           <div className="hero__content" data-animate="fade-up">
-            <span className="hero__badge">Product Studio × HR Flow</span>
+            <span className="hero__badge">Product Studio × Remote Team Management</span>
             <h1 className="hero__title">
-              Build magnetic products.<br />Run people operations without drag.
+              Build magnetic products.<br />We manage your people operations.
             </h1>
             <p className="hero__subtitle">
-              Resconate pairs a venture-ready product studio with a compliant HR platform so your brand, product, and teams move in one rhythm.
+              Resconate is your 3rd party remote project management team. We handle all staff and internal activities within your company—from recruitment to payroll—so you can focus on growth.
             </p>
             <div className="hero__actions">
               <a href="#contact" className="btn btn-primary" onClick={(e) => handleAnchorClick(e, 'contact')}>Book a Discovery Call</a>
               <Link href="/hr-login" className="btn btn-secondary">Launch HR Platform</Link>
-              <a href="#hr-platform" className="btn btn-ghost" onClick={(e) => handleAnchorClick(e, 'hr-platform')}>See the Platform</a>
-            </div>
-            <div className="hero__stats">
-              <div className="hero__stat stat-card" ref={el => statRefs.current[0] = el}>
-                <span className="hero__stat-number" data-count="80">80+</span>
-                <span className="hero__stat-label">Launches delivered</span>
-              </div>
-              <div className="hero__stat stat-card" ref={el => statRefs.current[1] = el}>
-                <span className="hero__stat-number" data-count="45">45</span>
-                <span className="hero__stat-label">Teams running on Resconate</span>
-              </div>
-              <div className="hero__stat stat-card" ref={el => statRefs.current[2] = el}>
-                <span className="hero__stat-number" data-count="6">6</span>
-                <span className="hero__stat-label">Markets supported</span>
-              </div>
             </div>
           </div>
           <div className="hero__visual" data-animate="fade-up" style={{ '--animate-delay': '0.15s' }}>
@@ -110,10 +95,10 @@ const Hero = () => {
               </ul>
             </div>
             <div className="hero__visual-card hero__visual-card--accent">
-              <h3>HR Flow</h3>
-              <p>Payroll, compliance, performance, and banking automations tuned for African scale.</p>
+              <h3>Remote Team Management</h3>
+              <p>Your dedicated external HR team handling recruitment, payroll, compliance, and staff operations as a seamless extension of your business.</p>
               <a href="#hr-platform" className="hero__visual-link" onClick={(e) => handleAnchorClick(e, 'hr-platform')}>
-                Explore modules <i className="fas fa-arrow-right"></i>
+                Explore services <i className="fas fa-arrow-right"></i>
               </a>
             </div>
           </div>

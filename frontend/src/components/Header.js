@@ -78,7 +78,7 @@ const Header = () => {
           </nav>
           <div className="header__actions">
             <Link href="/hr-login" className="btn btn-primary header__cta hidden md:inline-flex" data-analytics="header-cta-hr-login">
-              Launch HR Portal
+              Client Portal
             </Link>
             <Link href="/contact" className="btn btn-secondary header__cta hidden md:inline-flex" data-analytics="header-cta-contact">
               Book a Demo
@@ -107,7 +107,7 @@ const Header = () => {
             </nav>
             <div className="mobile-menu__actions">
               <Link href="/hr-login" className="btn btn-primary w-full mb-3" data-analytics="mobile-menu-hr-login" onClick={closeMobileMenu}>
-                Launch HR Portal
+                Client Portal
               </Link>
               <Link href="/employee-login" className="btn btn-secondary w-full" data-analytics="mobile-menu-employee-login" onClick={closeMobileMenu}>
                 Employee Sign In

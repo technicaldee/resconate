@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import Header from '../src/components/Header';
 import Hero from '../src/components/Hero';
-import ValueProposition from '../src/components/ValueProposition';
 import HRPlatform from '../src/components/HRPlatform';
 import Ecosystem from '../src/components/Ecosystem';
 
@@ -47,7 +46,6 @@ const Home = () => {
       <Header />
       <main id="main-content">
         <Hero />
-        <ValueProposition />
         <HRPlatform />
         <Ecosystem />
 

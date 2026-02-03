@@ -5,28 +5,28 @@ import { handleAnchorClick } from '../utils/scrollUtils';
 const HRPlatform = () => {
   const features = [
     {
-      icon: 'fas fa-diagram-project',
+      icon: 'fas fa-users-cog',
       iconClass: 'feature-icon--indigo',
-      title: 'Unified delivery playbooks',
-      description: 'Discovery rituals, research libraries, and release dashboards keeping squads synced.'
+      title: 'Remote Staff Management',
+      description: 'We act as your external HR department, handling all employee-related operations and staff activities remotely.'
     },
     {
       icon: 'fas fa-money-check-dollar',
       iconClass: 'feature-icon--pink',
-      title: 'Payroll & compliance automation',
-      description: 'Local tax logic, benefits orchestration, and filings handled in real time.'
+      title: 'Payroll & Compliance',
+      description: 'Full payroll processing and regulatory compliance managed by our team on your behalf.'
     },
     {
       icon: 'fas fa-user-chart',
       iconClass: 'feature-icon--emerald',
-      title: 'Performance & culture intelligence',
-      description: 'OKRs, pulse surveys, and growth plans surfaced with actionable insight.'
+      title: 'Talent Acquisition',
+      description: 'End-to-end recruitment handled by our specialists—from job postings to onboarding.'
     },
     {
-      icon: 'fas fa-plug',
+      icon: 'fas fa-briefcase',
       iconClass: 'feature-icon--amber',
-      title: 'Banking & API connectivity',
-      description: 'Secure hooks into regional banks, identity partners, and core business systems.'
+      title: 'Project Management',
+      description: 'Your dedicated project management team coordinating all internal staff operations and workflows.'
     }
   ];
 
@@ -35,11 +35,11 @@ const HRPlatform = () => {
       <div className="container mx-auto max-w-6xl">
         <div className="platform-grid">
           <div className="platform-intro" data-animate="fade-up">
-            <span className="section-eyebrow">Platform Highlights</span>
-            <h2 className="section-title">The suite that keeps shipping momentum and people care connected.</h2>
-            <p className="section-lead">Turn on modules as you need them—each one plugs into your existing rituals without slowing teams down.</p>
+            <span className="section-eyebrow">Remote Team Management</span>
+            <h2 className="section-title">Your 3rd Party Project Management Team</h2>
+            <p className="section-lead">We function as an external extension of your company—handling all staff operations, from recruitment to payroll, so you can focus on your core business.</p>
             <div className="platform-actions">
-              <Link href="/hr-login" className="btn btn-primary">Launch HR Suite</Link>
+              <Link href="/hr-login" className="btn btn-primary">Access Your Portal</Link>
               <a href="#contact" className="btn btn-ghost" onClick={(e) => handleAnchorClick(e, 'contact')}>Talk to our team</a>
             </div>
           </div>

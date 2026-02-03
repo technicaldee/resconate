@@ -8,7 +8,7 @@ class EmailService {
   constructor() {
     this.provider = process.env.EMAIL_PROVIDER || 'smtp';
     this.apiKey = process.env.EMAIL_API_KEY;
-    this.fromEmail = process.env.FROM_EMAIL || 'noreply@resconate.com';
+    this.fromEmail = process.env.FROM_EMAIL || 'admin@resconate.com';
     this.fromName = process.env.FROM_NAME || 'Resconate';
   }
 

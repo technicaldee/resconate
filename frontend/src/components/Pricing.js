@@ -8,11 +8,11 @@ const Pricing = () => {
       price: 'N20,000',
       period: '/month',
       features: [
-        'Manage up to 10 employees',
-        'Staff can request and track their own leave',
-        'Process payroll and generate payslips automatically',
-        'Store employee documents securely online',
-        'View basic reports on your team'
+        'Remote management of up to 10 employees',
+        'Leave and attendance tracking handled for you',
+        'Full payroll processing and payslip distribution',
+        'Employee documentation managed by our team',
+        'Monthly staff operations reports'
       ],
       icon: 'fas fa-rocket',
       iconClass: 'pricing-icon--indigo',
@@ -24,11 +24,11 @@ const Pricing = () => {
       price: 'N50,000',
       period: '/month',
       features: [
-        'Unlimited employees with full automation',
-        'Post jobs, track candidates & schedule interviews',
-        'Connect to your bank for seamless payments',
-        'Advanced performance tracking with goals & surveys',
-        'Dedicated support team in your timezone'
+        'Unlimited employees—fully managed remotely',
+        'End-to-end recruitment handled by our team',
+        'Direct salary disbursements to staff accounts',
+        'Performance reviews and growth planning',
+        'Dedicated remote project manager assigned'
       ],
       icon: 'fas fa-star',
       iconClass: 'pricing-icon--pink',
@@ -37,15 +37,15 @@ const Pricing = () => {
       popular: true
     },
     {
-      name: 'Custom Plan',
+      name: 'Enterprise Plan',
       price: 'Contact Us',
       period: '',
       features: [
-        'Choose exactly what you need',
-        'Multi-location & multi-country support',
-        'Connect to your existing business systems',
-        'White-label with your company branding',
-        'Dedicated account manager & on-site training'
+        'Custom scope for complex organizations',
+        'Multi-location staff management',
+        'Integration with your business systems',
+        'White-label staff portal options',
+        'Dedicated account manager & priority support'
       ],
       icon: 'fas fa-cog',
       iconClass: 'pricing-icon--emerald',
@@ -58,10 +58,10 @@ const Pricing = () => {
     <section id="pricing" className="section-shell section-shell--gradient py-20 px-4 md:px-8">
       <div className="container mx-auto max-w-6xl">
         <div className="section-heading text-center mb-16" data-animate="fade-up">
-          <span className="section-eyebrow">Pricing Tiers</span>
-          <h2 className="section-title">RESCONATE HR PLATFORM PRICING TIERS</h2>
+          <span className="section-eyebrow">Remote Team Management Plans</span>
+          <h2 className="section-title">OUTSOURCE YOUR STAFF OPERATIONS</h2>
           <p className="section-lead">
-            Choose the plan that fits your team size and needs. All plans include our core HR management features.
+            Choose the plan that fits your team size. Each plan includes a dedicated remote team managing all your staff operations.
           </p>
         </div>
         <div className="pricing-grid">

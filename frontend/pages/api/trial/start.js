@@ -57,7 +57,7 @@ async function handler(req, res) {
             <li>Days Remaining: 14</li>
           </ul>
           <p>Get started by logging in at <a href="${process.env.APP_URL}/hr-login">${process.env.APP_URL}/hr-login</a></p>
-          <p>If you have any questions, feel free to contact us at support@resconate.com</p>
+          <p>If you have any questions, feel free to contact us at admin@resconate.com</p>
           <p>Best regards,<br>Resconate Team</p>
         `
       });

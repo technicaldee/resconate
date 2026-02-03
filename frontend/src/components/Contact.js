@@ -9,7 +9,7 @@ const Contact = () => {
           <h2 className="section-title">Let's choreograph your next product and people milestone.</h2>
           <p className="section-lead">Share the momentum you need and we'll circle back within one business day.</p>
           <div className="cta-actions">
-            <a href="mailto:resconate@gmail.com" className="btn btn-primary">Email Us</a>
+            <a href="mailto:admin@resconate.com" className="btn btn-primary">Email Us</a>
             <a href="https://wa.me/2348066023759" className="btn btn-secondary" target="_blank" rel="noopener noreferrer">Start WhatsApp Chat</a>
           </div>
         </div>
@@ -18,7 +18,7 @@ const Contact = () => {
             <i className="fas fa-envelope"></i>
             <div>
               <span className="contact-label">Email</span>
-              <a href="mailto:resconate@gmail.com">resconate@gmail.com</a>
+              <a href="mailto:admin@resconate.com">admin@resconate.com</a>
             </div>
           </div>
           <div className="contact-row">

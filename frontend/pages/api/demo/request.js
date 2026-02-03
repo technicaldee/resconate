@@ -34,7 +34,7 @@ async function handler(req, res) {
             <li>Preferred Date: ${preferredDate}</li>
             <li>Preferred Time: ${preferredTime}</li>
           </ul>
-          <p>If you have any questions, feel free to reply to this email or contact us at support@resconate.com</p>
+          <p>If you have any questions, feel free to reply to this email or contact us at admin@resconate.com</p>
           <p>Best regards,<br>Resconate Team</p>
         `
       });

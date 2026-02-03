@@ -56,7 +56,7 @@ const Footer = () => {
           <p>&copy; <span id="current-year">{currentYear}</span> Resconate. All rights reserved.</p>
           <div className="footer-bottom-links">
             <a href="/api-docs" target="_blank" rel="noopener">API Docs</a>
-            <a href="mailto:resconate@gmail.com">Support</a>
+            <a href="mailto:admin@resconate.com">Support</a>
           </div>
         </div>
       </div>
