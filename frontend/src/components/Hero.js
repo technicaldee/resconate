@@ -60,7 +60,7 @@ const Hero = () => {
       <div className="container mx-auto max-w-6xl relative z-10">
         <div className="hero__grid">
           <div className="hero__content" data-animate="fade-up">
-            <span className="hero__badge">Product Studio × Remote Team Management</span>
+            <span className="hero__badge">Product Studio × HR Studio x D0-To-Earn</span>
             <h1 className="hero__title">
               Build magnetic products.<br />We manage your people operations.
             </h1>
