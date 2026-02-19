@@ -91,8 +91,8 @@ const Pricing = () => {
                   </li>
                 ))}
               </ul>
-              <a 
-                href={plan.cta === 'Contact Us' ? '#contact' : '/hr-login'} 
+              <a
+                href={plan.cta === 'Contact Us' ? '#contact' : `/checkout?plan=${encodeURIComponent(plan.name)}&price=${encodeURIComponent(plan.price)}`}
                 className={`btn ${plan.ctaClass} pricing-cta`}
                 onClick={plan.cta === 'Contact Us' ? (e) => handleAnchorClick(e, 'contact') : undefined}
               >

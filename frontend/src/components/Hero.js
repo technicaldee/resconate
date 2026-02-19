@@ -62,10 +62,10 @@ const Hero = () => {
           <div className="hero__content" data-animate="fade-up">
             <span className="hero__badge">Product Studio × HR Studio x D0-To-Earn</span>
             <h1 className="hero__title">
-              Build magnetic products.<br />We manage your people operations.
+              Build magnetic products.<br />Managing your People Operations.<br /> Tasks Marketplace
             </h1>
             <p className="hero__subtitle">
-              Resconate is your 3rd party remote project management team. We handle all staff and internal activities within your company—from recruitment to payroll—so you can focus on growth.
+              Resconate is a remote, project management team that handles all staff functions and internal activities within your company. From recruitment to payroll, allowing you focus on growth and maximum productivity.
             </p>
             <div className="hero__actions">
               <a href="#contact" className="btn btn-primary" onClick={(e) => handleAnchorClick(e, 'contact')}>Book a Discovery Call</a>

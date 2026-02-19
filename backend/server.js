@@ -21,6 +21,7 @@ const {
 const { validateJob, createValidationMiddleware } = require('./validation');
 const marketplaceRoutes = require('./routes/marketplace');
 const walletRoutes = require('./routes/wallet');
+const checkoutRoutes = require('./routes/checkout');
 
 const app = express();
 app.set('trust proxy', 1);
@@ -93,6 +94,7 @@ app.get('/health', (req, res) => res.status(200).json({ status: 'OK', timestamp:
 // D2E Marketplace routes
 app.use('/api/marketplace', marketplaceRoutes);
 app.use('/api/wallet', walletRoutes);
+app.use('/api/checkout', checkoutRoutes);
 
 // Basic HR endpoints (Postgres-backed)
 /**

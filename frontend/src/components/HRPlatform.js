@@ -36,10 +36,9 @@ const HRPlatform = () => {
         <div className="platform-grid">
           <div className="platform-intro" data-animate="fade-up">
             <span className="section-eyebrow">Remote Team Management</span>
-            <h2 className="section-title">Your 3rd Party Project Management Team</h2>
+            <h2 className="section-title">Your Project Management Team</h2>
             <p className="section-lead">We function as an external extension of your company—handling all staff operations, from recruitment to payroll, so you can focus on your core business.</p>
             <div className="platform-actions">
-              <Link href="/hr-login" className="btn btn-primary">Access Your Portal</Link>
               <a href="#contact" className="btn btn-ghost" onClick={(e) => handleAnchorClick(e, 'contact')}>Talk to our team</a>
             </div>
           </div>

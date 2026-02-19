@@ -17,7 +17,7 @@ const Ecosystem = () => {
       pillClass: 'layer-pill--pink',
       time: 'Always-on',
       title: 'Your external staff management team',
-      description: 'We operate as your 3rd party remote project management team—handling all internal staff activities and operations on your behalf.',
+      description: 'We operate as your remote project management team—handling all internal staff activities and operations on your behalf.',
       link: '/hr-dashboard.html',
       linkText: 'See how we manage your team',
       external: true

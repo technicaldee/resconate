@@ -1,0 +1,1 @@
+Test receipt file for upload by automated smoke test.
