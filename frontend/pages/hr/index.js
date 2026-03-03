@@ -116,7 +116,7 @@ const HRChoicePage = () => {
                             </ul>
 
                             <Link
-                                href="/hr-dashboard"
+                                href="/hr/remote/login"
                                 className="w-full py-5 bg-white text-slate-900 hover:bg-slate-100 rounded-[24px] font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3 shadow-2xl shadow-white/5 group/btn transition-all"
                             >
                                 Contact Experts

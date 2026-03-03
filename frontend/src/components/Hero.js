@@ -1,112 +1,96 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { handleAnchorClick } from '../utils/scrollUtils';
 
 const Hero = () => {
-  const statRefs = useRef([]);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    const observerOptions = {
-      threshold: 0.5,
-      rootMargin: '0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const counter = entry.target.querySelector('[data-count]');
-          if (counter && !counter.dataset.animated) {
-            animateCounter(counter);
-            counter.dataset.animated = 'true';
-          }
-        }
-      });
-    }, observerOptions);
-
-    const currentRefs = statRefs.current;
-    currentRefs.forEach(ref => {
-      if (ref) observer.observe(ref);
-    });
-
-    return () => {
-      currentRefs.forEach(ref => {
-        if (ref) observer.unobserve(ref);
+    const handleMouseMove = (e) => {
+      setMousePosition({
+        x: (e.clientX / window.innerWidth - 0.5) * 20,
+        y: (e.clientY / window.innerHeight - 0.5) * 20
       });
     };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  const animateCounter = (element) => {
-    const target = parseInt(element.dataset.count);
-    const duration = 2000;
-    const step = target / (duration / 16);
-    let current = 0;
-
-    const updateCounter = () => {
-      current += step;
-      if (current < target) {
-        element.textContent = Math.floor(current);
-        requestAnimationFrame(updateCounter);
-      } else {
-        element.textContent = target;
-      }
-    };
-
-    updateCounter();
-  };
-
   return (
-    <section id="home" className="hero-section pt-36 md:pt-40 pb-24 px-4 md:px-8 relative overflow-hidden">
-      <div className="hero__glow"></div>
-      <div className="container mx-auto max-w-6xl relative z-10">
-        <div className="hero__grid">
-          <div className="hero__content" data-animate="fade-up">
-            <span className="hero__badge">Product Studio × HR Studio x D0-To-Earn</span>
-            <h1 className="hero__title">
-              Build magnetic products.<br />Managing your People Operations.<br /> Tasks Marketplace
-            </h1>
-            <p className="hero__subtitle">
-              Resconate is a remote, project management team that handles all staff functions and internal activities within your company. From recruitment to payroll, allowing you focus on growth and maximum productivity.
-            </p>
-            <div className="hero__actions">
-              <a href="#contact" className="btn btn-primary" onClick={(e) => handleAnchorClick(e, 'contact')}>Book a Discovery Call</a>
-              <Link href="/hr" className="btn btn-secondary">Launch HR Platform</Link>
-            </div>
-          </div>
-          <div className="hero__visual" data-animate="fade-up" style={{ '--animate-delay': '0.15s' }}>
-            <div className="hero__visual-card">
-              <div className="hero__visual-header">
-                <span>Studio sprint</span>
-                <span className="hero__dot hero__dot--purple"></span>
-                <span className="hero__dot hero__dot--pink"></span>
-              </div>
-              <ul className="hero__visual-list">
-                <li>
-                  <span>Map the story, ship in six weeks</span>
-                  <i className="fas fa-arrow-right"></i>
-                </li>
-                <li>
-                  <span>Embedded squads. Transparent KPIs.</span>
-                  <i className="fas fa-arrow-right"></i>
-                </li>
-                <li>
-                  <span>Brand, product, growth crafted together</span>
-                  <i className="fas fa-arrow-right"></i>
-                </li>
-              </ul>
-            </div>
-            <div className="hero__visual-card hero__visual-card--accent">
-              <h3>Remote Team Management</h3>
-              <p>Your dedicated external HR team handling recruitment, payroll, compliance, and staff operations as a seamless extension of your business.</p>
-              <a href="#hr-platform" className="hero__visual-link" onClick={(e) => handleAnchorClick(e, 'hr-platform')}>
-                Explore services <i className="fas fa-arrow-right"></i>
-              </a>
-            </div>
-          </div>
+    <section id="home" className="relative h-screen flex items-center justify-center pt-20 px-6 overflow-hidden bg-slate-950">
+      {/* Ambient Lighting */}
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-500/10 rounded-full blur-[150px] pointer-events-none opacity-60"
+        style={{ transform: `translate(${-50 + mousePosition.x * 0.5}%, ${-50 + mousePosition.y * 0.5}%)` }}
+      ></div>
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-pink-500/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+      <div className="container mx-auto max-w-7xl relative z-10 flex flex-col items-center text-center">
+        {/* Badge Overlay */}
+        <div
+          className="inline-flex items-center gap-3 px-6 py-2 bg-white/5 border border-white/10 rounded-full text-indigo-400 text-[10px] font-black uppercase tracking-[0.4em] mb-12 animate-in fade-in zoom-in-90 duration-1000"
+        >
+          <span className="w-2 h-2 rounded-full bg-indigo-500 shadow-lg shadow-indigo-500/50 animate-pulse"></span>
+          Unified Business Platform
         </div>
+
+        {/* Main Headline */}
+        <h1
+          className="text-6xl md:text-[7rem] font-black text-white tracking-tighter leading-[0.85] mb-8 animate-in slide-in-from-bottom-8 duration-700"
+        >
+          Scale Smarter. <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-pink-400 to-amber-400">Manage Faster.</span>
+        </h1>
+
+        {/* Description */}
+        <p
+          className="text-slate-400 text-lg md:text-xl font-medium max-w-2xl leading-relaxed mb-16 animate-in slide-in-from-bottom-12 duration-1000 opacity-80"
+        >
+          Resconate is a dual-core ecosystem bridging the gap between product innovation and human capital. We build and manage your internal operations, allowing you to focus on high-velocity growth.
+        </p>
+
+        {/* CTA GRID */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-3xl animate-in fade-in slide-in-from-bottom-20 duration-1000">
+          <Link
+            href="/hr"
+            className="group relative flex items-center justify-between p-8 bg-white/5 border border-white/10 rounded-[40px] hover:border-indigo-500/30 hover:bg-white/10 transition-all duration-500 hover:translate-y-[-4px]"
+          >
+            <div className="text-left">
+              <h3 className="text-xl font-black text-white mb-1 group-hover:text-indigo-400 transition-colors">People Studio</h3>
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Automated Lite or Remote Experts</p>
+            </div>
+            <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-indigo-600/20 group-hover:rotate-12 transition-transform">
+              <span className="material-symbols-outlined text-2xl font-black">groups_3</span>
+            </div>
+          </Link>
+
+          <Link
+            href="/d2e"
+            className="group relative flex items-center justify-between p-8 bg-white/5 border border-white/10 rounded-[40px] hover:border-pink-500/30 hover:bg-white/10 transition-all duration-500 hover:translate-y-[-4px]"
+          >
+            <div className="text-left">
+              <h3 className="text-xl font-black text-white mb-1 group-hover:text-pink-400 transition-colors">Execution Studio</h3>
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Tasks Marketplace & D2E</p>
+            </div>
+            <div className="w-12 h-12 bg-pink-600 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-pink-600/20 group-hover:-rotate-12 transition-transform">
+              <span className="material-symbols-outlined text-2xl font-black">rocket_launch</span>
+            </div>
+          </Link>
+        </div>
+
+        {/* Sub-Actions */}
+        <div className="mt-12 flex flex-wrap justify-center gap-10 opacity-30 invert brightness-200">
+          <img src="https://mono.co/images/logo-dark-v2.svg" className="h-4" alt="Mono" />
+          <img src="https://paystack.com/assets/img/login/paystack-logo.png" className="h-4" alt="Paystack" />
+        </div>
+      </div>
+
+      {/* Down Arrow Fade */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-20 hover:opacity-100 transition-opacity cursor-pointer animate-bounce">
+        <p className="text-[8px] font-black uppercase tracking-[0.5em] text-white">Scroll</p>
+        <span className="material-symbols-outlined text-white">keyboard_double_arrow_down</span>
       </div>
     </section>
   );
 };
 
 export default Hero;
-

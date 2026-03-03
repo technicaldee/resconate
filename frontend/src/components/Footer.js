@@ -1,62 +1,82 @@
 import React from 'react';
 import Link from 'next/link';
-import { handleAnchorClick } from '../utils/scrollUtils';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="site-footer border-t border-gray-900/70 bg-black/80 backdrop-blur-sm">
-      <div className="container mx-auto px-4 md:px-8 py-12">
-        <div className="footer-grid">
-          <div className="footer-brand">
-            <Link href="/" className="footer-logo">
-              <img src="/RLogo.png" alt="Resconate logo" />
-              <span>Resconate</span>
+    <footer className="relative bg-slate-950 px-6 pt-24 pb-12 border-t border-white/5 overflow-hidden">
+      {/* Ambient background glow */}
+      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-indigo-600/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+      <div className="container mx-auto max-w-7xl relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-16 mb-24">
+
+          {/* Brand Section */}
+          <div className="lg:col-span-2 space-y-8">
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center p-3 group-hover:rotate-12 transition-transform duration-500 shadow-xl shadow-indigo-600/20">
+                <img src="/RLogo.png" alt="Resconate Logo" className="w-full h-full object-contain brightness-0 invert" />
+              </div>
+              <span className="text-3xl font-black text-white tracking-tighter">Resconate</span>
             </Link>
-            <p>Digital products and HR infrastructure that move ambitious African teams forward.</p>
-          </div>
-          <div className="footer-nav">
-            <span className="footer-heading">Navigate</span>
-            <div className="footer-links">
-              <a href="#agency-services" onClick={(e) => handleAnchorClick(e, 'agency-services')}>Value</a>
-              <a href="#hr-platform" onClick={(e) => handleAnchorClick(e, 'hr-platform')}>Solutions</a>
-
-              <a href="#contact" onClick={(e) => handleAnchorClick(e, 'contact')}>Contact</a>
+            <p className="text-slate-500 font-medium text-lg leading-relaxed max-w-sm">
+              Nigeria's premiere Product and People Studio. We build high-velocity digital products and manage ambitious workforce operations.
+            </p>
+            <div className="flex items-center gap-4 pt-4">
+              <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all cursor-pointer">
+                <i className="fab fa-linkedin-in"></i>
+              </div>
+              <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all cursor-pointer">
+                <i className="fab fa-twitter"></i>
+              </div>
+              <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all cursor-pointer">
+                <i className="fab fa-instagram"></i>
+              </div>
             </div>
           </div>
-          <div className="footer-nav">
-            <span className="footer-heading">Platform</span>
-            <div className="footer-links">
-              <Link href="/hr">HR Portal</Link>
-              <Link href="/admin-dashboard">Admin Console</Link>
-              <Link href="/employee-login">Employee Sign In</Link>
 
-            </div>
+          {/* Navigation Columns */}
+          <div className="space-y-6">
+            <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">The Studio</h4>
+            <nav className="flex flex-col gap-4">
+              <Link href="/team" className="text-white font-bold text-sm hover:text-indigo-400 transition-colors">Our Workforce</Link>
+              <Link href="/portfolio" className="text-white font-bold text-sm hover:text-indigo-400 transition-colors">Portfolio</Link>
+              <Link href="/about" className="text-white font-bold text-sm hover:text-indigo-400 transition-colors">The Vision</Link>
+              <Link href="/contact" className="text-white font-bold text-sm hover:text-indigo-400 transition-colors">Consultation</Link>
+            </nav>
           </div>
-          <div className="footer-nav">
-            <span className="footer-heading">Resources</span>
-            <div className="footer-links">
-              <Link href="/resources">Resource Library</Link>
 
-              <Link href="/help">Help Center</Link>
-              <Link href="/referrals">Referral Program</Link>
-            </div>
+          <div className="space-y-6">
+            <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">People Suite</h4>
+            <nav className="flex flex-col gap-4">
+              <Link href="/hr" className="text-white font-bold text-sm hover:text-indigo-400 transition-colors">HR Selector</Link>
+              <Link href="/hr/lite/signup" className="text-white font-bold text-sm hover:text-indigo-400 transition-colors">Launch Lite</Link>
+              <Link href="/hr/remote/login" className="text-white font-bold text-sm hover:text-indigo-400 transition-colors">Professional Portal</Link>
+              <Link href="/d2e" className="text-white font-bold text-sm hover:text-indigo-400 transition-colors">D2E Marketplace</Link>
+            </nav>
           </div>
-          <div className="footer-nav">
-            <span className="footer-heading">Business</span>
-            <div className="footer-links">
 
-              <Link href="/team">Team</Link>
-              <a href="#contact" onClick={(e) => handleAnchorClick(e, 'contact')}>Contact Us</a>
-            </div>
+          <div className="space-y-6">
+            <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">Resources</h4>
+            <nav className="flex flex-col gap-4">
+              <Link href="/privacy" className="text-white font-bold text-sm hover:text-indigo-400 transition-colors">Privacy Hub</Link>
+              <Link href="/terms" className="text-white font-bold text-sm hover:text-indigo-400 transition-colors">Terms of Work</Link>
+              <Link href="/compliance" className="text-white font-bold text-sm hover:text-indigo-400 transition-colors">Statutory Rules</Link>
+              <a href="mailto:admin@resconate.com" className="text-white font-bold text-sm hover:text-indigo-400 transition-colors">Direct Support</a>
+            </nav>
           </div>
         </div>
-        <div className="footer-bottom">
-          <p>&copy; <span id="current-year">{currentYear}</span> Resconate. All rights reserved.</p>
-          <div className="footer-bottom-links">
-            <a href="/api-docs" target="_blank" rel="noopener">API Docs</a>
-            <a href="mailto:admin@resconate.com">Support</a>
+
+        {/* Bottom Bar */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 pt-12 border-t border-white/5 opacity-40">
+          <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+            &copy; {currentYear} Resconate Technologies. Built for Nigerian Expansion.
+          </p>
+          <div className="flex items-center gap-8 text-[10px] font-black uppercase tracking-widest text-slate-500">
+            <span>Lagos, Nigeria</span>
+            <span>London, UK</span>
+            <span>Abu Dhabi, UAE</span>
           </div>
         </div>
       </div>
@@ -65,4 +85,3 @@ const Footer = () => {
 };
 
 export default Footer;
-
