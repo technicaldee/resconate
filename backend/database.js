@@ -4,12 +4,12 @@ const pool = new Pool(
   process.env.DATABASE_URL
     ? { connectionString: process.env.DATABASE_URL }
     : {
-        user: process.env.DB_USER || 'postgres',
-        host: process.env.DB_HOST || 'localhost',
-        database: process.env.DB_NAME || 'postgres',
-        password: process.env.DB_PASSWORD || 'Test1234',
-        port: process.env.DB_PORT || 5432,
-      }
+      user: process.env.DB_USER || 'postgres',
+      host: process.env.DB_HOST || 'localhost',
+      database: process.env.DB_NAME || 'postgres',
+      password: process.env.DB_PASSWORD || 'Test1234',
+      port: process.env.DB_PORT || 5432,
+    }
 );
 
 const createTables = async () => {
@@ -149,6 +149,76 @@ const createTables = async () => {
         score INTEGER,
         notes TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS businesses (
+        id SERIAL PRIMARY KEY,
+        business_name VARCHAR(255) NOT NULL,
+        business_type VARCHAR(100),
+        employee_count INTEGER DEFAULT 0,
+        payment_frequency VARCHAR(50),
+        funding_source VARCHAR(50),
+        owner_name VARCHAR(255),
+        owner_email VARCHAR(255) UNIQUE NOT NULL,
+        owner_phone VARCHAR(20),
+        status VARCHAR(20) DEFAULT 'onboarding',
+        plan VARCHAR(50) DEFAULT 'Starter',
+        onboarding_step INTEGER DEFAULT 1,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS hr_lite_recipients (
+        id SERIAL PRIMARY KEY,
+        business_id INTEGER REFERENCES businesses(id),
+        name VARCHAR(255) NOT NULL,
+        email VARCHAR(255),
+        phone VARCHAR(20),
+        status VARCHAR(20) DEFAULT 'active',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS hr_lite_rules (
+        id SERIAL PRIMARY KEY,
+        business_id INTEGER REFERENCES businesses(id),
+        rule_name VARCHAR(255) NOT NULL,
+        trigger_condition TEXT,
+        action_type VARCHAR(50),
+        is_active BOOLEAN DEFAULT true,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS hr_lite_webhooks (
+        id SERIAL PRIMARY KEY,
+        business_id INTEGER REFERENCES businesses(id),
+        endpoint_url TEXT NOT NULL,
+        event_types JSONB,
+        secret_key VARCHAR(255),
+        status VARCHAR(20) DEFAULT 'active',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS hr_lite_payouts (
+        id SERIAL PRIMARY KEY,
+        business_id INTEGER REFERENCES businesses(id),
+        recipient_id INTEGER REFERENCES hr_lite_recipients(id),
+        amount DECIMAL(15, 2) NOT NULL,
+        currency VARCHAR(3) DEFAULT 'NGN',
+        status VARCHAR(20) DEFAULT 'pending',
+        transfer_code VARCHAR(255),
+        reason TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
 

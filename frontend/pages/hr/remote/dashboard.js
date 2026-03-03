@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { apiFetch, clearTokens } from '../utils/api';
+import { apiFetch, clearTokens } from '../../../utils/api';
 
 const HRDashboard = () => {
   const [activeTab, setActiveTab] = useState('employees');
@@ -103,19 +103,19 @@ const HRDashboard = () => {
         const response = await apiFetch('/api/auth/me');
         if (!response.ok) {
           clearTokens();
-          router.push('/hr-login');
+          router.push('/hr/remote/login');
           return;
         }
         const data = await response.json();
         if (!data.success) {
           clearTokens();
-          router.push('/hr-login');
+          router.push('/hr/remote/login');
           return;
         }
         loadAnalytics();
       } catch (error) {
         clearTokens();
-        router.push('/hr-login');
+        router.push('/hr/remote/login');
       }
     };
     checkAuth();
@@ -137,7 +137,7 @@ const HRDashboard = () => {
 
   const handleLogout = () => {
     clearTokens();
-    router.push('/hr-login');
+    router.push('/hr/remote/login');
   };
 
   useEffect(() => {
@@ -1440,7 +1440,7 @@ const HRDashboard = () => {
                       </div>
                       <div className="flex items-center gap-2">
                         <span className={`px-2 py-1 text-xs font-medium rounded ${candidate.status === 'hired' ? 'bg-green-100 text-green-800' :
-                            candidate.status === 'interview' ? 'bg-yellow-100 text-yellow-800' :
+                          candidate.status === 'interview' ? 'bg-yellow-100 text-yellow-800' :
                             'bg-primary-100 text-primary-800'
                           }`}>
                           {candidate.status}

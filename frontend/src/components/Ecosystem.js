@@ -18,7 +18,7 @@ const Ecosystem = () => {
       time: 'Always-on',
       title: 'Your external staff management team',
       description: 'We operate as your remote project management team—handling all internal staff activities and operations on your behalf.',
-      link: '/hr-dashboard.html',
+      link: '/hr/remote/dashboard',
       linkText: 'See how we manage your team',
       external: true
     },

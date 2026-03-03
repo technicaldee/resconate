@@ -69,7 +69,7 @@ const Hero = () => {
             </p>
             <div className="hero__actions">
               <a href="#contact" className="btn btn-primary" onClick={(e) => handleAnchorClick(e, 'contact')}>Book a Discovery Call</a>
-              <Link href="/hr-login" className="btn btn-secondary">Launch HR Platform</Link>
+              <Link href="/hr" className="btn btn-secondary">Launch HR Platform</Link>
             </div>
           </div>
           <div className="hero__visual" data-animate="fade-up" style={{ '--animate-delay': '0.15s' }}>

@@ -19,6 +19,16 @@ module.exports = {
           700: '#4338ca',
           800: '#3730a3',
           900: '#312e81',
+
+          // Cloaka specific branding
+          cloaka: "#003366",
+        },
+        cloaka: {
+          primary: "#003366",
+          "bg-light": "#f5f7f8",
+          "bg-dark": "#0f1923",
+          surface: "rgba(0, 51, 102, 0.05)",
+          border: "rgba(0, 51, 102, 0.1)",
         },
         secondary: {
           50: '#fdf2f8',
@@ -35,6 +45,7 @@ module.exports = {
         brand: {
           indigo: '#6366f1',
           pink: '#ec4899',
+          cloaka: "#003366",
         },
         d2e: {
           primary: "#13ec5b",
@@ -47,9 +58,16 @@ module.exports = {
       backgroundImage: {
         'brand-gradient': 'linear-gradient(135deg, #6366F1 0%, #EC4899 100%)',
         'brand-gradient-hover': 'linear-gradient(135deg, #4f46e5 0%, #db2777 100%)',
+        'cloaka-gradient': 'linear-gradient(135deg, #003366 0%, #001f3f 100%)',
+      },
+      fontFamily: {
+        display: ['Inter', 'sans-serif'],
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/container-queries'),
+  ],
 }
 

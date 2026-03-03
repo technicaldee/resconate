@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import GlobalNav from '../src/components/GlobalNav';
-import { apiUrl, apiFetch, setToken, clearTokens } from '../utils/api';
+import GlobalNav from '../../../src/components/GlobalNav';
+import { apiUrl, apiFetch, setToken, clearTokens } from '../../../utils/api';
 
 const HRLogin = () => {
   const [username, setUsername] = useState('');
@@ -22,7 +22,7 @@ const HRLogin = () => {
         if (response.ok) {
           const data = await response.json();
           if (data.success && data.admin) {
-            router.push('/hr-dashboard');
+            router.push('/hr/remote/dashboard');
           }
         }
       } catch (error) {
@@ -55,7 +55,7 @@ const HRLogin = () => {
         setToken(data.token, rememberMe);
         setSuccess('Login successful! Redirecting...');
         setTimeout(() => {
-          router.push('/hr-dashboard');
+          router.push('/hr/remote/dashboard');
         }, 1500);
       } else {
         setError(data.error || 'Login failed');
@@ -138,7 +138,7 @@ const HRLogin = () => {
                   />
                   <span className="hr-login-checkbox-label">Remember me</span>
                 </label>
-                <Link href="/hr-forgot" className="hr-login-forgot-link">
+                <Link href="/hr/remote/forgot" className="hr-login-forgot-link">
                   Forgot password?
                 </Link>
               </div>

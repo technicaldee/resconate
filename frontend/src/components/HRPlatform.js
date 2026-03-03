@@ -37,8 +37,30 @@ const HRPlatform = () => {
           <div className="platform-intro" data-animate="fade-up">
             <span className="section-eyebrow">Remote Team Management</span>
             <h2 className="section-title">Your Project Management Team</h2>
-            <p className="section-lead">We function as an external extension of your company—handling all staff operations, from recruitment to payroll, so you can focus on your core business.</p>
-            <div className="platform-actions">
+            <p className="section-lead">Choose the engagement model that fits your business scale. From full remote management to automated lightweight tools.</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+              <div className="p-8 bg-white/5 border border-white/10 rounded-3xl hover:border-indigo-500/30 transition-all group">
+                <div className="w-12 h-12 bg-indigo-500/10 rounded-xl flex items-center justify-center text-indigo-400 mb-6 group-hover:scale-110 transition-transform">
+                  <span className="material-symbols-outlined text-2xl">bolt</span>
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3">Resconate HR Lite</h3>
+                <p className="text-slate-400 text-sm mb-6 font-medium">Automated, WhatsApp-first HR for micro-businesses. ZERO learning curve. 90 days free.</p>
+                <Link href="/hr/lite/signup" className="text-indigo-400 font-bold text-xs uppercase tracking-widest flex items-center gap-2 group-hover:translate-x-1 transition-transform">
+                  Explore Lite <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                </Link>
+              </div>
+              <div className="p-8 bg-white/5 border border-white/10 rounded-3xl hover:border-pink-500/30 transition-all group">
+                <div className="w-12 h-12 bg-pink-500/10 rounded-xl flex items-center justify-center text-pink-400 mb-6 group-hover:scale-110 transition-transform">
+                  <span className="material-symbols-outlined text-2xl">workspace_premium</span>
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3">Professional Remote HR</h3>
+                <p className="text-slate-400 text-sm mb-6 font-medium">Expert-led project management handling all staff operations as an extension of your company.</p>
+                <Link href="/hr/remote/login" className="text-pink-400 font-bold text-xs uppercase tracking-widest flex items-center gap-2 group-hover:translate-x-1 transition-transform">
+                  Access Portal <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                </Link>
+              </div>
+            </div>
+            <div className="platform-actions mt-12">
               <a href="#contact" className="btn btn-ghost" onClick={(e) => handleAnchorClick(e, 'contact')}>Talk to our team</a>
             </div>
           </div>

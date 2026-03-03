@@ -28,7 +28,7 @@ const Footer = () => {
           <div className="footer-nav">
             <span className="footer-heading">Platform</span>
             <div className="footer-links">
-              <Link href="/hr-login">HR Portal</Link>
+              <Link href="/hr">HR Portal</Link>
               <Link href="/admin-dashboard">Admin Console</Link>
               <Link href="/employee-login">Employee Sign In</Link>
 

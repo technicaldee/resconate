@@ -29,7 +29,7 @@ const GlobalNav = () => {
           <Link href="/#home" className="global-nav__link">Main Site</Link>
           {isLoggedIn ? (
             <>
-              <Link href="/hr-dashboard" className={`global-nav__link ${isActive('/hr-dashboard') ? 'active' : ''}`}>Dashboard</Link>
+              <Link href="/hr/remote/dashboard" className={`global-nav__link ${isActive('/hr/remote/dashboard') ? 'active' : ''}`}>Dashboard</Link>
               <Link href="/analytics" className={`global-nav__link ${isActive('/analytics') ? 'active' : ''}`}>Analytics</Link>
               <Link href="/payment" className={`global-nav__link ${isActive('/payment') ? 'active' : ''}`}>Payment</Link>
               <Link href="/banking" className={`global-nav__link ${isActive('/banking') ? 'active' : ''}`}>Banking</Link>
@@ -38,7 +38,7 @@ const GlobalNav = () => {
               <Link href="/help" className={`global-nav__link ${isActive('/help') ? 'active' : ''}`}>Help</Link>
             </>
           ) : (
-            <Link href="/hr-login" className={`global-nav__link ${isActive('/hr-login') ? 'active' : ''}`}>HR Login</Link>
+            <Link href="/hr" className={`global-nav__link ${isActive('/hr') ? 'active' : ''}`}>HR Services</Link>
           )}
         </nav>
       </div>
