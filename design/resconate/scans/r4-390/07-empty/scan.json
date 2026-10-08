@@ -1,0 +1,32 @@
+[
+  {
+    "name": "07-empty",
+    "fails": [],
+    "warns": [
+      "Text inside the system's safe areas: \"resconate.\" (status bar); \".\" (status bar); \"AB\" (status bar)"
+    ],
+    "facts": {
+      "fonts": {
+        "Hanken": 18
+      },
+      "sizes": [
+        34,
+        28,
+        22,
+        20,
+        14,
+        13,
+        12,
+        11
+      ],
+      "weights": [
+        "400",
+        "600",
+        "800"
+      ],
+      "leftEdges": 4,
+      "accentHues": [],
+      "cards": 1
+    }
+  }
+]

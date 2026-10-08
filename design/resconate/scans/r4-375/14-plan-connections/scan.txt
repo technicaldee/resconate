@@ -1,0 +1,13 @@
+
+Shot 1 screen(s) at 3x -> /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r4-375/14-plan-connections
+  /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r4-375/14-plan-connections/14-plan-connections.png
+  /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r4-375/14-plan-connections/sheet.png   (the flow; open each 3x PNG above for detail)
+
+── 14-plan-connections ─────────────────────────────
+  fonts {"Hanken":21}  sizes [24, 16, 14, 12, 11]  weights [400, 600, 700, 800]  hues []  cards 0
+  warn  Largest text is 24px. No element owns the screen. (Mark data-dense if this is deliberate.)
+  warn  Text inside the system's safe areas: "Plan" (status bar); "Current access: Growing " (status bar); "Separate from payments y" (home indicator)
+
+App-wide: 5 text sizes [24, 16, 14, 12, 11]
+
+No FAILs. The scan only catches mechanical tells. Now read sheet.png with your own eyes.

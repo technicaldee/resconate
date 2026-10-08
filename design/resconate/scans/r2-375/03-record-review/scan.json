@@ -1,0 +1,36 @@
+[
+  {
+    "name": "03-record-review",
+    "fails": [],
+    "warns": [
+      "10 distinct text sizes. A type scale has 5 to 7 steps: 34, 28, 26, 24, 20, 16, 14, 13, 12, 11",
+      "Text inside the system's safe areas: \"Sample business · your c\" (status bar); \"Create your workspace →\" (status bar); \"Edit details\" (home indicator)",
+      "Em dash in visible copy. Usually a period or colon reads cleaner."
+    ],
+    "facts": {
+      "fonts": {
+        "Hanken": 27
+      },
+      "sizes": [
+        34,
+        28,
+        26,
+        24,
+        20,
+        16,
+        14,
+        13,
+        12,
+        11
+      ],
+      "weights": [
+        "400",
+        "600",
+        "800"
+      ],
+      "leftEdges": 4,
+      "accentHues": [],
+      "cards": 2
+    }
+  }
+]

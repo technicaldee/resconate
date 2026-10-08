@@ -1,0 +1,13 @@
+
+Shot 1 screen(s) at 3x -> /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r2-375/06-signup
+  /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r2-375/06-signup/06-signup.png
+  /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r2-375/06-signup/sheet.png   (the flow; open each 3x PNG above for detail)
+
+── 06-signup ─────────────────────────────
+  fonts {"Hanken":18}  sizes [36, 26, 16, 14, 13, 12]  weights [400, 600, 800]  hues []  cards 0
+  warn  Text inside the system's safe areas: "resconate." (status bar); "." (status bar)
+  warn  Tap targets under 44pt (add padding, or data-hit-expanded if the hit area is larger than the drawing): 41x21 "terms"
+
+App-wide: 6 text sizes [36, 26, 16, 14, 13, 12]
+
+No FAILs. The scan only catches mechanical tells. Now read sheet.png with your own eyes.

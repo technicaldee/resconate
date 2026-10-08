@@ -1,0 +1,14 @@
+
+Shot 1 screen(s) at 3x -> /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r4-390/16-cash-receipt
+  /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r4-390/16-cash-receipt/16-cash-receipt.png
+  /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r4-390/16-cash-receipt/sheet.png   (the flow; open each 3x PNG above for detail)
+
+── 16-cash-receipt ─────────────────────────────
+  fonts {"Hanken":31}  sizes [36, 34, 28, 26, 20, 16, 14, 13, 12, 11]  weights [400, 600, 700, 800]  hues [144]  cards 1
+  warn  10 distinct text sizes. A type scale has 5 to 7 steps: 36, 34, 28, 26, 20, 16, 14, 13, 12, 11
+  warn  Text inside the system's safe areas: "resconate." (status bar); "." (status bar); "AB" (status bar)
+  warn  7 distinct left edges in the left third. Align to fewer verticals.
+
+App-wide: 10 text sizes [36, 34, 28, 26, 20, 16, 14, 13, 12, 11]  warn: a type scale this long is not a scale. Merge sizes a step apart.
+
+No FAILs. The scan only catches mechanical tells. Now read sheet.png with your own eyes.

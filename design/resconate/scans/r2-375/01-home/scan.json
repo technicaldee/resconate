@@ -1,0 +1,40 @@
+[
+  {
+    "name": "01-home",
+    "fails": [],
+    "warns": [
+      "13 distinct text sizes. A type scale has 5 to 7 steps: 52, 28, 26, 24, 19, 18, 16, 15, 14, 13.3333, 13, 12, 11",
+      "Text inside the system's safe areas: \"resconate.\" (status bar); \".\" (status bar)",
+      "10 distinct left edges in the left third. Align to fewer verticals."
+    ],
+    "facts": {
+      "fonts": {
+        "Hanken": 54
+      },
+      "sizes": [
+        52,
+        28,
+        26,
+        24,
+        19,
+        18,
+        16,
+        15,
+        14,
+        13.3333,
+        13,
+        12,
+        11
+      ],
+      "weights": [
+        "400",
+        "600",
+        "700",
+        "800"
+      ],
+      "leftEdges": 10,
+      "accentHues": [],
+      "cards": 4
+    }
+  }
+]

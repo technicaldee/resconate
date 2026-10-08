@@ -1,0 +1,44 @@
+[
+  {
+    "name": "05-dark",
+    "fails": [
+      "Text below 11pt (iOS floor): 10px \"Today\"; 10px \"Workers\"; 10px \"Records\"; 10px \"Pay\"",
+      "Contrast below WCAG on solid ground: 1.21:1 10px \"Today\"; 1.11:1 10px \"Workers\"; 1.11:1 10px \"Records\"; 1.11:1 10px \"Pay\"; 1.11:1 10px \"Settings\""
+    ],
+    "warns": [
+      "10 distinct text sizes. A type scale has 5 to 7 steps: 34, 32, 22, 20, 15, 14, 13, 12, 11, 10",
+      "Text inside the system's safe areas: \"Sample business · your c\" (status bar); \"Create your workspace →\" (status bar)",
+      "6 distinct left edges in the left third. Align to fewer verticals.",
+      "Em dash in visible copy. Usually a period or colon reads cleaner.",
+      "Tap targets under 44pt (add padding, or data-hit-expanded if the hit area is larger than the drawing): 34x34 \"Account settings\""
+    ],
+    "facts": {
+      "fonts": {
+        "Hanken": 42
+      },
+      "sizes": [
+        34,
+        32,
+        22,
+        20,
+        15,
+        14,
+        13,
+        12,
+        11,
+        10
+      ],
+      "weights": [
+        "400",
+        "600",
+        "800"
+      ],
+      "leftEdges": 6,
+      "accentHues": [
+        216,
+        192
+      ],
+      "cards": 2
+    }
+  }
+]

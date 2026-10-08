@@ -1,17 +1,22 @@
 {
-    "name": "resconate",
-    "version": "1.0.0",
-    "description": "Resconate Monorepo",
-    "private": true,
-    "scripts": {
-        "dev": "concurrently \"npm run dev --prefix frontend\" \"npm run dev --prefix backend\"",
-        "build": "npm run build --prefix frontend",
-        "start": "concurrently \"npm run start --prefix frontend\" \"npm run start --prefix backend\"",
-        "install:all": "npm install && npm install --prefix frontend && npm install --prefix backend",
-        "prisma:generate": "cd backend && npx prisma generate",
-        "prisma:push": "cd backend && npx prisma db push"
-    },
-    "devDependencies": {
-        "concurrently": "^8.2.2"
-    }
+  "name": "resconate",
+  "version": "2.0.0",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "node tools/dev.mjs",
+    "build": "node tools/build-web.mjs",
+    "start": "node tools/dev.mjs --production",
+    "db:migrate": "npm run migrate --workspace backend",
+    "db:seed": "npm run seed --workspace backend",
+    "test": "npm run test --workspace backend",
+    "test:e2e": "node tools/e2e.mjs",
+    "check": "npm test && npm run build"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.58.2"
+  }
 }

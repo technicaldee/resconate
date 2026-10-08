@@ -1,0 +1,74 @@
+[
+  {
+    "name": "shop-counter",
+    "fails": [],
+    "warns": [],
+    "facts": {
+      "fonts": {
+        "Arial": 7
+      },
+      "sizes": [
+        46,
+        16,
+        13.3333
+      ],
+      "weights": [
+        "400",
+        "700"
+      ],
+      "leftEdges": 1,
+      "accentHues": [],
+      "cards": 0
+    }
+  },
+  {
+    "name": "service-instrument",
+    "fails": [],
+    "warns": [],
+    "facts": {
+      "fonts": {
+        "monospace": 8,
+        "Arial": 1
+      },
+      "sizes": [
+        56,
+        46,
+        16,
+        13.3333
+      ],
+      "weights": [
+        "400",
+        "700"
+      ],
+      "leftEdges": 1,
+      "accentHues": [
+        24
+      ],
+      "cards": 1
+    }
+  },
+  {
+    "name": "working-notebook",
+    "fails": [],
+    "warns": [],
+    "facts": {
+      "fonts": {
+        "Georgia": 4,
+        "Arial": 1
+      },
+      "sizes": [
+        46,
+        28,
+        16,
+        13.3333
+      ],
+      "weights": [
+        "400",
+        "700"
+      ],
+      "leftEdges": 1,
+      "accentHues": [],
+      "cards": 0
+    }
+  }
+]

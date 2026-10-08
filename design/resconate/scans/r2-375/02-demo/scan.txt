@@ -1,0 +1,12 @@
+
+Shot 1 screen(s) at 3x -> /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r2-375/02-demo
+  /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r2-375/02-demo/02-demo.png
+  /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r2-375/02-demo/sheet.png   (the flow; open each 3x PNG above for detail)
+
+── 02-demo ─────────────────────────────
+  fonts {"Hanken":14}  sizes [34, 28, 20, 16, 14, 13, 12, 11]  weights [400, 600, 800]  hues []  cards 1
+  warn  Text inside the system's safe areas: "Sample business · your c" (status bar); "Create your workspace →" (status bar)
+
+App-wide: 8 text sizes [34, 28, 20, 16, 14, 13, 12, 11]
+
+No FAILs. The scan only catches mechanical tells. Now read sheet.png with your own eyes.

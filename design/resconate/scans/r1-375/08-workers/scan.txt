@@ -1,0 +1,14 @@
+
+Shot 1 screen(s) at 3x -> /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r1-375/08-workers
+  /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r1-375/08-workers/08-workers.png
+  /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r1-375/08-workers/sheet.png   (the flow; open each 3x PNG above for detail)
+
+── 08-workers ─────────────────────────────
+  fonts {"Hanken":20}  sizes [34, 20, 13, 12, 11, 10]  weights [400, 600, 700, 800]  hues []  cards 0
+  FAIL  Text below 11pt (iOS floor): 10px "Today"; 10px "Workers"; 10px "Records"; 10px "Pay"
+  warn  Text inside the system's safe areas: "resconate." (status bar); "." (status bar); "AB" (status bar)
+  warn  Tap targets under 44pt (add padding, or data-hit-expanded if the hit area is larger than the drawing): 34x34 "Account settings"; 43x16 "View"
+
+App-wide: 6 text sizes [34, 20, 13, 12, 11, 10]
+
+1 FAIL(s). The scan only catches mechanical tells. Now read sheet.png with your own eyes.

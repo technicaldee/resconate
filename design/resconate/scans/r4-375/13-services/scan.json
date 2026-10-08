@@ -1,0 +1,32 @@
+[
+  {
+    "name": "13-services",
+    "fails": [],
+    "warns": [
+      "Text inside the system's safe areas: \"resconate.\" (status bar); \".\" (status bar)"
+    ],
+    "facts": {
+      "fonts": {
+        "Hanken": 22
+      },
+      "sizes": [
+        42,
+        28,
+        26,
+        20,
+        16,
+        13.3333,
+        13,
+        12
+      ],
+      "weights": [
+        "400",
+        "600",
+        "800"
+      ],
+      "leftEdges": 3,
+      "accentHues": [],
+      "cards": 0
+    }
+  }
+]

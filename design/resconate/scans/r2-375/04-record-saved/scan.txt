@@ -1,0 +1,13 @@
+
+Shot 1 screen(s) at 3x -> /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r2-375/04-record-saved
+  /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r2-375/04-record-saved/04-record-saved.png
+  /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r2-375/04-record-saved/sheet.png   (the flow; open each 3x PNG above for detail)
+
+── 04-record-saved ─────────────────────────────
+  fonts {"Hanken":20}  sizes [34, 28, 26, 20, 16, 14, 13, 12, 11]  weights [400, 600, 800]  hues [144]  cards 2
+  warn  9 distinct text sizes. A type scale has 5 to 7 steps: 34, 28, 26, 20, 16, 14, 13, 12, 11
+  warn  Text inside the system's safe areas: "Sample business · your c" (status bar); "Create your workspace →" (status bar); "Back to the working day" (home indicator)
+
+App-wide: 9 text sizes [34, 28, 26, 20, 16, 14, 13, 12, 11]
+
+No FAILs. The scan only catches mechanical tells. Now read sheet.png with your own eyes.

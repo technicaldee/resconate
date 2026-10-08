@@ -1,0 +1,39 @@
+[
+  {
+    "name": "07-empty",
+    "fails": [
+      "Text below 11pt (iOS floor): 10px \"Today\"; 10px \"Workers\"; 10px \"Records\"; 10px \"Pay\"",
+      "Text overlapping text: \"Pay\" / \"One place for work, advances a\"; \"Settings\" / \"One place for work, advances a\""
+    ],
+    "warns": [
+      "10 distinct text sizes. A type scale has 5 to 7 steps: 34, 32, 28, 22, 20, 15, 14, 13, 12, 10",
+      "Text inside the system's safe areas: \"resconate.\" (status bar); \".\" (status bar); \"AB\" (status bar)",
+      "Tap targets under 44pt (add padding, or data-hit-expanded if the hit area is larger than the drawing): 34x34 \"Account settings\""
+    ],
+    "facts": {
+      "fonts": {
+        "Hanken": 22
+      },
+      "sizes": [
+        34,
+        32,
+        28,
+        22,
+        20,
+        15,
+        14,
+        13,
+        12,
+        10
+      ],
+      "weights": [
+        "400",
+        "600",
+        "800"
+      ],
+      "leftEdges": 5,
+      "accentHues": [],
+      "cards": 1
+    }
+  }
+]

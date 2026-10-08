@@ -1,0 +1,14 @@
+
+Shot 1 screen(s) at 3x -> /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r4-390/01-home
+  /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r4-390/01-home/01-home.png
+  /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r4-390/01-home/sheet.png   (the flow; open each 3x PNG above for detail)
+
+── 01-home ─────────────────────────────
+  fonts {"Hanken":54}  sizes [52, 28, 26, 24, 19, 18, 16, 15, 14, 13.3333, 13, 12, 11]  weights [400, 600, 700, 800]  hues []  cards 4
+  warn  13 distinct text sizes. A type scale has 5 to 7 steps: 52, 28, 26, 24, 19, 18, 16, 15, 14, 13.3333, 13, 12, 11
+  warn  Text inside the system's safe areas: "resconate." (status bar); "." (status bar)
+  warn  10 distinct left edges in the left third. Align to fewer verticals.
+
+App-wide: 13 text sizes [52, 28, 26, 24, 19, 18, 16, 15, 14, 13.3333, 13, 12, 11]  warn: a type scale this long is not a scale. Merge sizes a step apart.
+
+No FAILs. The scan only catches mechanical tells. Now read sheet.png with your own eyes.

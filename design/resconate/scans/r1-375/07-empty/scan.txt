@@ -1,0 +1,16 @@
+
+Shot 1 screen(s) at 3x -> /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r1-375/07-empty
+  /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r1-375/07-empty/07-empty.png
+  /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r1-375/07-empty/sheet.png   (the flow; open each 3x PNG above for detail)
+
+── 07-empty ─────────────────────────────
+  fonts {"Hanken":22}  sizes [34, 32, 28, 22, 20, 15, 14, 13, 12, 10]  weights [400, 600, 800]  hues []  cards 1
+  FAIL  Text below 11pt (iOS floor): 10px "Today"; 10px "Workers"; 10px "Records"; 10px "Pay"
+  FAIL  Text overlapping text: "Pay" / "One place for work, advances a"; "Settings" / "One place for work, advances a"
+  warn  10 distinct text sizes. A type scale has 5 to 7 steps: 34, 32, 28, 22, 20, 15, 14, 13, 12, 10
+  warn  Text inside the system's safe areas: "resconate." (status bar); "." (status bar); "AB" (status bar)
+  warn  Tap targets under 44pt (add padding, or data-hit-expanded if the hit area is larger than the drawing): 34x34 "Account settings"
+
+App-wide: 10 text sizes [34, 32, 28, 22, 20, 15, 14, 13, 12, 10]  warn: a type scale this long is not a scale. Merge sizes a step apart.
+
+2 FAIL(s). The scan only catches mechanical tells. Now read sheet.png with your own eyes.

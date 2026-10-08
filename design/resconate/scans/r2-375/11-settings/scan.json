@@ -1,0 +1,31 @@
+[
+  {
+    "name": "11-settings",
+    "fails": [],
+    "warns": [
+      "Text inside the system's safe areas: \"resconate.\" (status bar); \".\" (status bar); \"AB\" (status bar)"
+    ],
+    "facts": {
+      "fonts": {
+        "Hanken": 12
+      },
+      "sizes": [
+        34,
+        24,
+        20,
+        14,
+        13,
+        12,
+        11
+      ],
+      "weights": [
+        "400",
+        "600",
+        "800"
+      ],
+      "leftEdges": 2,
+      "accentHues": [],
+      "cards": 0
+    }
+  }
+]

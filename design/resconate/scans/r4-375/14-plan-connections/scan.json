@@ -1,0 +1,31 @@
+[
+  {
+    "name": "14-plan-connections",
+    "fails": [],
+    "warns": [
+      "Largest text is 24px. No element owns the screen. (Mark data-dense if this is deliberate.)",
+      "Text inside the system's safe areas: \"Plan\" (status bar); \"Current access: Growing \" (status bar); \"Separate from payments y\" (home indicator)"
+    ],
+    "facts": {
+      "fonts": {
+        "Hanken": 21
+      },
+      "sizes": [
+        24,
+        16,
+        14,
+        12,
+        11
+      ],
+      "weights": [
+        "400",
+        "600",
+        "700",
+        "800"
+      ],
+      "leftEdges": 3,
+      "accentHues": [],
+      "cards": 0
+    }
+  }
+]

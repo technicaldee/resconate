@@ -1,0 +1,47 @@
+[
+  {
+    "name": "01-home",
+    "fails": [
+      "Text below 11pt (iOS floor): 10px \"FOR THE BUSINESS YOU RUN EVERY DAY\"; 8px \"SMALL BUSINESS. CLEAR BOOKS.\"; 8px \"01 / THE EVERYDAY\"; 9px \"PAY DAY, WITHOUT THE GUESSWORK\"",
+      "Emoji in UI copy or as icons: ©"
+    ],
+    "warns": [
+      "16 distinct text sizes. A type scale has 5 to 7 steps: 52, 28, 26, 24, 19, 18, 16, 15, 14, 13.3333, 13, 12, 11, 10, 9, 8",
+      "Text inside the system's safe areas: \"resconate.\" (status bar); \".\" (status bar)",
+      "10 distinct left edges in the left third. Align to fewer verticals.",
+      "Tap targets under 44pt (add padding, or data-hit-expanded if the hit area is larger than the drawing): 35x20 \"About\"; 43x20 \"Privacy\"; 36x20 \"Terms\""
+    ],
+    "facts": {
+      "fonts": {
+        "Hanken": 54
+      },
+      "sizes": [
+        52,
+        28,
+        26,
+        24,
+        19,
+        18,
+        16,
+        15,
+        14,
+        13.3333,
+        13,
+        12,
+        11,
+        10,
+        9,
+        8
+      ],
+      "weights": [
+        "400",
+        "600",
+        "700",
+        "800"
+      ],
+      "leftEdges": 10,
+      "accentHues": [],
+      "cards": 4
+    }
+  }
+]

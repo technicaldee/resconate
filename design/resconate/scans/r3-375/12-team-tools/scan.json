@@ -1,0 +1,34 @@
+[
+  {
+    "name": "12-team-tools",
+    "fails": [],
+    "warns": [
+      "Text inside the system's safe areas: \"resconate.\" (status bar); \".\" (status bar); \"AB\" (status bar)"
+    ],
+    "facts": {
+      "fonts": {
+        "Hanken": 14
+      },
+      "sizes": [
+        34,
+        20,
+        18,
+        16,
+        14,
+        13,
+        12,
+        11
+      ],
+      "weights": [
+        "400",
+        "600",
+        "800"
+      ],
+      "leftEdges": 3,
+      "accentHues": [
+        144
+      ],
+      "cards": 0
+    }
+  }
+]

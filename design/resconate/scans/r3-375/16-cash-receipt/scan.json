@@ -1,0 +1,38 @@
+[
+  {
+    "name": "16-cash-receipt",
+    "fails": [],
+    "warns": [
+      "10 distinct text sizes. A type scale has 5 to 7 steps: 36, 34, 28, 26, 20, 16, 14, 13, 12, 11",
+      "Text inside the system's safe areas: \"resconate.\" (status bar); \".\" (status bar); \"AB\" (status bar)"
+    ],
+    "facts": {
+      "fonts": {
+        "Hanken": 24
+      },
+      "sizes": [
+        36,
+        34,
+        28,
+        26,
+        20,
+        16,
+        14,
+        13,
+        12,
+        11
+      ],
+      "weights": [
+        "400",
+        "600",
+        "700",
+        "800"
+      ],
+      "leftEdges": 5,
+      "accentHues": [
+        144
+      ],
+      "cards": 1
+    }
+  }
+]

@@ -1,0 +1,12 @@
+
+Shot 1 screen(s) at 3x -> /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r2-375/11-settings
+  /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r2-375/11-settings/11-settings.png
+  /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r2-375/11-settings/sheet.png   (the flow; open each 3x PNG above for detail)
+
+── 11-settings ─────────────────────────────
+  fonts {"Hanken":12}  sizes [34, 24, 20, 14, 13, 12, 11]  weights [400, 600, 800]  hues []  cards 0
+  warn  Text inside the system's safe areas: "resconate." (status bar); "." (status bar); "AB" (status bar)
+
+App-wide: 7 text sizes [34, 24, 20, 14, 13, 12, 11]
+
+No FAILs. The scan only catches mechanical tells. Now read sheet.png with your own eyes.

@@ -1,0 +1,12 @@
+
+Shot 1 screen(s) at 3x -> /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r3-375/12-team-tools
+  /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r3-375/12-team-tools/12-team-tools.png
+  /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r3-375/12-team-tools/sheet.png   (the flow; open each 3x PNG above for detail)
+
+── 12-team-tools ─────────────────────────────
+  fonts {"Hanken":14}  sizes [34, 20, 18, 16, 14, 13, 12, 11]  weights [400, 600, 800]  hues [144]  cards 0
+  warn  Text inside the system's safe areas: "resconate." (status bar); "." (status bar); "AB" (status bar)
+
+App-wide: 8 text sizes [34, 20, 18, 16, 14, 13, 12, 11]
+
+No FAILs. The scan only catches mechanical tells. Now read sheet.png with your own eyes.

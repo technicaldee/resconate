@@ -1,0 +1,12 @@
+
+Shot 1 screen(s) at 3x -> /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r4-375/09-pay-draft
+  /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r4-375/09-pay-draft/09-pay-draft.png
+  /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r4-375/09-pay-draft/sheet.png   (the flow; open each 3x PNG above for detail)
+
+── 09-pay-draft ─────────────────────────────
+  fonts {"Hanken":25}  sizes [36, 34, 20, 16, 14, 13, 12, 11]  weights [400, 600, 700, 800]  hues []  cards 0
+  warn  Text inside the system's safe areas: "resconate." (status bar); "." (status bar); "AB" (status bar)
+
+App-wide: 8 text sizes [36, 34, 20, 16, 14, 13, 12, 11]
+
+No FAILs. The scan only catches mechanical tells. Now read sheet.png with your own eyes.

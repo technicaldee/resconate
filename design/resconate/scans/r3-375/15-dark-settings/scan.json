@@ -1,0 +1,37 @@
+[
+  {
+    "name": "15-dark-settings",
+    "fails": [
+      "Contrast below WCAG on solid ground: 1.72:1 11px \"Settings\"",
+      "Text clipped: \"Today\" cut by its container; \"Workers\" cut by its container; \"Records\" cut by its container; \"Pay\" cut by its container"
+    ],
+    "warns": [
+      "Text inside the system's safe areas: \"resconate.\" (status bar); \".\" (status bar); \"AB\" (status bar)"
+    ],
+    "facts": {
+      "fonts": {
+        "Hanken": 18
+      },
+      "sizes": [
+        34,
+        24,
+        20,
+        14,
+        13,
+        12,
+        11
+      ],
+      "weights": [
+        "400",
+        "600",
+        "800"
+      ],
+      "leftEdges": 4,
+      "accentHues": [
+        216,
+        192
+      ],
+      "cards": 0
+    }
+  }
+]

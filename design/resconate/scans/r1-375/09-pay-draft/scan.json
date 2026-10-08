@@ -1,0 +1,39 @@
+[
+  {
+    "name": "09-pay-draft",
+    "fails": [
+      "Text below 11pt (iOS floor): 10px \"Today\"; 10px \"Workers\"; 10px \"Records\"; 10px \"Pay\"",
+      "Text overlapping text: \"Today\" / \"Monthly and weekly wages use t\"; \"Workers\" / \"Monthly and weekly wages use t\"; \"Records\" / \"Monthly and weekly wages use t\"; \"Pay\" / \"Monthly and weekly wages use t\""
+    ],
+    "warns": [
+      "9 distinct text sizes. A type scale has 5 to 7 steps: 36, 34, 20, 16, 14, 13, 12, 11, 10",
+      "Text inside the system's safe areas: \"resconate.\" (status bar); \".\" (status bar); \"AB\" (status bar)",
+      "Tap targets under 44pt (add padding, or data-hit-expanded if the hit area is larger than the drawing): 34x34 \"Account settings\""
+    ],
+    "facts": {
+      "fonts": {
+        "Hanken": 25
+      },
+      "sizes": [
+        36,
+        34,
+        20,
+        16,
+        14,
+        13,
+        12,
+        11,
+        10
+      ],
+      "weights": [
+        "400",
+        "600",
+        "700",
+        "800"
+      ],
+      "leftEdges": 4,
+      "accentHues": [],
+      "cards": 0
+    }
+  }
+]

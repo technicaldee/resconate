@@ -1,0 +1,12 @@
+
+Shot 1 screen(s) at 3x -> /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r4-390/15-dark-settings
+  /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r4-390/15-dark-settings/15-dark-settings.png
+  /home/inimfon-udoh/Resconate/resconate/design/resconate/scans/r4-390/15-dark-settings/sheet.png   (the flow; open each 3x PNG above for detail)
+
+── 15-dark-settings ─────────────────────────────
+  fonts {"Hanken":23}  sizes [34, 24, 20, 16, 14, 13, 12, 11]  weights [400, 600, 800]  hues [216, 192]  cards 0
+  warn  Text inside the system's safe areas: "resconate." (status bar); "." (status bar); "AB" (status bar)
+
+App-wide: 8 text sizes [34, 24, 20, 16, 14, 13, 12, 11]
+
+No FAILs. The scan only catches mechanical tells. Now read sheet.png with your own eyes.
